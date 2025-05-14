@@ -1,0 +1,686 @@
+
+/*<!-- ============================================================== -->
+<!--This css is for SideBar with responsive starts here-- >
+<!-- ============================================================== -->*/
+.activeHead {
+    color: #FFFFFF;
+    font-family: Roboto-Medium !important;
+    font-size: 16px !important;
+    background: #0D47A1 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+}
+
+.MainDpdBckDesgn {
+    padding: 0;
+    /* border: 1px solid #BFA29A; */
+    border-radius: 25px;
+    /* background-color: #BFA29A; */
+    height: 48px;
+    margin-top: 10px;
+    color: #fff;
+    font-family: 'Quicksand-Bold';
+    font-size: 16px;
+    /* max-width: 200px; */
+    display: flex;
+    margin-left: 0px;
+    margin-right: 20px;
+}
+.UserNameTxt {
+    color: #333333;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.MainDpdFlxCls {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    padding-right: 40px;
+    width: 205px;
+    margin-top: 15px;
+}
+.DpdImgCls {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.DpdTxtHideCls {
+    text-overflow: ellipsis;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.MrgLft10
+{
+    margin-left:10px;
+}
+.HeadAdmin {
+    color: #0D47A1;
+    font-size: 14px;
+    font-family: Roboto-Regular;
+}
+.HeadrDpdCls .dropdown-toggle::after {
+    content: "\f0d7" !important;
+    font-weight: 600 !important;
+    font-family: "Font Awesome 5 Free" !important;
+    border: none;
+    vertical-align: 0 !important;
+    color: #0D47A1 !important;
+    width: 12px !important;
+    margin-right: 10px;
+    height: 8px !important;
+    margin-left: -25px;
+    font-size: 24px;
+    margin-top: 11px;
+}
+.ServeInfoTxt {
+    font-size: 16px;
+    font-family: Roboto-Regular;
+    color: #2B2B2B;
+    padding-top: 3px;
+}
+.HeadrDpdCls .dropdown-menu {
+    padding-top: 0px;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 20px #0D47A129;
+    border-radius: 4px;
+    margin-top: 20px !important;
+    width: 207px;
+    text-align: center;
+    padding-bottom: 0px;
+}
+.HeadrDpdCls .dropdown-item:hover {
+    background: #C5E7FF;
+}
+
+.HeadrDpdCls .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    padding-left: 20px;
+    /*padding-top: 12px;*/
+    height:40px;
+}
+.SidebarLayout {
+    position: fixed;
+    width: 138px;
+    height: 100%;
+    background: #fff;
+    transition: .5s;
+    overflow: hidden;
+    left: 0px;
+    top: 110px;
+    box-shadow: 0px 3px 10px #00000029;
+    overflow: auto;
+    padding-bottom: 50px;
+    margin-left: 30px;
+    box-shadow: 0px 0px 20px #0d47a129;
+    border-radius: 20px;
+}
+    .SidebarLayout::-webkit-scrollbar
+    {
+        display:none;
+    }
+
+    .SidebarLayout ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0px;
+        padding-top: 15px;
+        padding: 10px;
+    }
+
+        .SidebarLayout ul li {
+            list-style: none;
+            width: 100%;
+            height: 110px;
+            position: relative;
+            height: 74px;
+            margin-top: 10px;
+        }
+
+
+            .SidebarLayout ul li:hover {
+                background: #ECF5FC 0% 0% no-repeat padding-box;
+                border-radius: 10px;
+            }
+                .SidebarLayout ul li:hover .title {
+                    color: #53585E !important;
+                }
+
+
+
+    .SidebarLayout ul li a {
+        position: relative;
+        display: block;
+        width: 100%;
+        /* display: flex; */
+        align-items: center;
+        text-decoration: none;
+        transition: .2s;
+        text-align: center;
+    }
+
+
+        .SidebarLayout ul li a::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            transition: .2s;
+        }
+
+        .SidebarLayout ul li a .icon {
+            position: relative;
+            display: block;
+            min-width: 60px;
+            height: 43px;
+            line-height: 41px;
+            text-align: center;
+            color: red;
+        }
+
+        .SidebarLayout ul li a .title {
+            position: relative;
+            font-size: 16px;
+            font-family: Roboto-Medium;
+            color: #53585E ;
+        }
+
+            .SidebarLayout ul li a .title.activeSnd {
+                color: #fff;
+            }
+
+.toggle {
+    cursor: pointer;
+}
+
+.HeadContent {
+    display: block;
+    background-color: #fff;
+    position: fixed;
+    width: 97%;
+    z-index: 999;
+    height: 80px;
+    top: 0;
+    left: 0;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    margin-right: 30px;
+    box-shadow: 0px 10px 20px #c4c8d066;
+    border-radius: 0px 0px 20px 20px;
+}
+.NavLogo {
+    width: 200px;
+    height: 60px;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.HeadCompyLogo {
+    height: 50px;
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+
+/*.LogoBgColor {
+    background-color: #f2f2f2;
+    padding-left: 10px;
+    padding-bottom: 17px;
+    padding-top: 8px;
+    width: 186px;
+}*/
+
+.toggle {
+    display: none
+}
+
+.MobViewOnly {
+    display: none;
+}
+@media (max-height: 600px) {
+    .SidebarLayout {
+        position: fixed;
+        height: 95%;
+        overflow-y: hidden;
+    }
+
+
+        .SidebarLayout ul {
+            position: absolute;
+            top: 0px;
+            left: 0;
+            width: 100%;
+            padding: 0px;
+            padding-top: 15px;
+            overflow-y: scroll;
+            bottom: 91px;
+        }
+            .SidebarLayout ul::-webkit-scrollbar {
+                display: none;
+            }
+}
+
+
+
+
+@media (max-height: 800px) {
+    .SidebarLayout {
+        position: fixed;
+        height: 95%;
+        overflow-y: hidden;
+    }
+
+
+        .SidebarLayout ul {
+            position: absolute;
+            top: 0px;
+            left: 0;
+            width: 100%;
+            padding: 0px;
+            padding-top: 15px;
+            overflow-y: scroll;
+            bottom: 91px;
+        }
+            .SidebarLayout ul::-webkit-scrollbar {
+                display: none;
+            }
+}
+
+ 
+
+
+@media  (max-width:1700px)
+{
+    .HeadContent {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+        width: 96.5%;
+        z-index: 999;
+        height: 80px;
+        top: 0;
+        left: 0;
+        margin-left: 30px;
+        margin-bottom: 30px;
+        margin-right: 30px;
+        box-shadow: 0px 10px 20px #c4c8d066;
+        border-radius: 0px 0px 20px 20px;
+    }
+}
+@media (max-width:1500px) {
+    .HeadContent {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+        width: 96%;
+        z-index: 999;
+        height: 80px;
+        top: 0;
+        left: 0;
+        margin-left: 30px;
+        margin-bottom: 30px;
+        margin-right: 30px;
+        box-shadow: 0px 10px 20px #c4c8d066;
+        border-radius: 0px 0px 20px 20px;
+    }
+}
+@media (max-width:1280px) {
+    .HeadContent {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+        width: 95.5%;
+        z-index: 999;
+        height: 80px;
+        top: 0;
+        left: 0;
+        margin-left: 30px;
+        margin-bottom: 30px;
+        margin-right: 30px;
+        box-shadow: 0px 10px 20px #c4c8d066;
+        border-radius: 0px 0px 20px 20px;
+    }
+}
+/*This screen is for Ipad Pro View*/
+/*@media (min-width: 769px) and (max-width:1024px) {
+    .NavLogo {
+        width: 200px;
+        height: 60px;
+        margin-left: 0px;
+        margin-top: -5px;
+    }*/
+    /*Sidebar css start*/
+    /*.IpdProCls {
+        display: block;
+        margin-top: -2px;
+        margin-left: 20px;
+        color: #fff;
+        font-size: 18px;
+        margin-right: 30px;
+    }
+
+    .SidebarLayout ul {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .SidebarLayout.active .title {
+        visibility: visible;
+        display: block;
+    }
+
+    .RespView {
+        display: none !important;
+    }
+
+    .MobViewOnly {
+        display: none;
+    }
+
+    .SidebarLayout.active {
+        left: 0;
+        width: 94%;
+        z-index: 99;
+        top: 109px;
+    }
+
+    .SidebarLayout {
+        left: -192px;
+        z-index: 99;
+        top: 80px;
+    }
+
+    .toggle {
+        padding-left: 10px;
+        padding-top: 20px;
+        display: block;
+        font-size: 20px;
+        color: #0D47A1;
+    }
+    .HeadContent {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+        width: 94%;
+        z-index: 999;
+        height: 80px;
+        top: 0;
+        left: 0;
+        margin-left: 30px;
+        margin-bottom: 30px;
+        margin-right: 30px;
+        box-shadow: 0px 10px 20px #c4c8d066;
+        border-radius: 0px 0px 20px 20px;
+    }
+    .LogoutCls {
+        font-size: 20px;
+        text-align: end;
+        padding-top: 20px;
+    }
+
+    .HeadContent {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 90px;
+        background: #fff;
+        color: #fff;
+    }
+
+    .LogoBgColor {
+        background-color: transparent;
+        margin-right: 32px;
+        padding-left: 0px;
+        padding-top: 8px;
+        height: 65px;
+    }*/
+    /*Sidebar css start*/
+/*}*/
+
+/*This screen is for Ipad View*/
+@media (max-width:768px) {
+    .NavLogo {
+        width: 200px;
+        height: 60px;
+        margin-left: 0px;
+        margin-top: -5px;
+    }
+    .HeadContent {
+        display: block;
+        background-color: #fff;
+        position: fixed;
+        width: 92%;
+        z-index: 999;
+        height: 80px;
+        top: 0;
+        left: 0;
+        margin-left: 30px;
+        margin-bottom: 30px;
+        margin-right: 30px;
+        box-shadow: 0px 10px 20px #c4c8d066;
+        border-radius: 0px 0px 20px 20px;
+    }
+    /*Sidebar css starts*/
+    .MobViewOnly {
+        display: none;
+    }
+
+    .IpdProCls {
+        display: none !important;
+    }
+
+    .SidebarLayout ul {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .SidebarLayout.active .title {
+        visibility: visible;
+        display: block;
+    }
+
+    .RespView {
+        display: none !important;
+    }
+
+    .SidebarLayout.active {
+        left: 0;
+        width: 92%;
+        z-index: 99;
+        top: 107px;
+    }
+
+    .SidebarLayout {
+        left: -190px;
+        z-index: 99;
+        top: 80px;
+    }
+
+    .toggle {
+        padding-left: 10px;
+        padding-top: 20px;
+        display: block;
+        font-size: 20px;
+        color: #0D47A1;
+    }
+
+    .LogoutCls {
+        font-size: 20px;
+        text-align: end;
+        padding-top: 20px;
+    }
+
+    .HeadContent {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 90px;
+        background: #fff;
+        color: #fff;
+    }
+
+    .LogoBgColor {
+        background-color: transparent;
+        margin-right: 32px;
+        padding-left: 0px;
+        padding-top: 8px;
+        height: 65px;
+    }
+
+    .logoBgBack {
+        height: 60Vh !important;
+        background: black;
+        display: none;
+    }
+    /*Sidebar css ends*/
+}
+
+/*Mobile or Phone View */
+@media (max-width: 767px) {
+    .SidebarLayout ul {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        padding: 0px;
+        height: 980px;
+    }
+
+    /*Sidebar css start*/
+    .MobViewOnly {
+        display: block;
+    }
+
+    .IpdProCls {
+        display: none !important;
+    }
+
+    .SidebarLayout.active {
+        left: 0;
+        width: 85%;
+        z-index: 99;
+        overflow: auto;
+        top: 109px;
+    }
+
+    .toggle {
+        padding-top: 20px;
+        display: block;
+        font-size: 20px;
+    }
+
+    .LogoutCls {
+        font-size: 20px;
+        text-align: end;
+        padding-top: 20px;
+        color: #0D47A1;
+    }
+
+    .HeadContent {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 90px;
+        background: #fff;
+        color: #fff;
+        width: 85%;
+    }
+
+    .LogoBgColor {
+        background-color: transparent;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-top: 5px;
+        height: 65px;
+        margin-left: -30px;
+    }
+
+    .SidebarLayout.active .title {
+        visibility: visible;
+        display: block;
+    }
+    /*Sidebar css ends*/
+}
+
+
+
+/*<!-- ============================================================== -->
+<!--This css is for SideBar responsive ends here-- >
+<!-- ============================================================== -->*/
+
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('../Fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('../Fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../Fonts/Roboto-Medium.ttf');
+}
+
+/*From Here notification css starts here*/
+.notificationSpan {
+    padding-left: 4px;
+    padding-top: 4px;
+    font-family: 'Poppins-SemiBold';
+    display: flex;
+    align-items: center;
+}
+
+
+
+.btnnotificationClose {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    float: right;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.2rem;
+}
+
+
+
+.ns-effect-slide {
+    background: #fff !important;
+    top: auto;
+    bottom: 30px;
+    border: 1px solid #ccc;
+    box-shadow: rgba(0,0,0,.117647) 0 1px 1px 1px !important;
+}
+/*From Here notification css ends here*/

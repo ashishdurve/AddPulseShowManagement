@@ -1,0 +1,213 @@
+﻿<table id="ShowsTbl" class="display table table-striped" style="width: 100%;">
+    <thead class="HeadTbl" style="border-bottom: transparent;">
+        <tr>
+            <th scope="col">Show ID</th>
+            <th scope="col">Activity</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @* <tbody>
+        <tr>
+        <td>
+        <div class="ContSec">
+        <div>
+        THE TWILIGHT ZONE
+        </div>
+        </div>
+        </td>
+        <td>16th Nov, 2022</td>
+        <td>16th Dec, 2022</td>
+        <td>
+        <div class="d-flex justify-content-end">
+        <div>
+        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <div>
+        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <a href="../Shows/ShowDetail">
+        <img src="~/Images/DetailIcon.svg" class="" />
+        </a>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <div class="ContSec">
+        <div>
+        ALL IN THE FAMILY
+        </div>
+        </div>
+        </td>
+        <td>15th Nov, 2022</td>
+        <td>30th Dec, 2022</td>
+        <td>
+        <div class="d-flex justify-content-end">
+        <div>
+        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <div>
+        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <a href="../Shows/ShowDetail">
+        <img src="~/Images/DetailIcon.svg" class="" />
+        </a>
+        </div>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+        <div class="ContSec">
+        <div>
+        THE DICK VAN DYKE SHOW
+        </div>
+        </div>
+        </td>
+        <td>15th Nov, 2022</td>
+        <td>22nd Dec, 2022</td>
+        <td>
+        <div class="d-flex justify-content-end">
+        <div>
+        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <div>
+        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <a href="../Shows/ShowDetail">
+        <img src="~/Images/DetailIcon.svg" class="" />
+        </a>
+        </div>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+        <div class="ContSec">
+        <div>
+        THE WEST WING
+        </div>
+        </div>
+        </td>
+        <td>14th Jul, 2022</td>
+        <td>23rd Jul, 2022</td>
+        <td>
+        <div class="d-flex justify-content-end">
+        <div>
+        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <div>
+        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
+        </div>
+
+        <a href="../Shows/ShowDetail">
+        <img src="~/Images/DetailIcon.svg" class="" />
+        </a>
+        </div>
+        </td>
+        </tr>
+        </tbody>*@
+</table>
+
+
+<script>
+    debugger
+    GetShowTableList();
+    //?ShowID="+m_ShowID+"&startDate="+m_startdate+"&endDate="+m_enddate
+        function GetShowTableList(){
+        debugger
+         showtable = $('#ShowsTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": true,
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+             "ajax": {
+                    "url": "/shows/GetShowList",
+                    "type": "POST",
+                },
+                "columns": [
+                {
+                    "data": "showID",
+                    "orderable": true,
+                    "visible": false,
+                },
+                {
+                    "data": "showName",
+                    "orderable": true,
+                },
+                {
+                    "data": "startDate",
+		    "visible": false,
+                    "orderable": true,
+                    "render": function ( data, type, row, meta ) {
+                       if(data != null && data != '' && data != undefined){
+                            return moment(data).format('DD MMM, YYYY');
+                        }
+                        else{
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "data": "endDate",
+			"visible": false,
+                    "orderable": true,
+                    "render": function (data, type, row, meta ) {
+                        if(data != null && data != '' && data != undefined){
+                            return moment(data).format('DD MMM, YYYY');
+                        }
+                        else{
+                            return '';
+                        }                      
+                    }
+                },
+                {
+                    "data": null,                   
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                          var htmldata='<div class="d-flex justify-content-end CursrPntr">'+
+                                         '<div class="d-none">'
+                                         +'<img src="/Images/TrashIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<div class="CursrPntr" onclick="GetShowsModal('+oData.showID+')">'
+                                         +'<img src="/Images/EditIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<a href="/shows/ShowDetail?showID='+oData.showID+'">'
+                                         +'<img src="/Images/DetailIcon.svg" class="" />'
+                                         +'</a>'
+                                         +'</div>';
+                        $(nTd).html(htmldata);
+                        }
+                }
+                
+            
+            ],
+        });
+        $('.dataTables_filter').addClass('d-none');
+    }
+
+</script>

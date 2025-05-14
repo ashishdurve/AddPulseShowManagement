@@ -1,0 +1,35 @@
+﻿@{
+    //bool isstart= !string.IsNullOrEmpty(@ViewBag.show.StartDate.ToString()) ? true: false;
+    var st = @ViewBag.show.StartDate;
+    var et = @ViewBag.show.EndDate;
+}
+<div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+    <form id="frmSaveUpdateShow" name="frmSaveUpdateShow">
+        <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+
+            <div class="ShowModTitle" id="exampleModalLabel">Send Diploma Email</div>
+            <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+
+        </div>
+
+        <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+            @* <input type="hidden" id="ShowID" name="ShowID" value="@ViewBag.ShowID" />
+            <input type="hidden" id="CreatedDate" name="CreatedDate" value="@ViewBag.show.CreatedDate" />
+            <input type="hidden" id="CreatedBy" name="CreatedBy" value="@ViewBag.show.CreatedBy" /> *@
+
+            <div class="ShowModLbl">Email</div>
+            <input type="text" class="ShowModTxtBx" id="email" name="email" value="" />         
+
+           
+        </div>
+
+        <div class="ShowModFoot">
+            <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+            <div class="ShowModAdd" onclick="UpdateShow()">Send Email</div>
+        </div>
+    </form>
+</div>
+
+
+
+

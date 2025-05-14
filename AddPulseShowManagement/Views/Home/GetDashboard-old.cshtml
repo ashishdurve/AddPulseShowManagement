@@ -1,0 +1,197 @@
+﻿  <div class="MainSecOff" id="MainSecId">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+
+                    <div class="ShowSec">
+                        <div class="ShowTxt">
+                            Dashboard
+                        </div>
+                    </div>
+
+                    <div class="PageBrdr"></div>
+
+                    <div class="ShowDetHdrBx">
+
+                        <div class="d-flex justify-content-between DashResp3">
+                            <div class="d-flex DashResp3">
+                                <div>
+                                    <div class="ShowDetHdrTxt">Activity Name</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.show.ShowName </div>
+                                </div>
+                                <div class="d-flex DashResp3">
+
+                                    <div>
+                                        <div class="ShowDetHdrTxt">Start Date</div>
+                                       @*@{
+                                            string startdate = !string.IsNullOrEmpty(@ViewBag.show) ?  : "";
+                                        }*@
+                                        @if( @ViewBag.show.StartDate != DateTime.MinValue) {
+                                            <div class="ShowDetHdrTxt1">@ViewBag.show.StartDate.ToString("dd MMM, yyyy")</div>
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <div class="ShowDetHdrTxt">End Date</div>
+                                          @if( @ViewBag.show.EndDate != DateTime.MaxValue) {
+                                            <div class="ShowDetHdrTxt1">@ViewBag.show.EndDate.ToString("dd MMM, yyyy")</div>
+                                        }
+                                        @*<div class="ShowDetHdrTxt1">@ViewBag.show.EndDate.ToString("dd MMM, yyyy")</div>*@
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="ShowDetHdrTxt">Time Period</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.uniVal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<div class="DashboardMainSecOff d-none" id="divteamvsteamlast">
+</div>
+
+
+<div class="DashboardMainSecOff d-none" id="divpalyers">
+</div>
+
+<div class="DashboardMainSecOff d-none" id="divlast">
+</div>
+
+<script>
+
+    //GetTeamData(1);
+    //GetTeamvsTeamData();
+    //GetPlayerVsPlayer(1);
+    // 1 team vs team
+    // 2 palyer vs player
+    // 3 team
+    //ViewBag.configurations
+
+    // card1 -  divteamvsteamlast
+    // card2 -  divpalyers
+    // card3 -  divlast
+
+
+    $( document ).ready(function() {
+        
+        var card1Div='divteamvsteamlast';
+        var card2Div='divpalyers';
+        var card3Div='divlast';
+        var card1method=@ViewBag.configurations.Card1;
+        debugger
+        if(card1method == 1)
+        {
+            GetTeamvsTeamData(@ViewBag.configurations.TimePeriod,card1Div);
+        }
+        else if(card1method == 2){
+            GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod,card1Div);
+        }
+        else if(card1method == 3){
+            GetTeamData(@ViewBag.configurations.TimePeriod,card1Div);
+        }
+         //plz uncomment below lines after testing team data
+        var card2method=@ViewBag.configurations.Card2;
+        if(card2method == 1)
+        {
+            GetTeamvsTeamData(@ViewBag.configurations.TimePeriod,card2Div);
+        }
+        else if(card2method == 2){
+            GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod,card2Div);
+        }
+        else if(card2method == 3){
+            GetTeamData(@ViewBag.configurations.TimePeriod,card2Div);
+        }
+
+        var card3method=@ViewBag.configurations.Card3;
+        if(card3method == 1)
+        {
+            GetTeamvsTeamData(@ViewBag.configurations.TimePeriod,card3Div);
+        }
+       
+        else if(card3method == 2){
+            GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod,card3Div);
+        }
+        else if(card3method == 3){
+            GetTeamData(@ViewBag.configurations.TimePeriod,card3Div);
+        }
+        setTimeout(LayoutToggle(), 15000);
+    });
+
+        //call dynamic graph of team
+        function GetTeamData(hr,divcard)
+        {           
+            if(@ViewBag.configurations.TeamCardID > 0){
+               
+                 $.ajax({
+                     type: 'GET',
+                     url: "/teams/DashboardGetTeamData?teamDiv=teamDiv&teamID="+@ViewBag.configurations.TeamCardID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                     data: {},
+                     success: function (data, textStatus, jqXHR) {                    
+                   
+                        $('#'+divcard).removeClass('d-none');
+                        $('#'+divcard).html('');
+                        $('#'+divcard).html(data);
+                     }
+                 });
+             }
+        }
+
+        function GetTeamvsTeamData(hr,divcard)
+        {
+            if(@ViewBag.configurations.ShowID > 0){
+                 $.ajax({
+                     type: 'GET',
+                     url: "/teams/DashboardGetTeamVsTeam?teamDiv=divteamvsteamlast&showID="+@ViewBag.configurations.ShowID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                     data: {},
+                     success: function (data, textStatus, jqXHR) {                    
+                          $('#'+divcard).html('');
+                          $('#'+divcard).removeClass('d-none');
+                          $('#'+divcard).html(data);
+                     }
+                 });
+             }
+        }
+
+
+
+        function GetPlayerVsPlayer(hr,divcard)
+        {
+            if(@ViewBag.configurations.ShowID > 0){
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/DashboardGetPlayerVsPlayerID?showID="+@ViewBag.configurations.ShowID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {
+                    $('#'+divcard).html('');
+                    $('#'+divcard).html(data);
+                    $('#'+divcard).removeClass('d-none');
+                 }
+             });
+            }
+        }
+
+    
+
+        $('.Dash2').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Sort By'
+            },
+            dropdownAutoWidth: true,
+        });
+
+        
+
+
+</script>
+

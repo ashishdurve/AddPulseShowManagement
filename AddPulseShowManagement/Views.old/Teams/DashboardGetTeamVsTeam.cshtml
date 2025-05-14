@@ -1,0 +1,304 @@
+﻿<style>
+     .dashboardChartTeamVsTeam {
+    width: 100%;
+    height: 200px;
+}
+
+</style>
+
+<div class="DashTitle">Team vs Team</div>
+
+        <div class="DashBrdr"></div>
+
+        <div class="row">
+            @foreach (AddPulseShowManagement.Data.ViewModels.TeamsVsData item in @ViewBag.maincv)
+            {
+                
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
+
+                        <div class="DashCrdMainBx">
+
+                            <div class="DashCrdHdr">@item.team.TeamName</div>
+
+                            <div class="DashCrdBody">                                
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-5">
+                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Highest pulse in team:</div>
+                                                    <img src="~/Images/ContHrtIc.svg" class="DashCrdHrtIc" />
+                                                    <div class="DashCrdBdyTxt1"><span id="teamvsteamHighTeamPulseVal_@item.team.TeamID">@item.highTeamPulse</span>  (<span id="teamvsteamHighTeamPulseName_@item.team.TeamID">@item.highPulseName</span>)</div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-12 col-lg-5">
+                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Lowest pulse in team:</div>
+                                                    <img src="~/Images/ContHrtIc.svg" class="DashCrdHrtIc" />
+                                                    <div class="DashCrdBdyTxt1"><span id="teamvsteamLowTeamPulseVal_@item.team.TeamID">@item.lowTeamPulse </span>(<span id="teamvsteamLowTeamPulseName_@item.team.TeamID">@item.LowPulseName</span>)</div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-12 col-lg-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Average pulse:</div>
+                                                    <img src="~/Images/ContHrtIc.svg" class="DashCrdHrtIc" />
+                                                    <div class="DashCrdBdyTxt1"><span id="teamvsteamAvgTeamPulse_@item.team.TeamID">@item.avgTeamPulse</span></div>
+                                                </div>
+                                                </div>
+
+                                            </div>
+
+                                        
+                                    
+
+                                <div class="row" >
+                                    @foreach(AddPulseShowManagement.Data.ViewModels.ContestantsView data in @item.contestantsView)
+                                    {
+                                    <div class="col-12 col-md-6 col-lg-3 DashTeamvsResp" style="margin-top:20px;">
+
+                                        <div class="DashSubCrdMainBx">
+
+                                            <div class="DashSubCrdHdr">
+
+                                                <div class="d-flex">
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <img src="@data.ProfileImage" class="DashSubCrdDp" style="width:22px;height:22px;margin-right:5px;" />
+                                                    </div>
+                                                    <div>
+                                                        <div class="DashSubCrd1Txt">@data.Name</div>
+                                                        <div class="d-flex">
+                                                            <div class="DashSubCrd1Txt1">Polar Id:</div>
+                                                            <div class="DashSubCrd1Txt2" id="teamvsteamPloarID_@data.ContestantID">@data.PolarID</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="DashSubCrd1Bdy">
+
+                                                <div class="row DashTeamVsResp2">
+                                                    <div class="col-3 col-md-3 col-lg-3 DashTeamvsResp" style="padding:0">
+
+                                                        <div class="DashSubCrd1Txt3">Live</div>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrd1Hrt" /></div>
+                                                            <div class="DashSubCrd1Txt4" id="teamvsteamLivePulse_@data.ContestantID">@data.LivePulse</div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-3 col-md-3 col-lg-3 DashTeamvsResp DashResp4" style="padding:0">
+
+                                                        <div class="DashSubCrd1Txt3">Highest</div>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrd1Hrt" /></div>
+                                                            <div class="DashSubCrd1Txt4" id="teamvsteamHighPulse_@data.ContestantID">@data.HighestPulse</div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-3 col-md-3 col-lg-3 DashTeamvsResp" style="padding:0">
+
+                                                        <div class="DashSubCrd1Txt3">Lowest</div>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrd1Hrt" /></div>
+                                                            <div class="DashSubCrd1Txt4" id="teamvsteamLowPulse_@data.ContestantID">@data.LowestPulse</div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-3 col-md-3 col-lg-3 DashTeamvsResp" style="padding:0">
+
+                                                        <div class="DashSubCrd1Txt3">Avg</div>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrd1Hrt" /></div>
+                                                            <div class="DashSubCrd1Txt4" id="teamvsteamAvgPulse_@data.ContestantID">@data.AvgPulse</div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="DashSubCrdBrdr"></div>
+
+                                                <div>
+                                                    <div id='myTeam_divteamvsteamlast_@data.ContestantID' class="dashboardChart dashboardChartTeamVsTeam"></div>
+                                                        <style> 
+                                                        #myTeam_divteamvsteamlast_@data.ContestantID-license-text{
+                                                            display:none;
+                                                        }
+
+                                                       
+                                                    </style>
+                                                    <script>
+                                                    var xvals='@data.XGraphVal';
+                                                    var xgraphvals=xvals.split(',');
+
+                                                    var srtgraphval='@data.GraphVal';
+                                                    var graphlst=srtgraphval.split(',');
+                                                    var dgraphlst=[];
+                                                    $.each(graphlst, function(index, value) { 
+                                                      dgraphlst.push(parseInt(graphlst[index]));
+                                                    });
+
+                                                     var myDashConfig = {
+                                                            type: 'line',
+                                                            plotarea: {
+                                                                marginLeft: '35px',
+                                                                marginRight: '-20px',
+                                                                marginTop: '-20px',
+                                                                marginBottom: '-20px',                                       
+                                                            },
+                                                             "crosshair-x": {
+
+                                                            },
+                                                            plot: {
+                                                                aspect: 'spline',
+                                                                lineWidth: '2px',
+                                                                lineColor: '#E63946',
+                                                                shadow: 'true',
+                                                                marker: {
+                                                                    visible: false,
+                                                                },
+                                                                 tooltip: {
+                                                                    visible: false
+                                                                },
+                                                            },
+                                                             //real-time feed
+                                                          refresh: {
+                                                            type: 'feed',
+                                                            transport: 'http',
+                                                            url: '../teams/GetContestantLiveGraphData?contestantID=@data.ContestantID',
+                                                            interval: @ViewBag.refreshTimeVal,
+                                                            maxTicks: @ViewBag.points,
+                                                            adjustScale: true,
+                                                            resetTimeout: 9999999999999,
+                                                          },
+                                                            scaleY: {
+                                                                lineWidth: 1,
+                                                                lineColor: '#707070',
+                                                                lineStyle: 'solid',
+                                                                guide: {
+                                                                    lineColor: '#CCCCCC',
+                                                                    lineStyle: 'solid'
+                                                                },
+                                                                maxValue: '175',
+                                                                minValue: '50px',
+                                                                step: 25,
+                                                                item: {
+                                                                    fontColor: '#333333',
+                                                                    fontSize: '10px',
+                                                                },
+                                                            },
+                                                            scaleX: {
+                                                                lineWidth: 1,
+                                                                lineColor: '#707070',
+                                                                lineStyle: 'solid',
+                                                                labels: xgraphvals,
+                                                                item: {
+                                                                    color: '#53585E',
+                                                                    fontSize: '10px',                                            
+                                                                },
+                                                            },
+                                                            "series": [{ "values": dgraphlst,"text":"Pulse"  }]
+                                                        };
+                          
+                                                        zingchart.render({
+                                                            id: 'myTeam_divteamvsteamlast_@data.ContestantID',
+                                                            data: myDashConfig,
+                                                            height: "100%",
+                                                            width: "100%"
+                                                        });
+                                                    </script>
+                                                </div>
+
+
+                                              
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+
+        </div>
+
+        <script>
+
+                    $('#Dashboard').addClass('activeHead');
+            $('#ActiveTitle').addClass('activeSnd');
+          $('.Dash1').select2({
+            minimumResultsForSearch: -1,
+            //placeholder: {
+            //    id: '-1', // the value of the option
+            //    text: 'Sort By'
+            //},
+            dropdownAutoWidth: true,
+        });
+
+           $('.Dash1').on('select2:select', function (e) {            
+            GetTeamvsTeamData(parseInt($(this).val()));
+          });
+
+
+       function TeamVsTeamCardData() {                
+                UpdateTeamVsTeamCardValues();
+        }
+
+        var auto_refreshTeamVsTeamCardData = setInterval(function () { TeamVsTeamCardData() }, @ViewBag.refreshTimeVal);
+        TeamVsTeamCardData();
+
+
+        function UpdateTeamVsTeamCardValues()
+        {
+         
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/UpdateTeamVsTeamCardValues?teamDiv=teamDiv&showID="+@ViewBag.showID+"&hour="+@ViewBag.hour+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) { 
+                   
+                   $.each(data.team, function(index, value) {   
+                      
+                       $("#teamvsteamHighTeamPulseVal_"+value.teamID).html(data.maincv[index].highTeamPulse);
+                       $("#teamvsteamHighTeamPulseName_"+value.teamID).html(data.maincv[index].highPulseName);
+                       $("#teamvsteamLowTeamPulseVal_"+value.teamID).html(data.maincv[index].lowTeamPulse);
+                       $("#teamvsteamLowTeamPulseName_"+value.teamID).html(data.maincv[index].lowPulseName);
+                       $("#teamvsteamAvgTeamPulse_"+value.teamID).html(data.maincv[index].avgTeamPulse);  
+                       console.log(value);
+
+                       
+                       //$("#teamvsteamHighTeamPulseVal_"+value.teamID).html(value.highTeamPulse);
+                       //$("#teamvsteamHighTeamPulseName_"+value.teamID).html(value.highPulseName);
+                       //$("#teamvsteamLowTeamPulseVal_"+value.teamID).html(value.lowTeamPulse);
+                       //$("#teamvsteamLowTeamPulseName_"+value.teamID).html(value.lowPulseName);
+                       //$("#teamvsteamAvgTeamPulse_"+value.teamID).html(value.avgTeamPulse);  
+
+                    });     
+
+                      $.each(data.conlst, function(index1, value1) {   
+                        
+                          $("#teamvsteamPloarID_"+value1.contestantID).html(value1.polarID);
+                          $("#teamvsteamLivePulse_"+value1.contestantID).html(value1.livePulse);
+                          $("#teamvsteamHighPulse_"+value1.contestantID).html(value1.highestPulse);
+                          $("#teamvsteamLowPulse_"+value1.contestantID).html(value1.lowestPulse);
+                          $("#teamvsteamAvgPulse_"+value1.contestantID).html(value1.avgPulse);  
+                       });
+                    
+                 }
+             });
+        }
+
+
+
+        </script>

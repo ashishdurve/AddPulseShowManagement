@@ -1,0 +1,18 @@
+﻿<div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+    <form id="frmSaveUpdateTeam" name="frmSaveUpdateTeam">
+        <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+            <div class="ShowModTitle" id="titleModalLabel">Reinstate</div>
+            <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+        </div>
+
+        <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+            Do you really want to reinstate contestant @ViewBag.contestant.Name ?
+        </div>
+
+        <div class="ShowModFoot">
+            <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+            <div class="ShowModAdd" onclick="UpdateTeamContestantVoteIn(@ViewBag.teamContestantID)">Yes</div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,707 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    string userTypeID = User.Claims.First(m => m.Type == "UserTypeID").Value;
+    AddPulseShowManagement.Common.UserType userValueTypeID = (AddPulseShowManagement.Common.UserType)Enum.Parse(typeof(AddPulseShowManagement.Common.UserType), userTypeID.ToString());
+    string userTypeName = AddPulseShowManagement.Common.Extensions.GetEnumDescription(userValueTypeID);
+}
+
+@{
+    ViewData["Title"] = "Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="MainSecOff" id="ConfigId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ShowSec">
+                    <div class="ShowTxt">
+                        Configuration
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                @* <---------------------Shows hdr--------------->*@
+
+                <div class="d-flex" style="margin-bottom:30px;">
+
+                    <div style="margin-right:30px;">
+                    
+                        <div class="ConfigSlctLbl">Select Activity:</div>
+                        <div class="ContestantsDpd ConfigResp1">
+                                  <select class="Config1" id="showID">
+                                        <option value="0"></option>
+                                        @foreach(AddPulseShowManagement.Data.DataTableModels.Shows item in ViewBag.shows){
+
+                                            <option value="@item.ShowID">@item.ShowName</option>
+                                        }
+                                  </select>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-right:30px;">
+
+                        <div class="ConfigSlctLbl">Select Time Period:</div>
+                        <div class="d-flex">
+                            <div>
+                                    <input placeholder="" onblur="CalculateSeconds()" value="@ViewBag.timePeriod" type="text" id="txtTimePeriod" class="ConfigTimTxtBx" />
+                            </div>            
+                        
+                            <div class="ContestantsDpd DashResp1">
+                                <select class="ConfigTime" id="seltimeUnit">
+                                    <option value="-1"></option>
+                                    <option value="MINUTE">Minute</option>
+                                    <option value="HH">Hour</option>
+                                    <option value="DD">Day</option>
+                                    <option value="WK">Week</option>
+                                    @*<option value="5">Month</option>*@
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                     <!--<div>
+
+                        <div class="ConfigSlctLbl">Select Refresh Time Period(seconds):</div>                       
+                            <div>
+                                  <input placeholder=""   value="@ViewBag.refreshtimePeriod" type="number" id="txtrefreshTimePeriod" class="ConfigTimTxtBx" onblur="CheckMaxSeconds(this)"  onkeypress="return event.charCode >= 48 && event.charCode <= 57"/>
+                            </div> 
+                    </div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+             <div class="col-12 col-md-12 col-lg-12 col-xl-6 col-xxl-4 ConfigColResp">
+
+                <div class="ConfigCrdMainBx">
+
+                    <div class="d-flex justify-content-between">
+                    <div class="ConfigCrdTitle" >Card 1</div>
+                    <div>
+                        <button type="button" class="ShowBtn ConfigSaveBtn" onclick="SaveCard1()">Save</button>
+                    </div>
+                    </div>
+
+                    <div class="ConfigCrdBrdr"></div>
+
+                    <div class="ConfigCrdBdy">
+
+                    <div class="row" style="margin-bottom:20px;" id="htmlcard1">
+                        @foreach (AddPulseShowManagement.Data.DataTableModels.CardDescription item in ViewBag.cardDescriptions)
+                        {                         
+                        <div class="col-12 col-md-3 col-lg-4 ConfigResp3">
+
+                            <div>
+                                <label class="form-check-label ChckbxTxt" for="Crd1YesDpd">
+                                    <div class="ChckBoxSec">
+                                        <div class="form-check Chckbox">
+                                            <input class="form-check-input card1radio"  type="radio"  name="checkboxDistination" value="@item.CardID" id="Crd1YesDpd_@item.CardID" style="margin-right:7px;">
+                                                @item.Description
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+                    <div class="row" id="card1htmlData" ></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-12 col-xl-6 col-xxl-4 ConfigColResp">
+
+                <div class="ConfigCrdMainBx">
+
+                    <div class="d-flex justify-content-between">
+                    <div class="ConfigCrdTitle" >Card 2</div>
+                    <div>
+                        <button type="button" class="ShowBtn ConfigSaveBtn" onclick="SaveCard2()">Save</button>
+                    </div>
+                    </div>
+
+                    <div class="ConfigCrdBrdr"></div>
+
+                    <div class="ConfigCrdBdy">
+
+                    <div class="row" style="margin-bottom:20px;" id="htmlcard2">
+                         @foreach (AddPulseShowManagement.Data.DataTableModels.CardDescription item in ViewBag.cardDescriptions)
+                        {  
+                        <div class="col-12 col-md-3 col-lg-4 ConfigResp3">
+
+                            <div>
+                                <label class="form-check-label ChckbxTxt" for="Crd2YesDpd">
+                                    <div class="ChckBoxSec">
+                                        <div class="form-check Chckbox">
+                                            <input class="form-check-input card2radio" type="radio" name="Crd2checkboxDistination" value="@item.CardID" id="Crd2YesDpd_@item.CardID" style="margin-right:7px;">
+                                               @item.Description
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+                        }
+                     
+
+                    </div>
+
+                    <div class="row" id="card2htmlData" ></div>
+
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-12 col-xl-6 col-xxl-4 ConfigColResp">
+
+                <div class="ConfigCrdMainBx">
+
+                    <div class="d-flex justify-content-between">
+                    <div class="ConfigCrdTitle" >Card 3</div>
+                    <div>
+                        <button type="button" class="ShowBtn ConfigSaveBtn" onclick="SaveCard3()">Save</button>
+                    </div>
+                    </div>
+
+                    <div class="ConfigCrdBrdr"></div>
+
+                    <div class="ConfigCrdBdy">
+
+                    <div class="row" style="margin-bottom:20px;">
+                        @foreach (AddPulseShowManagement.Data.DataTableModels.CardDescription item in ViewBag.cardDescriptions)
+                        { 
+                        <div class="col-12 col-md-3 col-lg-4 ConfigResp3">
+
+                            <div>
+                                <label class="form-check-label ChckbxTxt" for="Crd3YesDpd">
+                                    <div class="ChckBoxSec">
+                                        <div class="form-check Chckbox">
+                                            <input class="form-check-input card3radio"  type="radio" name="Crd3checkboxDistination" value="@item.CardID" id="Crd3YesDpd_@item.CardID" style="margin-right:7px;">
+                                                 @item.Description
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+                         }
+
+                    </div>
+
+                    <div class="row" id="card3htmlData">
+
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+@section scripts
+    {
+    <script>
+        var m_ShowID=@ViewBag.ShowID;
+        var m_unitID='@ViewBag.timeUnit'; //drp value
+        var m_totalSeconds=3600; // toal time in seconds
+        var m_timeperiod=1;
+        var card1=0;
+        var card2=0;
+        var card3=0;
+        var m_refresh=@ViewBag.refreshtimePeriod;
+        var teamID=@ViewBag.teamID;
+
+        setTimeout(LayoutToggle(), 1000);
+
+
+        function LayoutToggle(fval)
+        {
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+         
+         
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('ConfigId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');      
+            }
+        }
+
+        function CheckMaxSeconds(this1)
+        {          
+            var currsec= parseInt($(this1).val());
+            if(currsec <= 60){
+                m_refresh=currsec;
+            }
+            else{
+                 DisplayMessage(ErrorCross+SpanStart+"<b>Please select upto 60 seconds value.</b>"+SpanEnd);
+            }
+            
+        }
+
+        $(document).ready(function () {
+            $('#Configuration').addClass('activeHead');
+            $('#ActiveTitle7').addClass('activeSnd');
+        });
+   
+        $('.Config1').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '0', // the value of the option
+                text: 'Select Activity'
+            },
+            dropdownAutoWidth: true,
+        });
+        
+
+        $('.Config1').val('@ViewBag.ShowID').trigger('change');
+
+        $('#showID').on('select2:select', function (e) {
+            debugger
+             m_ShowID= parseInt($(this).val());
+
+            GetTeamVsTeamHtml("card1htmlData", 1);
+            GetTeamVsTeamHtml("card2htmlData", 2);
+            GetTeamVsTeamHtml("card3htmlData", 3);
+      
+            
+        });
+              
+
+        $('.ConfigTime').select2({
+            minimumResultsForSearch: -1,
+            //placeholder: {
+            //    id: '-1', // the value of the option
+            //    text: 'Select Unit'
+            //},
+            dropdownAutoWidth: true,
+        });
+    $('.ConfigTime').val('@ViewBag.timeUnit').trigger('change');
+
+        $('.Config2').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Team'
+            },
+            dropdownAutoWidth: true,
+        });
+  
+
+        $('.Config3').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Team'
+            },
+            dropdownAutoWidth: true,
+        });
+
+        $('.Config4').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+
+        $('.Config5').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+         
+       
+         $('.Config8').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Team'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config9').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config10').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config11').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config12').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config13').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config14').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config15').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+        $('.Config16').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Player'
+            },
+            dropdownAutoWidth: true,
+        });
+
+        $('.card1radio').change(function(e){
+            
+            card1=parseInt($(this).val());
+            
+             if(card1 == 3){
+                GetTeamVsTeamHtml("card1htmlData",1);
+            }
+            else if(card1 == 1 || card1 == 4){
+                $('#card1htmlData').html('');
+            }
+            else if(card1 == 2){
+                GetPlayerVsPlayerHtml("card1htmlData");
+            }
+        });
+
+        $('.card2radio').change(function(e){
+            
+            card2=parseInt($(this).val());
+            
+            if(card2 == 3){
+                GetTeamVsTeamHtml("card2htmlData",2);
+            } 
+            else if(card2 == 1 || card3 == 4){
+                $('#card2htmlData').html('');
+            }
+            else if(card2 == 2){
+                GetPlayerVsPlayerHtml("card2htmlData");
+            }
+        });
+
+
+         $('.card3radio').change(function(e){
+            
+            card3=parseInt($(this).val());
+           
+            if(card3 == 3){
+                GetTeamVsTeamHtml("card3htmlData",3);
+            }
+             else if(card3 == 1 || card3 == 4){
+                $('#card3htmlData').html('');
+            }
+            else if(card3 == 2){
+                GetPlayerVsPlayerHtml("card3htmlData");
+            }
+        });
+
+
+        // write onload values
+       
+        $('#Crd1YesDpd_' + @ViewBag.card1).val('@ViewBag.card1').trigger('change');
+        $('#Crd1YesDpd_' + @ViewBag.card1).prop('checked',true);
+        
+        $('#Crd2YesDpd_'+ @ViewBag.card2).val('@ViewBag.card2').trigger('change');        
+        $('#Crd2YesDpd_' + @ViewBag.card2).prop('checked',true);
+        
+        $('#Crd3YesDpd_'+@ViewBag.card3).val('@ViewBag.card3').trigger('change');
+        $('#Crd3YesDpd_' + @ViewBag.card3).prop('checked',true);
+
+
+        if(@userTypeID == 2){
+            //$('.ConfigSaveBtn').addClass('d-none');
+            $('#txtTimePeriod').prop('readonly');
+        }
+
+
+        function GetTeamVsTeamHtml(htmldiv, cardid){
+            //get card data 
+            //this is actually calling team list
+                 $.ajax({
+                 type: 'GET',
+                 url: "/configuration/GetTeamCardView?showID="+m_ShowID+"&cardID="+cardid,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                        //DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                        
+                        $('#'+htmldiv).html('');
+                        $('#'+htmldiv).html(data);
+                    }
+                 });
+
+        }
+
+        function GetPlayerVsPlayerHtml(htmldiv)
+        {  
+            debugger;
+            //"/configuration/GetPlayerVsPlayerCardView?showID="+m_ShowID
+            //GetPlayercardView
+             $.ajax({
+                 type: 'GET',
+                 url: "/configuration/GetPlayercardView?showID="+m_ShowID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                        //DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);                        
+                        $('#'+htmldiv).html('');
+                        $('#'+htmldiv).html(data);
+                    }
+                 });
+        }
+
+        function SaveCard1()
+        {
+            var teamID = $('#card1htmlData').find('.Config6').val();
+            //alert(teamID);
+            if(m_ShowID == 0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select show name.</b>"+SpanEnd);
+            }
+            else if(m_totalSeconds <= 0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select proper timeperiod.</b>"+SpanEnd);
+            }
+            else if(m_refresh > 60){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select upto 60 seconds value.</b>"+SpanEnd);
+            }
+            else{
+               $.ajax({
+                 type: 'GET',
+                 url: "/home/saveCard?cardid=1&cardVal="+card1+"&teamID="+teamID+"&showID="+m_ShowID+"&unitID="+m_unitID+"&timeInseconds="+m_totalSeconds+"&timeperiod="+m_timeperiod+"&refreshTime="+m_refresh,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                     
+                        if(card1 == 2){
+                         var checkVal= GetValuesForPlayerVsPlayerCard();
+
+                         var m_values='';
+                         if(checkVal == true){
+                            m_values= ArrayValues();                           
+                            // save values
+                            
+                             $.ajax({
+                             type: 'GET',
+                             url: "/home/SavePlayerSequence?PlayerIDs="+m_values,
+                             data: {},
+                             success: function (data, textStatus, jqXHR) {                    
+                                    DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                        
+                                }
+                             });
+                         }
+                         else{
+                            DisplayMessage(ErrorCross+SpanStart+"Players are not selected proplery."+SpanEnd);
+                         }
+                     }
+                     else{
+                          DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                     }
+                     
+                     //   DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                    }
+                 });            
+            }
+        }
+
+
+        function SaveCard2()
+        {
+            var teamID = $('#card2htmlData').find('.Config6').val();
+            
+            if(m_ShowID == 0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select show name.</b>"+SpanEnd);
+            }
+            else if(m_totalSeconds <= 0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select proper timeperiod.</b>"+SpanEnd);
+            }
+            else if(m_refresh > 60){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select upto 60 seconds value.</b>"+SpanEnd);
+            }            
+            else{
+              
+               $.ajax({
+                 type: 'GET',
+                 url: "/home/saveCard?cardid=2&cardVal="+card2+"&teamID="+teamID+"&showID="+m_ShowID+"&unitID="+m_unitID+"&timeInseconds="+m_totalSeconds+"&timeperiod="+m_timeperiod+"&refreshTime="+m_refresh,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                       // DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+
+
+                        if(card2 == 2){
+                         var checkVal= GetValuesForPlayerVsPlayerCard();
+
+                         var m_values='';
+                         if(checkVal == true)
+                         {
+                            m_values= ArrayValues();
+                          
+                            // save values
+                            
+                             $.ajax({
+                             type: 'GET',
+                             url: "/home/SavePlayerSequence?PlayerIDs="+m_values,
+                             data: {},
+                             success: function (data, textStatus, jqXHR) {                    
+                                    DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);                        
+                                }
+                             });
+                         }
+                          else{
+                            DisplayMessage(ErrorCross+SpanStart+"Players are not selected proplery."+SpanEnd);
+                         }
+                     }
+                     else{
+                          DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                     }
+
+                    }
+                 });
+            }
+        }
+
+
+       function SaveCard3()
+        {
+            var teamID = $('#card3htmlData').find('.Config6').val();
+
+            if(m_ShowID == 0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select show name.</b>"+SpanEnd);
+            }
+            else if(m_totalSeconds <=  0){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select proper timeperiod.</b>"+SpanEnd);
+            }
+            else if(m_refresh > 60){
+                DisplayMessage(ErrorCross+SpanStart+"<b>Please select upto 60 seconds value.</b>"+SpanEnd);
+            }
+            else{
+                
+                 // GetValuesForPlayerVsPlayerCard();
+                
+               $.ajax({
+                 type: 'GET',
+                 url: "/home/saveCard?cardid=3&cardVal="+card3+"&teamID="+teamID+"&showID="+m_ShowID+"&unitID="+m_unitID+"&timeInseconds="+m_totalSeconds+"&timeperiod="+m_timeperiod+"&refreshTime="+m_refresh,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {       
+                    
+                     if(card3 == 2){
+                         var checkVal= GetValuesForPlayerVsPlayerCard();
+                         debugger
+                        
+                         var m_values='';
+                         if(checkVal == true){
+                            m_values= ArrayValues();
+                           
+                            // save values
+
+                             $.ajax({
+                             type: 'GET',
+                             url: "/home/SavePlayerSequence?PlayerIDs="+m_values,
+                             data: {},
+                             success: function (data, textStatus, jqXHR) {                    
+                                    DisplayMessage(SuccessCheck+SpanStart+"Card data saved."+SpanEnd);
+                        
+                                }
+                             });
+                         }
+                          else{
+                            DisplayMessage(ErrorCross+SpanStart+"Players are not selected proplery."+SpanEnd);
+                         }
+
+                     }
+                   
+
+                    } // success ending
+                });
+
+            }
+        }
+    
+      
+
+     $('#seltimeUnit').on('select2:select', function (e) {  
+         
+             m_unitID= $(this).val();
+             CalculateSeconds();
+      });
+
+
+      CalculateSeconds();
+
+      function CalculateSeconds(){
+         
+          var timeval= parseInt($('#txtTimePeriod').val());
+          m_timeperiod=timeval;
+          if(m_unitID == 'MINUTE'){
+              m_totalSeconds = timeval * 60;
+          }
+          else if(m_unitID == 'HH'){
+              m_totalSeconds = timeval * 3600;
+          }
+           else if(m_unitID == 'DD'){
+               m_totalSeconds = timeval * 86400;
+          }
+           else if(m_unitID == 'WK'){
+               m_totalSeconds = timeval * 604800;
+          }
+          else{
+              m_totalSeconds=3600;
+          }
+      }
+    </script>
+    }

@@ -1,0 +1,294 @@
+﻿@{
+    ViewData["Title"] = "ContestantsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+<style>
+    .checkbox3 .check2 {
+        position: relative;
+        padding-left: 25px;
+        margin-bottom: 5px;
+        padding-right: 15px;
+        cursor: pointer;
+        color: #FF6F00;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #FFFFFF;
+        letter-spacing: 0px;
+        margin-left: 14px;
+    }
+</style>
+<section class="MainSecOff" id="secTeamDetails">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="">
+                    <div class="">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item "><a href="/Shows/Shows" class="BrdCrmTxt">Shows</a></li>
+                                <li class="breadcrumb-item "><a href="/Shows/ShowDetail?showID=@ViewBag.showID" class="BrdCrmTxt">Detail</a></li>
+                                <li class="breadcrumb-item active BrdCrmSubTxt" aria-current="page">Teams</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                <div class="d-flex justify-content-end ContCrdRESP2">
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" class="ContSrchBx">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="table-responsive" id="divContestantList">
+                    @*    <table id="ContListTbl" class="display table table-striped" style="width: 100%;">
+                            <thead class="HeadTbl" style="border-bottom: transparent;">
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Polar Id</th>
+                                    <th scope="col">Average Pulse</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+
+                            <tbody>
+                                <tr>
+                                    <td style="width:20px;">
+                                        <div class="checkbox3">
+                                            <label class="check2">
+                                                <input type="checkbox">
+                                                <span class="checkmark2"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                <img src="~/Images/User1.jpg" class="ImgCont" />
+                                            </div>
+                                            <div>
+                                                Brian MacLeod
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>TEH#01</td>
+                                    <td>72</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="#">
+                                                <img src="~/Images/DetailIcon.svg" class="" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20px;">
+                                        <div class="checkbox3">
+                                            <label class="check2">
+                                                <input type="checkbox">
+                                                <span class="checkmark2"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                <img src="~/Images/User2.jpg" class="ImgCont" />
+                                            </div>
+                                            <div>
+                                                Brian MacLeod
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>TEH#02</td>
+                                    <td>70</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="#">
+                                                <img src="~/Images/DetailIcon.svg" class="" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:20px;">
+                                        <div class="checkbox3">
+                                            <label class="check2">
+                                                <input type="checkbox">
+                                                <span class="checkmark2"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                <img src="~/Images/User3.jpg" class="ImgCont" />
+                                            </div>
+                                            <div>
+                                                Brian MacLeod
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>TEH#04</td>
+                                    <td>60</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="#">
+                                                <img src="~/Images/DetailIcon.svg" class="" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:20px;">
+                                        <div class="checkbox3">
+                                            <label class="check2">
+                                                <input type="checkbox">
+                                                <span class="checkmark2"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                <img src="~/Images/User1.jpg" class="ImgCont" />
+                                            </div>
+                                            <div>
+                                                Brian MacLeod
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>TEH#03</td>
+                                    <td>80</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                              <a href="#">
+                                                <img src="~/Images/DetailIcon.svg" class="" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ContListSec">
+                    <div>
+                        <button type="button" class="CnclBtn" onclick="RedirectToTeams(@ViewBag.teamID)">Cancel</button>
+                    </div>
+                   
+                    <div>
+                       @* <a href="../Shows/ShowDetail" style="text-decoration:none;">*@
+                        <button type="button" class="ApplyBtn" onclick="SaveUpdateTeam(@ViewBag.teamID)">Apply</button>
+                        @*</a>*@
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+
+   <script>
+
+       var conLst=[];
+        $(document).ready(function () {
+            $('#Shows').addClass('activeHead');
+            $('#ActiveTitle3').addClass('activeSnd');
+             GetContestantsList();
+             setTimeout(LayoutToggle(), 5000);
+        });
+    
+         function LayoutToggle(fval)        
+       {           
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+        
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('secTeamDetails');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+            }
+        }
+
+         function GetContestantsList(){            
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/ContestantsListView?teamID="+@ViewBag.teamID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                    $('#divContestantList').html('');
+                    $('#divContestantList').html(data);
+                 }
+             });
+        }
+
+        function RedirectToTeams(teamID)
+        {
+            history.back();           
+        }
+
+
+        function SaveUpdateTeam(teamID)
+        {
+            
+            var constr=conLst.join();
+            if(teamID > 0){
+              $.ajax({
+                 type: 'POST',
+                 url: "/teams/SaveUpdateContestantList?teamID="+teamID+"&contestantList="+constr,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {      
+                    
+                    window.location.href="/shows/showdetail?showID="+@ViewBag.showID;
+
+                 }
+             });
+            }
+        }
+
+
+       function ManageContestant(ID){            
+            if($('#id_'+ID).is(':checked')){                
+                conLst.push(ID);
+            }
+            else{                
+                  var index = conLst.indexOf(ID);
+                  conLst.splice(index, 1);
+            }
+        }
+    </script>
+    }

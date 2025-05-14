@@ -1,0 +1,314 @@
+﻿@{
+    ViewData["Title"] = "Managers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+
+<section class="MainSecOff" id="ManagerId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ShowSec">
+                    <div class="ShowTxt">
+                        Managers
+                    </div>
+                    <div>
+                        <button type="button" class="ShowBtn" onclick="GetManageManagerModal(0)">Add Manager</button>
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                @* <---------------------Shows hdr--------------->*@
+
+                <div class="d-flex justify-content-end ContCrdRESP2">
+
+
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" class="ContSrchBx" id="searchmanager-input">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div id="divtableManagerList">
+            
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*Add managers modal*@
+
+<div class="modal fade"  id="AddManagersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document" id="divmanagerModel">
+       
+    </div>
+</div>
+
+@section Scripts
+    {
+    @*<script src="~/js/ValidationJs/ManageManager.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('#Managers').addClass('activeHead');
+            $('#ActiveTitle6').addClass('activeSnd');
+            GetManagerList();
+            setTimeout(LayoutToggle(), 1000);
+        });
+  
+
+        function LayoutToggle(fval)        
+        { 
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+        
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('ManagerId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+            }
+        }
+        function GetManagerList(){
+           
+             $.ajax({
+                 type: 'GET',
+                 url: "/manager/GetManagers",
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {
+                    
+                    $('#divtableManagerList').html('');
+                    $('#divtableManagerList').html(data);
+                 }
+             });
+        }
+
+         function GetManageManagerModal(userID){
+           
+             $.ajax({
+                 type: 'GET',
+                 url: "/manager/getManageManager?UserID="+userID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {  
+                     
+                    $('#divmanagerModel').html('');
+                    $('#divmanagerModel').html(data);
+                    $('#AddManagersModal').modal('show');
+                 }
+             });
+        }
+ 
+        //function ValidateManageUserForm(){
+        //         $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+        //    return arg !== value;
+        //}, function (para, element) {
+        //    return $.validator.format("*Please Select the Value!");
+        //});
+        //        $("#frmAddUpdateManager").validate({
+        //    errorClass: 'Error',
+        //    rules:
+        //    {
+        //        FirstName:
+        //        {
+        //            required: true,
+        //        },
+        //        Email:
+        //        {
+        //            required: true,
+        //            email: true
+        //        },
+        //        Phone:
+        //        {
+        //            required: true,
+        //        },
+        //        IsActive:{
+        //           required: false,
+        //        }
+        //    },
+        //    messages:
+        //    {
+        //        FirstName:
+        //        {
+        //            required: "Please enter name.",
+        //        },
+        //        Email:
+        //        {
+        //            required: "Please enter vaild email.",
+        //        },
+        //        Phone:
+        //        {
+        //            required: "Please enter phone number.",
+        //        }
+        //    },
+        //    highlight: function (element) {
+        //        $(element).parent().addClass('error');
+        //    },
+        //    unhighlight: function (element) {
+        //        $(element).parent().removeClass('error');
+        //    },        
+        //    errorPlacement: function (error, element) {
+        //        debugger
+        //        if (element.hasClass('select2-hidden-accessible')) {
+        //            error.insertAfter(element.next('span'));
+        //            //error.css("margin-top", "30px");
+        //        } else {
+        //            error.insertAfter(element);
+        //        }
+        //    }
+        //});
+        //debugger
+        //$('#frmAddUpdateManager').valid();
+
+        //}
+
+
+        function SubmitManagerForm(){
+            
+          $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+            }, function (para, element) {
+            return $.validator.format("*Please Select the Value!");
+         });
+
+         var mdlUserid=parseInt($('#UserID').val());
+
+         $("#frmAddUpdateManager").validate({
+            errorClass: 'Error',
+            rules:
+            {
+                FirstName:
+                {
+                    required: true,
+                },
+                Email:
+                {
+                    email: true,
+                    emailCheck:true,
+                    required: true,                    
+                },
+                Phone:
+                {
+                    digits:true,
+                    required: true,
+                },
+                Password:{
+                    required: true,
+                    minlength: 6,
+                }
+                , ConfirmPassword: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#Password"
+                }
+            },
+            messages:
+            {
+                FirstName:
+                {
+                    required: "Please enter name.",
+                },
+                Email:
+                {
+                    required: "Please enter vaild email.",
+                    emailCheck:"This email is already used please use unique email.",
+                },
+                Phone:
+                {                   
+                    required: "Please enter phone number.",
+                },
+                 Password:{
+                    required: "Please enter password.",                    
+                },
+                ConfirmPassword: {
+                     required: "password no same.",    
+                }
+               
+            },
+            highlight: function (element) {
+                $(element).addClass('highlightError');
+                $(element).parent().addClass('highlightTextError');
+            },
+            unhighlight: function (element) {
+               $(element).removeClass('highlightError');
+                $(element).parent().removeClass('highlightTextError');
+            },        
+            errorPlacement: function (error, element) {               
+                if (element.hasClass('select2-hidden-accessible')) {
+                    error.insertAfter(element.next('span'));
+                    //error.css("margin-top", "30px");
+
+                   // element.addClass('highlightError');
+
+                } else {
+                    error.insertAfter(element);
+                    
+                }
+            }
+        });
+
+
+          $.validator.addMethod("emailCheck", function (value) {
+               var isval= true;
+               
+              if((mdlUserid == 0) || isNaN(mdlUserid) ==true){
+                  $.ajax({
+                      type: "GET",
+                      url: "/home/VerifyExistingEmail?email=" + encodeURIComponent($('#Email').val()),
+                      data: {},
+                      async:false,
+                      success: function (data) {
+                          
+                          if (data == false) {                                          
+                              isval= true;
+                          }
+                          else {                                         
+                              isval= false;
+                          }
+                      }
+                 });
+                 }
+                 
+             return isval;
+
+        });
+        
+            if($('#frmAddUpdateManager').valid()){
+               $('#btnSubmitManagaer').click();                
+              // alert('test');
+            }
+            else{
+               // alert('error');
+            }
+        }
+
+
+        var state = false;
+         function TogglePasswords(divID) {
+             if (state) {
+                 document.getElementById(divID).setAttribute("type", "password");
+                 state = false;
+             }
+             else {
+                 document.getElementById(divID).setAttribute("type", "text");
+                 state = true;
+             }
+         }
+    </script>
+    }
+
+

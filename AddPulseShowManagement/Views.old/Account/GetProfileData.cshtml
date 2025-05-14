@@ -1,0 +1,61 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    string userTypeID = User.Claims.First(m => m.Type == "UserTypeID").Value;
+    AddPulseShowManagement.Common.UserType userValueTypeID = (AddPulseShowManagement.Common.UserType)Enum.Parse(typeof(AddPulseShowManagement.Common.UserType), userTypeID.ToString());
+    string userTypeName = AddPulseShowManagement.Common.Extensions.GetEnumDescription(userValueTypeID);
+}
+
+<div class="row">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="PrflCrdSec">
+            <div class="FlexMob">
+                <div>
+                    <img src="@ViewBag.user.ProfileImage" class="PrflImg" />
+                </div>
+                @*This edit is for phone view*@
+                <div>
+                    <img src="~/Images/RedEdit.svg" data-bs-toggle="modal" data-bs-target="#EditProfileModal" class="MobViewSnd" />
+                </div>
+                @*This edit is for phone view*@
+            </div>
+            <div>
+                <div class="PrflName">
+                    @ViewBag.user.FirstName @ViewBag.user.LastName
+                </div>
+                <div class="PrflBadge">
+                    @if (Convert.ToInt16(@userTypeID) == 1)
+                    {
+                        <span>Admin</span>
+                    }
+                    else
+                    {
+                        <span>Manager</span>
+                    }
+                </div>
+            </div>
+            @*This edit is for web view*@
+            <div>
+                <img src="~/Images/RedEdit.svg" onclick="OpenUpdateModal(@ViewBag.user.UserID)" data-bs-toggle="modal" data-bs-target="#EditProfileModal" class="MobView CursrPntr" />
+            </div>
+            @*This edit is for web view*@
+        </div>
+        <div class="d-flex">
+            <div>
+                <img src="~/Images/Mail.svg" style="margin-right:10px;" />
+            </div>
+            <div class="MailTxt">
+                @ViewBag.user.Email
+            </div>
+        </div>
+        <div class="d-flex" style="margin-top:10px;">
+            <div>
+                <img src="~/Images/Phone.svg" style="margin-right:10px;" />
+            </div>
+            <div class="MailTxt">
+                @ViewBag.user.Phone
+            </div>
+        </div>
+    </div>
+</div>

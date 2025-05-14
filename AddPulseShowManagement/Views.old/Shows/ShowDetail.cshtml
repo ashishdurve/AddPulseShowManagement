@@ -1,0 +1,197 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+@{
+    ViewData["Title"] = "ShowDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="MainSecOff" id="secShowDetails">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+
+                <div class="">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/Shows/Shows" class="BrdCrmTxt">Activity</a>
+                            </li>
+                            <li class="breadcrumb-item active BrdCrmSubTxt" aria-current="page">Activity Detail</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="PageBrdr"></div>
+
+                <div class="ShowDetHdrBx">
+
+                    <div class="d-flex DashResp3">
+                        <div>
+                            <div class="ShowDetHdrTxt">Activity Name</div>
+                            <div class="ShowDetHdrTxt1">@ViewBag.show.ShowName</div>
+                        </div>
+                        @*<div class="d-flex DashResp3">
+                            
+                            <div>
+                                <div class="ShowDetHdrTxt">Start Date</div>
+                                <div class="ShowDetHdrTxt1">@ViewBag.show.StartDate.ToString("d MMM, yyyy")</div>
+                            </div>
+
+                            <div>
+                                <div class="ShowDetHdrTxt">End Date</div>
+                                <div class="ShowDetHdrTxt1">@ViewBag.show.EndDate.ToString("d MMM, yyyy")</div>
+                            </div>
+
+                        </div>*@
+                    </div>
+
+                    <div class="ShowDetEditBx d-none">
+                        <img src="~/Images/ShowDetEditIc.svg" class="ShowDetEditIc"/>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:30px;">
+            @foreach(AddPulseShowManagement.Data.ViewModels.TeamsViewModal tm in @ViewBag.teamsViews)
+            {
+            <div class="col-12 col-md-12 col-lg-6 mt-2">
+
+                <div class="ShowDetCrdMainBx">
+
+                    <div class="ShowDetCrdHdr">
+
+                        <div class="ShowDetCrdHdrTxt">@tm.TeamName</div>
+                        <a href="/Shows/ManageTeam?teamID=@tm.TeamID" style="text-decoration:none;">
+                            <div class="ShowDetCrdModBtn">Manage</div>
+                        </a>
+
+                    </div>
+
+                    <div class="ShowDetCrdBdy">
+
+                         <div class="table-responsive">
+                        <table id="ShowsDetailTbl1" class="display table table-striped ShowsDetailTbl" style="width: 100%;">
+                            <thead class="HeadTbl" style="border-bottom: transparent;">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Polar ID</th>
+                                    <th scope="col">Live Pulse</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (AddPulseShowManagement.Data.DataTableModels.Contestants item in tm.contestants)
+                                {
+                                    <tr>
+                                    <td>
+                                       <div class="ContSec">
+                                            <div>
+                                                   <img src="@item.ProfileImage" class="ImgCont" />
+                                            </div>
+                                             <div>
+                                                   @item.Name
+                                             </div>
+                                       </div>
+                                    </td>
+                                    <td>@item.PolarID</td>
+                                    <td id="tblContestantLivePulse_@item.ContestantID">@item.LivePulse</td>                                    
+                                </tr>
+                                }
+                               
+                            </tbody>
+                        </table>
+                    </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            }
+            
+        </div>
+
+    </div>
+</section>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#Shows').addClass('activeHead');
+            $('#ActiveTitle3').addClass('activeSnd');
+             setTimeout(LayoutToggle(), 5000);
+        });
+  
+        table = $('.ShowsDetailTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": false,
+            "searching": false,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+        });
+  
+           
+     function ShowTableCardData() {                
+          UpdateContestantData();
+      }
+
+       function LayoutToggle(fval)        
+       {           
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+        
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('secShowDetails');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+            }
+        }
+
+     var auto_refreshLiveCardData = setInterval(function () { ShowTableCardData() }, @ViewBag.refreshTimeVal);
+     ShowTableCardData();
+
+    function UpdateContestantData()
+    {
+          $.ajax({
+                 type: 'GET',
+                 url: "/shows/UpdateShowDetail?showID="+@ViewBag.showID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) { 
+             
+                   $.each(data.contestantlst, function(index, value) { 
+                       $("#tblContestantLivePulse_"+value.contestantID).html(value.livePulse);
+                      
+                    });
+                 
+                 }
+             });
+    }
+
+
+    </script>
+    }
+

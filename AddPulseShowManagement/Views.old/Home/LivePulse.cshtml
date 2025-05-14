@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "LivePulse";
+    Layout = "~/Views/Shared/_LivePulseLayout.cshtml";
+}
+
+<section class="LivePulseBg" id="LivePulBg">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12 col-lg-12">
+
+                <div class="LivePulTitle digital-clock">
+                    HOUR:MIN:SEC
+                </div>
+
+            </div>
+        </div>
+        @foreach (KeyValuePair<long, string> item1 in @ViewBag.teams)
+        {
+            <div class="text-center TeamTxtLivePulse">
+                @item1.Value
+            </div>
+            <div class="row BrdLivePulse">
+                @foreach (AddPulseShowManagement.Data.ViewModels.LivePulseView item in @ViewBag.members)
+                {
+                    @if (@item1.Key == @item.TeamID)
+                    {
+                        @if (@item.IsVoted == 1)
+                        {
+                            <div class="col-12 col-md-6 col-lg-4 LivePulCol">
+                                <div class="LivePulTxtRed d-flex justify-content-center">
+                                    @item.Name
+                                </div>
+                                <div class="LivePulTxtRed1 d-flex justify-content-center" id="teamlivePulse_@item.PlayerID">
+                                    @item.LivePulse
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12 col-md-6 col-lg-4 LivePulCol">
+                                <div class="LivePulTxt d-flex justify-content-center">
+                                    @item.Name
+                                </div>
+                                <div class="LivePulTxt1 d-flex justify-content-center" id="teamlivePulse_@item.PlayerID">
+                                    @item.LivePulse
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+
+            </div>
+        }
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="LivePulFtr">
+                    @DateTime.Now.Day.ToString().@DateTime.Now.Month.ToString().@DateTime.Now.Year.ToString()
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section scripts{
+<script>
+        $(document).ready(function () {
+            $('#LivePulse').addClass('activeHead');
+            $('#ActiveTitle10').addClass('activeSnd');
+          clockUpdate();
+           setInterval(clockUpdate, 1000);
+        });
+
+    function clockUpdate() {
+      var date = new Date();
+    
+     //date =  new Date(moment.utc().utcOffset('+01:00'));
+      //console.log("date "+date);
+     // $('.digital-clock').css({'color': '#fff', 'text-shadow': '0 0 6px #ff0'});
+      function addZero(x) {
+        if (x < 10) {
+          return x = '0' + x;
+        } else {
+          return x;
+        }
+      }
+
+      function twelveHour(x) {
+        if (x > 12) {
+          return x = x - 12;
+        } else if (x == 0) {
+          return x = 12;
+        } else {
+          return x;
+        }
+      }
+
+     // var h = addZero(twelveHour(date.getHours())); // for 12 hr format
+      var h = addZero(date.getHours()); // for 24 hr format
+      var m = addZero(date.getMinutes());
+      var s = addZero(date.getSeconds());
+
+      $('.digital-clock').text(h + ':' + m + ':' + s)
+    }
+
+      function LiveCardData() {                
+          UpdateLivePulse();
+      }
+
+     var auto_refreshLiveCardData = setInterval(function () { LiveCardData() }, @ViewBag.refreshTimeVal);
+     LiveCardData();
+
+    function UpdateLivePulse()
+    {
+          $.ajax({
+                 type: 'GET',
+                 url: "/home/UpdateLivePulse",
+                 data: {},
+                 success: function (data, textStatus, jqXHR) { 
+                   
+                   $.each(data.members, function(index, value) {                     
+                      
+                       $.ajax({
+                             type: 'GET',
+                             url: '../teams/GetContestantLiveGraphData?contestantID='+value.playerID,
+                             data: {},
+                             success: function (data1, textStatus, jqXHR) { 
+                    
+                                    $("#teamlivePulse_"+value.playerID).html(data1.plot0);
+                             }
+                         });
+
+                       
+                      
+                    });
+                 
+                 }
+             });
+
+             //
+    }
+</script>
+
+
+}
+

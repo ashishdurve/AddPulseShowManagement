@@ -1,0 +1,148 @@
+﻿
+
+<table id="TblCont" class="display table table-striped" style="width: 100%;">
+    <thead class="HeadTbl" style="border-bottom: transparent;">
+        <tr>
+            <th>ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Activity</th>
+            <th scope="col">Teams Name</th>
+            <th scope="col">Polar ID</th>
+            <th scope="col">Live Pulse</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+     var table = '';
+    
+     function GetTableData(){
+            table =  $('#TblCont').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "lengthChange": false,            
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "rowId": 'contestantID',
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+            "ajax": {
+                    "url": "/contestants/GetContestantTable?showID="+@ViewBag.showID,
+                    "type": "POST",
+                },
+                "columns": [                
+                {
+                    "data": "contestantID",
+                    "orderable": false,
+                    "visible": false,
+                },
+                {
+                    "data": "name",
+                    "orderable": true,
+                },
+                {
+                    "data": "showName",
+                    "orderable": true,
+                },
+                {
+                    "data": "teamName",
+                    "orderable": true,
+                },
+                {
+                    "data": "polarID",
+                    "orderable": true,
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "render": function ( data, type, row, meta ) {                        
+                        var html='';
+                        
+                        html='<div id="tblContestantLivePulse_'+data.contestantID+'">'
+                                +data.livePulse                                  
+                                +'</div>';                      
+                        return html;
+                    }
+                }
+                ,
+                {
+                    "data": null,
+                    "orderable": false,
+                    "visible": true,
+                    "render": function (data, type, row, meta) {
+                        var html = '';
+                        html = '<div class="d-flex justify-content-end">' +
+                            '<a href="#"  onclick="DeleteContestant(' + data.contestantID  +' ); return false;">' +
+                            '<img src="/Images/delete.png" class="" />' +
+                            '</a>' +
+                            '</div>';
+                        return html;
+                    }
+                },
+                {
+                    "data":null,
+                    "orderable": false,
+                    "visible":false,
+                    "render": function ( data, type, row, meta ) {                        
+                        var html='';
+                        html='<div class="d-flex justify-content-end">'+
+                            '<a href="#"  >' +
+                                       '<img src="/Images/DetailIcon.svg" class="" />'+
+                                  '</a>'+
+                              '</div>';                      
+                        return html;
+                    }
+                }
+                ]
+
+        });
+
+        
+     $('.dataTables_filter').addClass('d-none');
+     }
+
+
+      var auto_refreshContestantCardData = setInterval(function () { GetUpdateTableData() }, 5000);
+      
+      GetUpdateTableData();
+
+      GetTableData();
+
+      function GetUpdateTableData()
+      {          
+          
+            $.ajax({
+                 type: 'GET',
+                 url: "/contestants/GetUpdateContestantTable?showID="+@ViewBag.showID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                      
+                     
+                   $.each(data, function(index, value) {                         
+                       $("#tblContestantLivePulse_"+value.contestantID).html(value.livePulse);                 
+                    });                 
+                 }
+             });
+      }
+
+
+     $('#searchmember-input').keyup(function(){         
+         table.search($(this).val()).draw() ;
+     });
+
+</script>

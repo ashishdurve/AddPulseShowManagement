@@ -1,0 +1,672 @@
+﻿
+       @*  <div class="DashTitle">Team</div>
+
+        <div class="DashBrdr"></div> *@
+
+        <div class="row" style="margin-bottom:10px !important">
+
+            <div class="col-md-12 col-lg-2">
+
+                <div class="d-flex align-items-baseline">
+
+                    <div class="DashCrdBdyTxt2">Teams Name:</div>
+                    <div class="DashCrdBdyTxt3">@ViewBag.team.TeamName</div>
+
+                </div>
+
+            </div>
+
+            
+            <div class="col-md-12 col-lg-6">
+
+                <div class="d-flex align-items-baseline">
+
+                   <div id="" class="">
+                       <button type="button" class="ShowBtn2" id="countdown">Countdown</button>
+                   </div>
+
+                   
+                    <div id="ten-countdown" style="display:none" class="countdown">
+                       @ViewBag.timer
+                   </div>
+
+                     <div id="" class="">
+                        <button type="button" style="display:none" class="ShowBtn2" onclick="plusone()" id="countdownPlus">+1</button>
+                   </div>
+                   <div id="" class="">
+                       <button type="button" style="display:none" class="ShowBtn2"  onclick="minusone()" id="countdownMinus"" >-1</button>
+                   </div>
+                   <div id="" class="">
+                       <button type="button" style="display:none" class="ShowBtn2" id="countdownStart">Start</button>
+                   </div>
+                   <div id="" class="">
+                       <button type="button" style="display:none" class="ShowBtn2" id="countdownPause" >Pause</button>
+                   </div>
+                   <div id="" class="">
+                       <button type="button" style="display:none" class="ShowBtn2" id="countdownRestart">Continue</button>
+                   </div>
+                   <div id="" class="">
+                       <button type="button" style="display:none" class="ShowBtn2" id="countdownStop">Stop</button>
+                   </div>
+                 
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+                                                <div class="col-12 col-md-12 col-lg-5">
+                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Highest pulse in team:</div>
+                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+                                                    <div class="DashCrdBdyTxt1"><span id="teamHighTeamPulseVal">@ViewBag.teamdata.highTeamPulse</span>  (<span id="teamHighTeamPulseName">@ViewBag.teamdata.highPulseName</span>)</div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-12 col-lg-5">
+                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Lowest pulse in team:</div>
+                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+                                                    <div class="DashCrdBdyTxt1"><span id="teamLowTeamPulseVal">@ViewBag.teamdata.lowTeamPulse</span>(<span id="teamLowTeamPulseName">@ViewBag.teamdata.LowPulseName</span>)</div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-12 col-lg-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Average pulse:</div>
+                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+                                                    <div class="DashCrdBdyTxt1"><span id="teamAvgTeamPulse">@ViewBag.teamdata.avgTeamPulse</span></div>
+                                                </div>
+                                                </div>
+
+                                            </div>
+        <div class="row" style="margin-top:20px">
+
+            
+
+            @foreach(AddPulseShowManagement.Data.ViewModels.ContestantsView item in ViewBag.cv)
+            {
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3" style="margin-bottom:20px;">
+
+                <div class="DashSubCrdMainBx">
+
+                    <div class="DashSubCrdHdr">
+
+                        <div class="d-flex">
+                            <div>
+                                <img src="@item.ProfileImage" class="DashSubCrdDp" />
+                            </div>
+                            <div>
+                                <div class="DashSubCrdTxt">@item.Name</div>
+                                <div class="d-flex">
+                                    <div class="DashSubCrdTxt1">Polar Id:</div>
+                                    <div class="DashSubCrdTxt2">@item.PolarID</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="DashSubCrdBdy">
+
+                        <div class="row">
+                            <div class="col-3 col-md-3 col-lg-3">
+
+                                <div class="DashSubCrdTxt3">Live</div>
+                                <div class="d-flex justify-content-center">
+                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                    <div class="DashSubCrdTxt4" id="teamlivePulse_@item.ContestantID">@item.LivePulse</div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-3 col-md-3 col-lg-3">
+
+                                <div class="DashSubCrdTxt3">Highest</div>
+                                <div class="d-flex justify-content-center">
+                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                    <div class="DashSubCrdTxt4" id="teamhighPulse_@item.ContestantID">@item.HighestPulse</div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-3 col-md-3 col-lg-3">
+
+                                <div class="DashSubCrdTxt3">Lowest</div>
+                                <div class="d-flex justify-content-center">
+                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                    <div class="DashSubCrdTxt4" id="teamlowPulse_@item.ContestantID">@item.LowestPulse</div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-3 col-md-3 col-lg-3">
+
+                                <div class="DashSubCrdTxt3">Avg</div>
+                                <div class="d-flex justify-content-center">
+                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                    <div class="DashSubCrdTxt4" id="teamavgPulse_@item.ContestantID">@item.AvgPulse</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="DashSubCrdBrdr"></div>
+
+                        <div>
+                            <div id='myTeam_@ViewBag.teamDiv_@item.ContestantID' class="dashboardChart"></div>
+
+                            <style>
+                            #myTeam_@ViewBag.teamDiv_@item.ContestantID-license-text{
+                                display:none;
+                            }
+                            </style>
+
+                            <script>
+
+                            var xvals='@item.XGraphVal';
+                            var xgraphvals=xvals.split(',');
+                            var srtgraphval='@item.GraphVal';
+                            var graphlst=srtgraphval.split(',');
+                            var dgraphlst=[];
+                            $.each(graphlst, function(index, value) { 
+                              dgraphlst.push(parseInt(graphlst[index]));
+                            });
+                          
+                                //var myDashConfig = {
+                                //    type: 'line',
+                                //    plotarea: {
+                                //        marginLeft: '35px',
+                                //        marginRight: '-20px',
+                                //        marginTop: '-20px',
+                                //        marginBottom: '-20px',                                       
+                                //    },
+                                //    plot: {
+                                //        aspect: 'spline',
+                                //        lineWidth: '2px',
+                                //        lineColor: '#E63946',
+                                //        shadow: 'true',
+                                //        marker: {
+                                //            visible: false,
+                                //        },
+                                //    },
+                                //    scaleY: {
+                                //        lineWidth: 1,
+                                //        lineColor: '#707070',
+                                //        lineStyle: 'solid',
+                                //        guide: {
+                                //            lineColor: '#CCCCCC',
+                                //            lineStyle: 'solid'
+                                //        },
+                                //        maxValue: '200',
+                                //        minValue: '50px',
+                                //        step: 50,
+                                //        item: {
+                                //            fontColor: '#333333',
+                                //            fontSize: '10px',
+                                //        },
+                                //    },
+                                //    scaleX: {
+                                //        lineWidth: 1,
+                                //        lineColor: '#707070',
+                                //        lineStyle: 'solid',
+                                //        labels: xgraphvals,
+                                //        item: {
+                                //            color: '#53585E',
+                                //            fontSize: '10px',                                            
+                                //        },
+                                //    },
+                                //    "series": [{ "values": dgraphlst }]
+                                //};
+
+                                //zingchart.render({
+                                //    id: 'myTeam_@ViewBag.teamDiv_@item.ContestantID',
+                                //    data: myDashConfig,
+                                //    height: "100%",
+                                //    width: "100%"
+                                //});
+                                 var myConfig_@item.ContestantID = {
+                                                            type: 'line',
+                                                            plotarea: {
+                                                                marginLeft: '35px',
+                                                                marginRight: '-20px',
+                                                                marginTop: '-20px',
+                                                                marginBottom: '-20px',                                       
+                                                            },
+                                                            "crosshair-x": {
+
+                                                            },
+                                                            plot: {
+                                                                aspect: 'spline',
+                                                                lineWidth: '2px',
+                                                                lineColor: '#E63946',
+                                                                shadow: 'true',
+                                                                marker: {
+                                                                    visible: false,
+                                                                },
+                                                                tooltip: {
+                                                                    visible: false
+                                                                },
+                                                            },
+                                                             //real-time feed
+                                                          refresh: {
+                                                            type: 'feed',
+                                                            transport: 'http',
+                                                            url: '../teams/GetContestantLiveGraphData?contestantID=@item.ContestantID',
+                                                            interval: @ViewBag.refreshTimeVal,
+                                                            maxTicks: @ViewBag.points,
+                                                            adjustScale: true,
+                                                            resetTimeout: 9999999999999,
+                                                          },
+                                                            scaleY: {
+                                                                lineWidth: 1,
+                                                                lineColor: '#707070',
+                                                                lineStyle: 'solid',
+                                                                guide: {
+                                                                    lineColor: '#CCCCCC',
+                                                                    lineStyle: 'solid'
+                                                                },
+                                                                maxValue: '175',
+                                                                minValue: '50px',
+                                                                step: 25,
+                                                                item: {
+                                                                    fontColor: '#333333',
+                                                                    fontSize: '10px',
+                                                                },
+                                                            },
+                                                            scaleX: {
+                                                                lineWidth: 1,
+                                                                lineColor: '#707070',
+                                                                lineStyle: 'solid',
+                                                                labels: xgraphvals,
+                                                                item: {
+                                                                    color: '#53585E',
+                                                                    fontSize: '10px',                                            
+                                                                },
+                                                            },
+                                                            "series": [{ "values": dgraphlst,"text":"Pulse" }]
+                                                        };
+
+                                   
+
+
+                                                 zingchart.render({
+                                                            id: 'myTeam_@ViewBag.teamDiv_@item.ContestantID',
+                                                            data: myConfig_@item.ContestantID,
+                                                            height: "100%",
+                                                            width: "100%"
+                                                });
+
+
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>           
+
+        <script>        
+         $('.Dash4').select2({
+            minimumResultsForSearch: -1,          
+            dropdownAutoWidth: true,
+        });
+
+
+        $('.Dash4').on('select2:select', function (e) {            
+            GetTeamData(parseInt($(this).val()));
+        });
+
+      
+        function TeamCardData(cardValue) {                
+                UpdateTeamCardValues(cardValue);
+        }
+
+        
+        // A $( document ).ready() block.
+        $( document ).ready(function() {
+            var contCD = '@ViewBag.continueCD';            
+            var paused = '@ViewBag.paused';            
+            var stopped = '@ViewBag.stopped';            
+            if(contCD == 'True')
+            {
+                if(paused == 'True')
+                {
+                    paused = true;
+                    $('#countdownPause').click();
+                }
+                else
+                    $('#countdownRestart').click()
+            }
+        });
+
+        
+        var auto_refreshTeamCardData = setInterval(function () { TeamCardData($('#dashCardID').val()) }, @ViewBag.refreshTimeVal);
+        TeamCardData($('#dashCardID').val());
+
+
+        function UpdateTeamCardValues(cardValue)
+        {
+            if (cardValue == $('#dashCardID').val()) {
+
+                $.ajax({
+                    type: 'GET',
+                    url: "/teams/UpdateTeamCardValues?teamDiv=teamDiv&teamID=" + @ViewBag.teamID+"&hour=" + @ViewBag.hour+"&isConfigUpdated=" + @ViewBag.isConfigUpdated,
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {
+
+                        $.each(data.cv, function (index, value) {
+                            $("#teamlivePulse_" + value.contestantID).html(value.livePulse);
+                            $("#teamhighPulse_" + value.contestantID).html(value.highestPulse);
+                            $("#teamlowPulse_" + value.contestantID).html(value.lowestPulse);
+                            $("#teamavgPulse_" + value.contestantID).html(value.avgPulse);
+                        });
+
+
+                        $("#teamHighTeamPulseVal").html(data.teamdata.highTeamPulse);
+                        $("#teamHighTeamPulseName").html(data.teamdata.highPulseName);
+                        $("#teamLowTeamPulseVal").html(data.teamdata.lowTeamPulse);
+                        $("#teamLowTeamPulseName").html(data.teamdata.lowPulseName);
+
+                        $("#teamAvgTeamPulse").html(data.teamdata.avgTeamPulse);
+
+                    }
+                });
+            }
+        }
+
+
+        
+          window.addEventListener("load", () => {
+             
+            function handleNetworkChange(event) {
+                if (navigator.onLine) {
+                    
+                    //  document.body.classList.remove("offline");
+                    
+
+                    $('body').css('pointer-events', 'auto');
+                    $('body').css('filter', 'grayscale(0%)');
+
+                } else {
+                  
+                    $('body').css('pointer-events', 'none');
+                    $('body').css('filter', 'grayscale(100%)');
+                }
+            }
+            window.addEventListener("online", handleNetworkChange);
+            window.addEventListener("offline", handleNetworkChange);
+        });
+
+        //function countdown( elementName, minutes, seconds )
+        //{
+            var element, endTime, hours, mins, msLeft, time;
+            var timeOut; 
+            var paused = true;
+
+            function twoDigits( n )
+            {
+                return (n <= 9 ? "0" + n : n);
+            }
+
+            function updateTimer()
+            {              
+
+                msLeft = endTime - (+new Date);
+                if ( msLeft < 1000 ) {
+                    element.innerHTML = "Time is up!";
+                } else {
+                    time = new Date( msLeft );
+                    hours = time.getUTCHours();
+                    mins = time.getUTCMinutes();
+
+                    console.log(hours);
+
+                    if(hours >0)
+                        mins = mins + (hours*60);
+                    //element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+                    if(paused === false)
+                    {
+                        element.innerHTML = twoDigits( mins )  + ':' + twoDigits( time.getUTCSeconds() );
+                        timeOut = setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+                        var seconds = twoDigits(time.getUTCSeconds());
+
+                        if (seconds % 10 === 0) {
+
+
+                            $.ajax({
+                                type: 'GET',
+                                async: true,
+                                url: "/livescreen/UpdateCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + twoDigits(mins) + "&seconds=" + twoDigits(time.getUTCSeconds()),
+                                data: {},
+                                success: function (data, textStatus, jqXHR) {
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            function stopTimer()
+            {
+                clearTimeout(timeOut);
+            }
+
+           
+        //}
+
+        $('#countdownStart').click(function(){
+            paused = false;
+              const myArray = $('#ten-countdown').text().split(":");              
+              minutes = parseInt(myArray[0]);
+              seconds = 0;              
+            element = document.getElementById("ten-countdown");
+            endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;            
+            
+            //countdown("ten-countdown", myArray[0], 0);
+            $('#ten-countdown').show();            
+            $('#countdownPause').show();
+            $('#countdownStop').show();
+            $('#countdownStart').hide();
+            //$('#countdownPlus').hide();
+            //$('#countdownMinus').hide();
+
+             $.ajax({
+                type: 'GET',
+                async: false,
+                url: "/livescreen/CreateCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
+                data: {},
+                success: function (data, textStatus, jqXHR) {                    
+                  updateTimer();
+                }
+                    });             
+
+        });
+
+         $('#countdownStop').click(function(){            
+            
+            $('#ten-countdown').show();            
+            $('#countdownPause').hide();
+            $('#countdownStop').hide();
+            $('#countdownRestart').hide();
+            $('#countdownStart').show();
+            $('#countdownPlus').show();
+            $('#countdownMinus').show();
+
+            const myArray = $('#ten-countdown').text().split(":");
+              minutes = parseInt(myArray[0]);
+              seconds = parseInt(myArray[1]);              
+              stopTimer();
+              $('#ten-countdown').text("60:00");
+            $.ajax({
+                type: 'GET',
+                async: false,
+                url: "/livescreen/StopCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
+                data: {},
+                success: function (data, textStatus, jqXHR) {         
+                    location.reload();
+                }
+                    });      
+
+        });
+
+        $('#countdownPause').click(function(){            
+            paused = true;
+            $('#ten-countdown').show();            
+            $('#countdownPause').hide();
+            $('#countdownRestart').show();
+            $('#countdownStop').show();
+            $('#countdownStart').hide();
+            $('#countdownPlus').show();
+            $('#countdownMinus').show();
+            $('#countdown').hide();
+
+             const myArray = $('#ten-countdown').text().split(":");
+              minutes = parseInt(myArray[0]);
+              seconds = parseInt(myArray[1]);
+
+              stopTimer();
+
+            $.ajax({
+                type: 'GET',
+                async: false,
+                url: "/livescreen/PauseCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
+                data: {},
+                success: function (data, textStatus, jqXHR) {                                      
+                }
+                    });      
+        });
+
+        $('#countdownRestart').click(function(){ 
+            $('#ten-countdown').show();
+            paused = false;
+            const myArray = $('#ten-countdown').text().split(":");
+              minutes = parseInt(myArray[0]);
+              seconds = parseInt(myArray[1]);
+
+            element = document.getElementById("ten-countdown");
+            endTime = (+new Date) + 1000 * ((60*minutes) + seconds) + 500;            
+            updateTimer();
+
+            $('#countdownPause').show();
+            $('#countdownRestart').hide();
+            $('#countdownStop').show();
+            $('#countdownStart').hide();
+            $('#countdownPlus').show();
+            $('#countdownMinus').show();
+            $('#countdown').hide();
+
+             $.ajax({
+                type: 'GET',
+                async: false,
+                url: "/livescreen/RestartCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
+                data: {},
+                success: function (data, textStatus, jqXHR) {                                      
+                }
+                    });   
+        });
+
+        $('#countdown').click(function(){            
+            $('#ten-countdown').show();
+            $('#countdownStart').show();
+            //$('#countdownPause').show();
+            $('#countdownPlus').show();
+            $('#countdownMinus').show();
+            $('#countdown').hide();
+
+        });
+
+        //$('#countdownPlus').click(function(){       
+
+        //    const myArray = $('#ten-countdown').text().split(":");
+    
+        //    var clock = parseInt(myArray[0]) + 1;
+        //    console.log(clock);
+        //    $('#ten-countdown').text(clock+ ":"+myArray[1]);
+        //});
+
+        // $('#countdownMinus').click(function(){       
+        //     const myArray = $('#ten-countdown').text().split(":");
+        //    var clock = parseInt(myArray[0]) - 1;
+        //    console.log(clock);
+        //    if(clock ==1)
+        //        clock = 2
+        //    $('#ten-countdown').text(clock + ":"+ myArray[1]);
+        //});
+
+            function plusone() {
+                var isPaused = paused;
+                stopTimer();
+                const myArray = $('#ten-countdown').text().split(":");
+
+                var clock = parseInt(myArray[0]) + 1;
+                //console.log(clock);
+
+                $('#ten-countdown').text(clock + ":" + myArray[1]);
+
+                //var isPaused = $('#countdownPause').is(":visible");
+                if (isPaused === false)
+                    paused = false;
+                else
+                    paused = true;
+
+                const myArray1 = $('#ten-countdown').text().split(":");
+                minutes = parseInt(myArray1[0]);
+                seconds = parseInt(myArray1[1]);
+
+                element = document.getElementById("ten-countdown");
+                endTime = (+new Date) + 1000 * ((60 * minutes) + seconds) + 500;
+                updateTimer();
+
+
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: "/livescreen/RestartCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes + "&seconds=" + seconds,
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {
+                    }
+                });
+            }
+
+            function minusone() {
+                var isPaused = paused;
+                stopTimer();
+                const myArray = $('#ten-countdown').text().split(":");
+                var clock = parseInt(myArray[0]) - 1;
+                console.log(clock);
+                if (clock <= 0)
+                    clock = 1
+                $('#ten-countdown').text(clock + ":" + myArray[1]);
+
+                if (isPaused === false)
+                    paused = false;
+                else
+                    paused = true;
+                const myArray1 = $('#ten-countdown').text().split(":");
+                minutes = parseInt(myArray1[0]);
+                seconds = parseInt(myArray1[1]);
+
+                element = document.getElementById("ten-countdown");
+                endTime = (+new Date) + 1000 * ((60 * minutes) + seconds) + 500;
+                updateTimer();
+
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    url: "/livescreen/RestartCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes + "&seconds=" + seconds,
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {
+                    }
+                });
+            }
+
+
+        </script>
+
+                   

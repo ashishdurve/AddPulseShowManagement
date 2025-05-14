@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "ContestantsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+
+<style>
+    .checkbox3 .check2 {
+        position: relative;
+        padding-left: 25px;
+        margin-bottom: 5px;
+        padding-right: 15px;
+        cursor: pointer;
+        color: #FF6F00;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #FFFFFF;
+        letter-spacing: 0px;
+        margin-left: 14px;
+    }
+</style>
+<section class="MainSecOff" id="secContestantLst">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="">
+                    <div class="">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item "><a href="/Teams/Teams" class="BrdCrmTxt">Teams</a></li>
+                                <li class="breadcrumb-item "><a href="/Teams/TeamDetail?teamID=@ViewBag.teamID" class="BrdCrmTxt">Team Detail</a></li>
+                                <li class="breadcrumb-item active BrdCrmSubTxt" aria-current="page">Contestants List</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                <div class="d-flex justify-content-end ContCrdRESP2">
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" id="searchmember-input" class="ContSrchBx">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="table-responsive" id="divContestantList">
+                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ContListSec">
+                    <div>
+                        <button type="button" class="CnclBtn" onclick="RedirectToTeams(@ViewBag.teamID)">Cancel</button>
+                    </div>
+                   
+                    <div>
+                        @*<a href="../Teams/TeamDetail" style="text-decoration:none;">*@
+                        <button type="button" onclick="SaveUpdateTeam(@ViewBag.teamID)" class="ApplyBtn">Apply</button>
+                       @* </a>*@
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+    {
+
+    <script>
+
+        var conLst=[];
+
+        $(document).ready(function () {
+            $('#Teams').addClass('activeHead');
+            $('#ActiveTitle4').addClass('activeSnd');
+            GetContestantsList();
+             setTimeout(LayoutToggle(), 500);
+        });
+
+       function LayoutToggle(fval)        
+       {           
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+        
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('secContestantLst');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+            }
+        }
+
+        function GetContestantsList(){            
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/ContestantsListView?teamID="+@ViewBag.teamID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                    $('#divContestantList').html('');
+                    $('#divContestantList').html(data);
+                 }
+             });
+        }
+
+        function ManageContestant(ID){            
+            if($('#id_'+ID).is(':checked')){                
+                conLst.push(ID);
+            }
+            else{                
+                  var index = conLst.indexOf(ID);
+                  conLst.splice(index, 1);
+            }
+        }
+
+        function SaveUpdateTeam(teamID)
+        {
+            
+            var constr=conLst.join();
+            if(teamID > 0){
+              $.ajax({
+                 type: 'POST',
+                 url: "/teams/SaveUpdateContestantList?teamID="+@ViewBag.teamID+"&contestantList="+constr,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {      
+                    
+                    window.location.href="/Teams/TeamDetail?teamID="+@ViewBag.teamID;
+
+                 }
+             });
+            }
+        }
+
+        function RedirectToTeams(teamID)
+        {
+            window.location.href="/Teams/TeamDetail?teamID="+teamID;
+        }
+
+
+    </script>
+    }

@@ -1,0 +1,258 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    string userTypeID = User.Claims.First(m => m.Type == "UserTypeID").Value;
+    AddPulseShowManagement.Common.UserType userValueTypeID = (AddPulseShowManagement.Common.UserType)Enum.Parse(typeof(AddPulseShowManagement.Common.UserType), userTypeID.ToString());
+    string userTypeName = AddPulseShowManagement.Common.Extensions.GetEnumDescription(userValueTypeID);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AddPulseShowManagement</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AddPulseShowManagement.styles.css" asp-append-version="true" />
+    <link href="~/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/animate.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/jquery-ui.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/resdatatable.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/jquery.dataTables.min.css" />
+    <link href="~/css/daterangepicker.css" rel="stylesheet" />
+    <script src="~/js/modernizr-2.8.3.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @*notificationfx*@
+   @* <link href="~/Assets/notification/ns-default.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Assets/notification/ns-style-bar.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Assets/notification/ns-style-growl.min.css" rel="stylesheet" asp-append-version="true" />
+    <script src="~/Assets/notification/classie.js"></script>
+    <script src="~/Assets/notification/notificationFx.js"></script>*@
+    <style>
+        .toggle {
+    display: block;
+    cursor: pointer;
+    padding-left:30px;
+    margin-top:60px;
+}
+
+@@media (min-width:769px) and (max-width:1024px) {
+.SidebarLayout {
+    position: fixed;
+    width: 138px;
+    height: 100%;
+    background: #fff;
+    transition: .5s;
+    overflow: hidden;
+    left: 0px;
+    top: 155px;
+    box-shadow: 0px 3px 10px #00000029;
+    overflow: auto;
+    padding-bottom: 50px;
+    margin-left: 30px;
+    box-shadow: 0px 0px 20px #0d47a129;
+    border-radius: 20px;
+}
+}
+
+@@media (max-width:768px) {
+.SidebarLayout {
+    position: fixed;
+    width: 138px;
+    height: 100%;
+    background: #fff;
+    transition: .5s;
+    overflow: hidden;
+    left: 0;
+    width: 92%;
+    z-index: 99;
+    top: 155px;
+    box-shadow: 0px 3px 10px #00000029;
+    overflow: auto;
+    padding-bottom: 50px;
+    margin-left: 30px;
+    box-shadow: 0px 0px 20px #0d47a129;
+    border-radius: 20px;
+}
+}
+    </style>
+
+
+</head>
+<body id="LayoutBdy" class="LivePulBdy">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-3 col-md-1">
+                        <div class="toggle" id="LivePulTogg" onclick="toggBg()">
+                            <i class="fas fa-bars" style="color:white;"></i>
+                        </div>
+                    </div>
+        </div>
+
+        <nav class="SidebarLayout d-none" id="LayoutSdBar">
+            <ul class="SideMenuByRole">
+
+                <li id="Dashboard">
+                    <a href="../home/dashboard">
+                        <span class="icon">
+                            <img src="~/Images/Dashboard.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle">Dashboard</span>
+                    </a>
+                </li>
+
+                <li id="Contestants">
+                    <a href="../Contestants/Contestants">
+                        <span class="icon">
+                            <img src="~/Images/Contestants.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle2">Contestants</span>
+                    </a>
+                </li>
+
+                <li id="Shows">
+                    <a href="../Shows/Shows">
+                        <span class="icon">
+                            <img src="~/Images/Shows.svg" class="">
+                        </span>
+                        <span class="title" id="ActiveTitle3">Activity</span>
+                    </a>
+                </li>
+
+                <li id="Teams">
+                    <a href="../Teams/Teams">
+                        <span class="icon">
+                            <img src="~/Images/Teams.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle4">Teams</span>
+                    </a>
+                </li>
+
+               @* <li id="EventLog">
+                    <a href="../EventLog/EventLog">
+                        <span class="icon">
+                            <img src="~/Images/Event Log.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Event Log</span>
+                    </a>
+                </li>*@
+               @if (Convert.ToInt16(@userTypeID) == 1)
+                {
+                <li id="Managers">
+                    <a href="../Manager/Managers">
+                        <span class="icon">
+                            <img src="~/Images/Managers.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle6">Managers</span>
+                    </a>
+                </li>
+                }
+                <li id="Configuration">
+                    <a href="../Configuration/Configuration">
+                        <span class="icon">
+                            <img src="~/Images/Configuration.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle7">Configuration</span>
+                    </a>
+                </li>
+                
+                <li id="LivePulse">
+                    <a href="../home/LivePulse">
+                        <span class="icon">
+                            <img src="~/Images/livePulse.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle10">Live Pulse</span>
+                    </a>
+                </li>
+                <li id="EventLog">
+                    <a href="../livescreen/Index">
+                        <span class="icon">
+                            <img src="~/Images/liveScreen.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Live Screen</span>
+                    </a>
+                </li>
+                <li id="EventLog">
+                    <a href="../diploma/Index">
+                        <span class="icon">
+                            <img src="~/Images/diploma.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Diploma</span>
+                    </a>
+                </li>
+                <li id="Setting" class="d-none">
+                    <a href="#">
+                        <span class="icon">
+                            <img src="~/Images/Setting.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle8">Setting</span>
+                    </a>
+                </li>
+                <li id="Profile" class="MobViewOnly">
+                    <a href="../Account/Profile">
+                        <span class="icon">
+                            <img src="~/Images/ProfileMob.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle9">My Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+   
+            @RenderBody()
+
+
+   
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/DisplayMessage.js"></script>
+    <script src="~/js/daterangepicker.min.js"></script>
+    @*<script src="~/Assets/avatar.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    <script type="text/javascript">
+
+       var getSidebar = document.querySelector('nav');
+        var getToggle = document.getElementsByClassName('toggle');
+        for (var i = 0; i < getToggle.length; i++) {
+            getToggle[i].addEventListener('click', function() {
+                getSidebar.classList.toggle('active');
+            });
+        }
+
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+     <script>
+
+
+        function toggBg() {
+            var element = document.getElementById('LivePulBg');
+            var element2 = document.getElementById('htmlDashboard');
+            var element1 = document.getElementById('LayoutSdBar');
+            if (typeof element !== "undefined")
+                element.classList.toggle('LivePulRespBg');
+
+            element1.classList.toggle('d-none');
+        }
+
+    </script>
+
+</body>
+</html>

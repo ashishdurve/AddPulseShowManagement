@@ -1,0 +1,180 @@
+﻿<table id="TeamsTbl" class="display table table-striped" style="width: 100%;">
+    <thead class="HeadTbl" style="border-bottom: transparent;">
+        <tr>
+             <th></th>
+            <th scope="col">Teams Name</th>
+            <th scope="col">Activity</th>
+            <th scope="col">Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+ 
+    </tbody>
+</table>
+
+
+<script>
+    
+        var m_startdate='';
+        var m_enddate='';
+        var m_ShowID=0;
+
+
+    $("#TeamsDate1").datepicker({
+           dateFormat: 'dd/mm/yy',
+           changeMonth: true,
+           changeYear: true,
+           minDate: new Date(),
+           onSelect: function(dateText) {               
+               var arr = dateText.split('/');
+               var year=arr[2];
+               var month=arr[1];
+               var day=arr[0];
+               $('#btnClear').removeClass('d-none');
+              m_startdate=year+'/'+month+'/'+day;
+
+             var dt2 = $('#TeamsDate2');
+             var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                   // dt2.datepicker('setDate', minDate);
+                    startDate.setDate(startDate.getDate() + 30);
+                    //sets dt2 maxDate to the last day of 30 days window
+                    dt2.datepicker('option', 'maxDate', startDate);
+                    dt2.datepicker('option', 'minDate', minDate);
+                    $(this).datepicker('option', 'minDate', minDate);
+           },           
+    });
+    
+    $("#TeamsDate2").datepicker({
+           dateFormat: 'dd/mm/yy',
+           changeMonth: true,
+           changeYear: true,
+           minDate: new Date(),
+           maxDate: "+50y",
+           onSelect: function(dateText) {
+              $('#btnClear').removeClass('d-none');             
+               
+               var arr = dateText.split('/');
+               var year=arr[2];
+               var month=arr[1];
+               var day=arr[0];
+
+              m_enddate=year+'/'+month+'/'+day;
+           },  
+    });
+        
+    $('#selShowID').on('select2:select', function (e) {        
+        
+        
+        m_ShowID=parseInt($(this).val());
+        $('#btnClear').removeClass('d-none');
+        GetTeams();
+    });
+
+    GetTeams();
+    var teamstable ;
+
+
+    function GetTeams(){
+        
+         managertable = $('#TeamsTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": true,
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+             "ajax": {
+                    "url": "/teams/GetTeamsList?ShowID="+m_ShowID+"&startDate="+m_startdate+"&endDate="+m_enddate,
+                    "type": "POST",
+                },
+                "columns": [
+                {
+                    "data": "teamID",
+                    "orderable": true,
+                    "visible": false,
+
+                },
+                {
+                    "data": "teamName",
+                    "orderable": true,
+                },
+                {
+                    "data": "showName",
+                    "orderable": true,
+                },
+
+                {
+                    "data": "createdDate",
+                    "orderable": true,
+                    "render": function ( data, type, row, meta ) {
+
+                       if(data != null && data != '' && data != undefined){
+                            return moment(data).utc().format('DD MMM, YYYY');
+                        }
+                        else{
+                            return '';
+                        } 
+                    }
+                },
+                {
+                     "data": null  ,
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                          var htmldata='<div class="d-flex justify-content-end">'+
+                                         '<div class="d-none">'
+                                         +'<img src="/Images/TrashIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<div class="CursrPntr" onclick="GetShowsModal('+oData.teamID+')">'
+                                         +'<img src="/Images/EditIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<a href="../Teams/TeamDetail?teamID='+oData.teamID+'">'
+                                         +'<img src="/Images/DetailIcon.svg" class="" />'
+                                         +'</a>'
+                                         +'</div>';
+                        $(nTd).html(htmldata);
+                        }
+                }
+                ],
+        });
+        $('.dataTables_filter').addClass('d-none');
+    }
+
+    function ClearFilter(){
+        m_startdate='';
+        m_enddate='';
+        m_ShowID=0;
+        $('#selShowID').val(0).trigger('change');
+        $('#btnClear').addClass('d-none');
+        GetTeams();
+    }
+     
+     $('#searchteam-input').keyup(function(){
+         managertable.search($(this).val()).draw() ;
+     });
+
+
+     $('#IsActive').on('click',function(){       
+        if($(this).is(":checked"))
+        {
+            $(this).val(true);
+        }
+        else
+        {
+            $(this).val(false);
+        }
+    });
+</script>

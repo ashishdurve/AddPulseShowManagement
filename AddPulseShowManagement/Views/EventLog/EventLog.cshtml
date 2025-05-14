@@ -1,0 +1,232 @@
+﻿@{
+    ViewData["Title"] = "EventLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+<section class="MainSecOff" id="EventId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ShowSec">
+                    <div class="ShowTxt">
+                        Event Log
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                @* <---------------------Shows hdr--------------->*@
+
+                <div class="d-flex justify-content-end ContCrdRESP2">
+
+                    <div class="ContestantsDpd EventTblResp1">
+                        <select class="Log1">
+                            <option value="-1"></option>
+                            <option>THE TWILIGHT ZONE</option>
+                            <option>ALL IN THE FAMILY </option>
+                            <option>THE DICK VAN DYKE SHOW</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-flex">
+                        <div class="DatePickIcBx">
+                            <img src="/Images/DateCalIc.svg" class="DateCalIc">
+                        </div>
+                        <div class="d-flex">
+                            <div><input style="border-radius: 0px;" type="text" id="EvtLog1" placeholder="Start Date" class="ShowDatePickStaBx"></div>
+                        </div>
+                        <div class="d-flex">
+                            <div><input type="text" placeholder="End Date" id="EvtLog2" class="ShowDatePickEndBx"></div>
+                        </div>
+                    </div>
+
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" class="ContSrchBx">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="table-responsive">
+                        <table id="EventLogTbl" class="display table table-striped" style="width: 100%;">
+                            <thead class="HeadTbl" style="border-bottom: transparent;">
+                                <tr>
+                                    <th scope="col">Show Name</th>
+                                    <th scope="col">Teams Name</th>
+                                    <th scope="col">Event Log</th>
+                                    <th scope="col">Modified By</th>
+                                    <th scope="col">Date & Time</th>
+                                </tr>
+                            </thead>
+
+
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                THE TWILIGHT ZONE
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Escape Hunt</td>
+                                    <td>Lorem ipsum dolor sit amet, consetetur sadipscing.</td>
+                                    <td>Chris Esson</td>
+                                    <td>16th Nov, 2022 2:34pm</td>
+                                </tr>
+                               <tr>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                ALL IN THE FAMILY
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Bright Reds</td>
+                                    <td>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</td>
+                                    <td>Lance Lambert</td>
+                                    <td>15th Nov, 2022 10:02am</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                THE TWILIGHT ZONE
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>The Avengers</td>
+                                    <td>Lorem ipsum dolor sit amet, consetetur sadipscing.</td>
+                                    <td>David Hash</td>
+                                    <td>15th Nov, 2022 12:04pm</td>
+                                </tr>
+
+                               <tr>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                THE DICK VAN DYKE SHOW
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Star Players</td>
+                                    <td>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</td>
+                                    <td>Morgan Sorenson</td>
+                                    <td>14th Jul, 2022 5:00pm</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="ContSec">
+                                            <div>
+                                                ALL IN THE FAMILY
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Friday’s Fighters</td>
+                                    <td>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</td>
+                                    <td>Freelance Lambert</td>
+                                    <td>14th Jul, 2022 7:30pm</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#EventLog').addClass('activeHead');
+            $('#ActiveTitle5').addClass('activeSnd');
+            setTimeout(LayoutToggle(), 1000);
+        });
+    
+        function LayoutToggle(fval)
+        { var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+         
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('EventId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+            }
+        }
+
+
+
+        table = $('#EventLogTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": false,
+            "searching": false,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+        });
+    </script>
+    <script>
+        $('.Log1').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Show'
+            },
+            dropdownAutoWidth: true,
+        });
+
+
+        $(function () {
+            $("#EvtLog1").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+            });
+        });
+
+        $(function () {
+            $("#EvtLog2").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+            });
+        });
+
+
+    </script>
+    }
+

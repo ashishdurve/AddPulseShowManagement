@@ -1,0 +1,266 @@
+﻿@{
+    ViewData["Title"] = "Shows";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+
+
+
+<section class="MainSecOff" id="ShowsId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ShowSec">
+                    <div class="ShowTxt">
+                        Activity
+                    </div>
+                    <div>
+                        <button type="button" class="ShowBtn" onclick="GetShowsModal(0)">Add Activity</button>
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                <div class="d-flex justify-content-end ContCrdRESP2">
+
+                   @* <div class="d-flex">
+                        <button class="d-none ShowModCanc"  id="btnClear" onclick="ClearFilter()"> x Clear Filter</button>
+                        <div class="DatePickIcBx">
+                            <img src="/Images/DateCalIc.svg" class="DateCalIc">
+                        </div>
+                        <div class="d-flex">
+                            <div><input style="border-radius: 0px;" type="text" id="ShowsDate1" placeholder="Start Date" class="ShowDatePickStaBx"></div>
+                        </div>
+                        <div class="d-flex">
+                            <div><input type="text" placeholder="End Date" id="ShowsDate2" class="ShowDatePickEndBx"></div>
+                        </div>
+                    </div> *@
+
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" class="ContSrchBx">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="table-responsive" id="divshowstableList">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*Add shows modal*@
+
+<div class="modal fade" id="AddShowsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document" id="divshowshtml">
+
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#Shows').addClass('activeHead');
+            $('#ActiveTitle3').addClass('activeSnd');
+            
+            GetShowsList();
+            setTimeout(LayoutToggle(), 1000);
+        });
+  
+        function LayoutToggle(fval)
+        {
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+
+
+          if(btntoggleVal == 1){
+            var element5 = document.getElementById('ShowsId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+          }
+        }
+       
+            $("#ShowsDate1").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+            });
+       
+            $("#ShowsDate2").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+            });
+       
+
+       
+
+        table = $('#ShowsTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": false,
+            "searching": false,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+        });
+
+         function GetShowsList(){
+            
+             $.ajax({
+                 type: 'GET',
+                 url: "/shows/GetShowTable",
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                    $('#divshowstableList').html('');
+                    $('#divshowstableList').html(data);
+                 }
+             });
+        }
+
+
+        function GetShowsModal(showID){
+           
+             $.ajax({
+                 type: 'GET',
+                 url: "/shows/GetShowsModal?showID="+showID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {  
+                     
+                    $('#divshowshtml').html('');
+                    $('#divshowshtml').html(data);
+                    $('#AddShowsModal').modal('show');
+                 }
+             });
+        }
+
+
+   function OnBookingChangeStartDate(id1) {
+        $("#"+id1).datepicker("show");
+    }
+
+    function UpdateShow()
+    {
+          var formdata = $("#frmSaveUpdateShow").serializeArray();     
+          var IsActive=1;
+           if ($('#chkIsActive').is(":checked"))
+            {
+              IsActive=1;
+            }
+            else
+            {
+                IsActive=0;
+            }
+
+
+        $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+            }, function (para, element) {
+            return $.validator.format("*Please Select the Value!");
+         });
+
+         $("#frmSaveUpdateShow").validate({
+            errorClass: 'Error',
+            rules:
+            {
+                ShowName:
+                {
+                    required: true,
+                },                
+                StartDate:
+                {                    
+                    required: true,
+                },
+                EndDate:{
+                   required: true,
+                }
+            },
+            messages:
+            {
+                ShowName:
+                {
+                    required: "Please enter show name.",
+                },
+                StartDate:
+                {
+                    required: "Please select start date.",
+                },
+                EndDate:
+                {                   
+                    required: "Please select end date.",
+                }
+            },
+            highlight: function (element) {
+                $(element).addClass('highlightError');
+                $(element).parent().addClass('highlightTextError');
+            },
+            unhighlight: function (element) {
+                
+               $(element).removeClass('highlightError');
+                $(element).parent().removeClass('highlightTextError');
+            },        
+            errorPlacement: function (error, element) {               
+                if (element.hasClass('select2-hidden-accessible')) {
+                    error.insertAfter(element.next('span'));
+                } else {
+                    error.insertAfter(element);                    
+                }
+            }
+        });
+
+        if($("#frmSaveUpdateShow").valid()){
+            $.ajax({
+                  type: 'POST',
+                  url: "/shows/SaveUpdateShows?IsActive="+IsActive,
+                  data: formdata,
+                  success: function (data, textStatus, jqXHR) {                                       
+                    if(data.showID >0)
+                       {
+                            GetShowsList();
+                            DisplayMessage(SuccessCheck+SpanStart+"Changes are made succesfully."+SpanEnd);
+                            $('#AddShowsModal').modal('hide');
+                       }
+                    else{
+                        DisplayMessage(ErrorCross+SpanStart+"<b>Something went wrong.</b>"+SpanEnd);
+                    }                        
+                  }
+           });
+        }
+        else{
+            DisplayMessage(ErrorCross+SpanStart+"Please resolve errors."+SpanEnd);
+        }
+    }
+
+    </script>
+    }
+

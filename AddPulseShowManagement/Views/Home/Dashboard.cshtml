@@ -1,0 +1,254 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+
+
+@*<section class="MainSec">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <label class="form-check-label ChckbxTxt" for="YesDpd">
+                        <div class="ChckBoxSec" style="margin-right:18px;">
+                            <div class="form-check Chckbox">
+                                <input class="form-check-input" type="radio" name="checkboxDistination" value="Yes" id="YesDpd" style="margin-right:22px;">
+                                Yes
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+*@
+
+
+<section>
+   @* <div class="MainSec">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+
+                    <div class="ShowSec">
+                        <div class="ShowTxt">
+                            Dashboard
+                        </div>
+                    </div>
+
+                    <div class="PageBrdr"></div>
+
+                    <div class="ShowDetHdrBx">
+
+                        <div class="d-flex justify-content-between DashResp3">
+                            <div class="d-flex DashResp3">
+                                <div>
+                                    <div class="ShowDetHdrTxt">Show Name</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.show.ShowName </div>
+                                </div>
+                                <div class="d-flex DashResp3">
+
+                                    <div>
+                                        <div class="ShowDetHdrTxt">Start Date</div>
+                                       
+                                        @if( @ViewBag.show.StartDate != DateTime.MinValue) {
+                                            <div class="ShowDetHdrTxt1">@ViewBag.show.StartDate.ToString("dd MMM, yyyy")</div>
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <div class="ShowDetHdrTxt">End Date</div>
+                                          @if( @ViewBag.show.EndDate != DateTime.MaxValue) {
+                                            <div class="ShowDetHdrTxt1">@ViewBag.show.EndDate.ToString("dd MMM, yyyy")</div>
+                                        }
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="ShowDetHdrTxt">Time Period</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.uniVal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+    <section id="htmlDashboard">
+
+    </section>
+ 
+
+
+
+</section>
+
+@section scripts
+    {
+
+
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+
+        var m_Version=@ViewBag.version;
+        $(document).ready(function () {
+            $('#Dashboard').addClass('activeHead');
+            $('#ActiveTitle').addClass('activeSnd');
+            if("@ViewBag.isConfigured" == "True"){
+                GetDashboard(0);                
+            }
+           
+        });
+
+
+        function LayoutToggle(fval)
+        {
+            var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+         
+         
+            if(btntoggleVal == 1){
+             var element = document.getElementById('divteamvsteamlast');
+            var element2 = document.getElementById('divpalyers');
+            var element3 = document.getElementById('divlast');
+            var element4 = document.getElementById('MainSecId');
+            
+            var elemen = document.getElementById('LayoutSdBar1');
+            element.classList.toggle('DashboardMainSec');
+            element2.classList.toggle('DashboardMainSec');
+            element3.classList.toggle('DashboardMainSec');
+            element4.classList.toggle('MainSec');
+            
+            elemen.classList.toggle('d-none');
+            }
+            else{
+                //
+                 //elemen.classList.toggle('d-none');
+            }
+        }
+
+
+        function VerifyConfigurationChange() {                
+              $.ajax({
+                 type: 'GET',
+                 url: "/home/VerifyConfigurationChange?version="+m_Version,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                   // refresh page
+                   
+                   if(data.isUpdated == true)
+                   {
+                       //location.reload();
+                      m_Version= data.sVersion;
+                       GetDashboard(1);
+                   }
+                   
+                 }
+             });
+        }
+
+        // var auto_refresh1 = setInterval(function () { VerifyConfigurationChange() }, 15000);
+        // VerifyConfigurationChange();
+      
+        function GetDashboard(isConfigUpdated)
+        {       
+            
+             $.ajax({
+                 type: 'GET',
+                 url: "/home/GetDashboard?isConfigUpdated="+isConfigUpdated,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                   
+                    $('#htmlDashboard').html('');
+                    $('#htmlDashboard').html(data);
+                 }
+             });
+        }
+        var srtlst='500, 180, 120, 120, 200, 175, 190';
+        var lst=srtlst.split(',');
+        var dlst=[];
+        $.each(lst, function(index, value) { 
+          dlst.push(parseInt(lst[index]));
+        });
+        var myDashConfig = {
+            type: 'line',
+            plotarea: {
+                marginLeft: '35px',
+                marginRight: '-20px',
+                marginTop: '-20px',
+                marginBottom: '-20px',              
+            },
+            plot: {
+                aspect: 'spline',
+                lineWidth: '2px',
+                lineColor: '#E63946',
+                shadow: 'true',
+                marker: {
+                    visible: false,
+                },
+
+            },
+            scaleY: {
+                lineWidth: 1,
+                lineColor: '#707070',
+                lineStyle: 'solid',
+                guide: {
+                    lineColor: '#CCCCCC',
+                    lineStyle: 'solid'
+                },
+                maxValue: '250',
+                minValue: '0px',
+                step: 50,
+                item: {
+                    fontColor: '#333333',
+                    fontSize: '10px',
+                },
+            },
+            scaleX: {
+                lineWidth: 1,
+                lineColor: '#707070',
+                lineStyle: 'solid',
+                labels: ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'],
+                item: {
+                    color: '#53585E',
+                    fontSize: '10px',
+                    //angle: '-35',
+                },
+            },
+            "series": [{ "values": dlst }]
+        };
+
+        zingchart.render({
+            id: 'myDashChart',
+            data: myDashConfig,
+            height: "100%",
+            width: "100%"
+        });
+
+
+        for (charti = 1; charti <= 15; charti++) {
+            zingchart.render({
+                id: `myDashChart${charti}`,
+                data: myDashConfig,
+                height: "100%",
+                width: "100%"
+            });
+        };
+    </script>
+
+    }

@@ -1,0 +1,221 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Live Screen";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LivePulseLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Tabs.css" asp-append-version="true" />
+<section class="LivePulseBg" id="LivePulBg">
+    <div class="container-fluid" style="margin-top:125px">
+   
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="d-flex text-center ContCrdRESP2">
+                    <div class="ContestantsDpd">                        
+                        <select class="Cont1" id="selShowID" name="selShowID">
+                            <option value="0">Select Team Name For Live Screen</option>
+                            @foreach (AddPulseShowManagement.Data.DataTableModels.Teams item in @ViewBag.Teams)
+                            {
+                                <option value="@item.TeamID">@item.TeamName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   <div class="row">
+    <div class="col-4 col-md-4 col-lg-4">
+                <div class="text-center centerImage" style=" display: flex; align-items: center; justify-content: center;">
+                <div>
+                        <img src="~/Images/IMG_8438.webp" class="d-none" style="margin-left:0px !important; margin-top:10px; width:400px; height:400px;  position: absolute;  top: 50%;  transform: translate(-50%, -50%);">
+                </div>
+                </div>
+                <div class="text-center centerImage">
+                    <img id="livescreen" class="d-none" src="/Images/livescreen11.png" />
+
+                </div>
+
+    </div>
+        <div class="col-8 col-md-8 col-lg-8">
+               <div class="row">
+				   <div class="timer text-center">60:00</div>
+			   </div>
+
+			   <div class="row sectionText text-center">
+				<div class="col-12 col-md-12 col-lg-12 text-center">Live:</div>
+			   </div>
+			   <div class="row">
+					   <div class="col-4 col-md-4 col-lg-4 headerText text-center">HøYESTE</div>
+					   <div class="col-4 col-md-4 col-lg-4 headerText text-center">GJENNOMSMITT</div>
+					   <div class="col-4 col-md-4 col-lg-4 headerText text-center">LAVESTE</div>
+			   </div>
+			   <div class="row mb-4">
+					   <div class="col-4 col-md-4 col-lg-4 highest text-center">0</div>
+					   <div class="col-4 col-md-4 col-lg-4 average text-center">0</div>
+					   <div class="col-4 col-md-4 col-lg-4 lowest text-center">0</div>
+			   </div>				
+				<div class="row"></div>
+				<div class="row sectionText text-center">
+				<div class="col-12 col-md-12 col-lg-12 text-center">Session record:</div>
+			   </div>
+			   <div class="row">
+					   <div class="col-6 col-md-6 col-lg-6 headerText text-center">HøYESTE</div>					   
+					   <div class="col-6 col-md-6 col-lg-6 headerText text-center">LAVESTE</div>
+			   </div>
+			   <div class="row">
+				   <div class="col-6 col-md-6 col-lg-6 session_highest text-center">0</div>
+				   <div class="col-6 col-md-6 col-lg-6 session_lowest text-center">0</div>               
+			   </div>
+            </div>
+	</div>
+        
+    </div>
+</section>
+
+@section scripts
+    {
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+        $('#selShowID').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '0', // the value of the option
+                text: 'Select Team Name For Live Screen'
+            },
+            //dropdownAutoWidth: true,
+        });
+
+        $(document).ready(function () {          
+            //clockUpdate();
+            //setInterval(clockUpdate, 1000);
+
+            $("#selShowID").change(function () {
+                UpdateLivePulse();
+            });
+        });
+
+        var auto_refreshLiveCardData = setInterval(function () { UpdateLivePulse() }, 1000);
+        UpdateLivePulse();
+
+        function UpdateLivePulse() {
+            if ($("#selShowID").val() >0)
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: "/livescreen/GetLivePulse?teamID=" + $("#selShowID").val(),
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {                    
+                        $(".highest").text(data.liveHighest);
+                        $(".lowest").text(data.liveLowest);
+                        $(".average").text(data.liveAverage);
+                        $(".session_highest").text(data.sessionHighest);
+                        $(".session_lowest").text(data.sessionLowest);
+
+                        $(".timer").text(data.timer);                    
+                        $('#livescreen').attr("src", data.imageName);
+                        $('#livescreen').removeClass("d-none");
+                        $('#livescreen').show();
+                    }
+                 });  
+            }
+            else{
+                $('#livescreen').hide();
+                $('#livescreen').addClass("d-none");
+            }
+        }
+        
+        </script>
+    }
+
+
+<style>
+
+    .centerImage {
+    display: block;
+    margin: 0 auto;
+}
+
+.highest {
+    /*position: absolute;
+    bottom: 45%;
+    right: 48.5%; */
+    font-size: 2vw; /** responsive font-size **/
+    color: white;
+	 background-image: url("/Images/box.png");
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.average {
+    /* position: absolute;
+    bottom: 45%;
+    right: 38%;  */
+    font-size: 2vw; /** responsive font-size **/
+    color: white;
+	background-image: url("/Images/box.png");
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.lowest {
+   /* position: absolute;
+    bottom: 45%;
+    right: 27.5%; */
+    font-size: 2vw; /** responsive font-size **/
+    color: white;
+	background-image: url("/Images/box.png");
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.session_lowest {
+   /* position: absolute;
+    bottom: 25%;
+    right: 33%; */
+    font-size: 2vw; /** responsive font-size **/
+    color: white;
+	background-image: url("/Images/box.png");
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.session_highest {
+   /* position: absolute;
+    bottom: 25%;
+    right: 43.5%; */
+    font-size: 2vw; /** responsive font-size **/
+    color: white;
+	background-image: url("/Images/box.png");
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.timer
+{
+    /*position: absolute;
+    bottom: 59%;
+    right: 27%; */
+    font-size: 6vw; /** responsive font-size **/
+    color: orangered;
+    font-family: E1234;
+}
+
+.sectionText
+{
+  font-size: 2vw; /** responsive font-size **/
+  color: white;
+  font-weight: bold;
+}
+.headerText
+{
+  font-size: 1vw; /** responsive font-size **/
+    color: white;
+	font-weight: bold;
+}
+</style>

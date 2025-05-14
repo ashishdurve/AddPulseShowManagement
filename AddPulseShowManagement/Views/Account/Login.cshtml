@@ -1,0 +1,162 @@
+﻿@{
+    Layout = null;
+}
+
+<meta name="viewport" content="width=device-width" />
+<title>Login</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link href="~/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/animate.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/jquery-ui.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+<script src="~/js/modernizr-2.8.3.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<section>
+    <form id="frmLogin" action="/account/login" method="post">
+        <div class="container-fluid">
+            <div class="row LoginBdy LoginBg">
+
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="LgInBx">
+                            <div class="LgInTitle">
+                                Login
+                            </div>
+
+                            <div class="LgInBrdr"></div>
+                            <span style="color:red;">@ViewBag.error</span>
+                            <div>
+                                <div class="LgInLbl">Email</div>
+                                <input type="text" id="userEmail" name="userEmail" class="LgInTxtBx form-control" />
+                            </div>
+
+                            <div>
+                                <div class="LgInLbl">Password</div>
+                                <input type="password" id="userPassword" name="userPassword" class="LgInTxtBx form-control" />
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center" style="margin-top:30px;">
+                                <div class="checkbox3">
+                                    <label class="check2">
+                                        Remember me
+                                        <input type="checkbox" id="chkRememberMe" class="form-control" name="chkRememberMe">
+                                        <span class="checkmark2"></span>
+                                    </label>
+                                </div>
+                                <div class="LgInForgotPass" data-bs-target="#forgotModal" data-bs-toggle="modal">Forgot Password?</div>
+                            </div>
+
+                            @*<a href="../Home/Dashboard" style="text-decoration:none;">
+                                
+                                </a>*@
+                            <button type="submit" class="LgInLogInBtn" onclick="VerifyLogin()">
+                                Login
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12" style="background: #0D47A1;">
+                    <div class="LoginImgBg">
+                        <img src="~/Images/LogoLogin.svg" class="LoginImg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+@* start forgot password modal*@
+<div class="modal fade" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document">
+
+        <div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+
+            <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+
+                <div class="ShowModTitle" id="exampleModalLabel">Forgot Password</div>
+                <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+
+            </div>
+
+            <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+
+                <div>
+                    <div class="ShowModLbl">Email</div>
+                    <input type="text" class="ShowModTxtBx" />
+                </div>
+            </div>
+
+            <div class="ShowModFoot">
+
+                <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+                <div class="ShowModAdd" data-bs-dismiss="modal">Send</div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* end forgot password modal*@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/moment.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/select2.min.js"></script>
+<script src="~/js/jquery-ui.min.js"></script>
+<script src="~/js/jquery.validate.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+@*<script src="~/js/DisplayMessage.js"></script>*@
+<script src="~/js/daterangepicker.min.js"></script>
+@*<script src="~/Assets/avatar.js"></script>*@
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/ValidationJs/Account/Login.js"></script>
+
+
+    @*Notificationfx*@
+    <link href="~/notification/ns-default.min.css" rel="stylesheet" />
+    <link href="~/notification/ns-style-bar.min.css" rel="stylesheet" />
+    <link href="~/notification/ns-style-growl.min.css" rel="stylesheet" />
+    <script src="~/notification/classie.js"></script>
+    <script src="~/notification/notificationFx.js"></script>
+
+
+<script src="~/js/DisplayMessage.js"></script>
+<script type="text/javascript">
+   
+    function VerifyLogin(){
+       
+        if($('#frmLogin').valid()){
+            console.log('success');
+               // $('#frmLogin').submit();
+            var data1=$('#frmLogin').serialize();
+             $.ajax({
+                        type: "POST",
+                        url: "/account/login",
+                        data:data1,
+                        success: function(data){
+                            
+                            if(data == 1 || data == '1' ){
+                                 window.location.href='/home/dashboard';
+                            }
+                            else if(data == 2 || data == '2'){                               
+                                DisplayMessage(ErrorCross+SpanStart+"<b>User inactive. Please activate user and try again.</b>"+SpanEnd);
+                            }
+                            else if(data == 3 || data == '3'){                              
+                                 DisplayMessage(ErrorCross+SpanStart+"<b>Invalid email or password.</b>"+SpanEnd);
+                            }
+                        }
+                  });
+        }
+        else{
+            console.log('fail');
+        }
+
+    }
+</script>

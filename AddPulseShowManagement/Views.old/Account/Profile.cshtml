@@ -1,0 +1,184 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    string userTypeID = User.Claims.First(m => m.Type == "UserTypeID").Value;
+    AddPulseShowManagement.Common.UserType userValueTypeID = (AddPulseShowManagement.Common.UserType)Enum.Parse(typeof(AddPulseShowManagement.Common.UserType), userTypeID.ToString());
+    string userTypeName = AddPulseShowManagement.Common.Extensions.GetEnumDescription(userValueTypeID);
+}
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .image-upload img {
+        width: 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    .PhotoUpldReg {
+        width: 110px;
+        height: 110px;
+        border: 2px dashed #0D47A1;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        text-align: center;
+        dispaly:none;
+    }
+
+    .image-upload > input {
+        display: none;
+    }
+
+    .UpldImgTxt {
+        font-size: 11px;
+        color: #0D47A1;
+        font-family: Roboto-Regular;
+        margin-top: 0px;
+    }
+</style>
+
+<section class="PrflSec">
+    <div class="container-fluid" id="divProfile">
+
+    </div>
+</section>
+
+@*edit profile modal*@
+
+<div class="modal fade" id="EditProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document" id="htmlEditUser">
+
+       
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#Profile').addClass('activeHead');
+            $('#ActiveTitle9').addClass('activeSnd');
+            ProfileData();
+        });
+
+        function ProfileData(){
+      
+             $.ajax({
+                      type: "POST",
+                      url: "/account/GetProfileData",
+                      data: {},                      
+                      success: function (data) {                         
+                         $('#divProfile').html();
+                         $('#divProfile').html(data);
+                      }
+                 }); 
+        }
+
+        function OpenUpdateModal(Userid)
+        {      
+                 $.ajax({
+                 type: 'GET',
+                 url: "/home/EditProfileModal?Userid="+Userid,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                      
+                        $('#htmlEditUser').html('');
+                        $('#htmlEditUser').html(data);
+                    }
+                 });
+        }
+                
+        function UpdateUserProfile(UserID)
+        {            
+           
+        $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+            }, function (para, element) {
+            return $.validator.format("*Please Select the Value!");
+         });
+
+         var mdlUserid=parseInt(UserID);
+
+         $("#frmUpdateUser").validate({
+            errorClass: 'Error',
+            rules:
+            {
+                FirstName:
+                {
+                    required: true,
+                },                
+                Phone:
+                {
+                    digits:true,
+                    required: true,
+                },
+                Password:{
+                    required: true,
+                    minlength: 6,
+                }
+                , ConfirmPassword: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#Password"
+                }
+            },
+            messages:
+            {
+                FirstName:
+                {
+                    required: "Please enter name.",
+                },                
+                Phone:
+                {                   
+                    required: "Please enter phone number.",
+                },
+                 Password:{
+                    required: "Please enter password.",                    
+                },
+                ConfirmPassword: {
+                     required: "password no same.",    
+                }
+               
+            },
+            highlight: function (element) {
+                $(element).addClass('highlightError');
+                $(element).parent().addClass('highlightTextError');
+            },
+            unhighlight: function (element) {
+               $(element).removeClass('highlightError');
+                $(element).parent().removeClass('highlightTextError');
+            },        
+            errorPlacement: function (error, element) {               
+                if (element.hasClass('select2-hidden-accessible')) {
+                    error.insertAfter(element.next('span'));                    
+
+                } else {
+                    error.insertAfter(element);                    
+                }
+            }
+        });
+        var formdata=$('#frmUpdateUser').serializeArray();
+       
+        if($('#frmUpdateUser').valid()){              
+               $.ajax({
+                      type: "POST",
+                      url: "/home/SaveUpdateUser",
+                      data: formdata,                      
+                      success: function (data) {
+                         DisplayMessage(SuccessCheck+SpanStart+"<b>Data updated successfully.</b>"+SpanEnd);
+                         ProfileData();
+                         $('#EditProfileModal').modal("hide");
+                      }
+                 });
+            }
+            else{
+              DisplayMessage(ErrorCross+SpanStart+"<b>Form data is not filled in proper format.</b>"+SpanEnd);
+            }
+        }
+    </script>
+    }
+

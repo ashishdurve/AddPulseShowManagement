@@ -1,0 +1,164 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Live Screen";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LivePulseLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Tabs.css" asp-append-version="true" />
+<section class="LivePulseBg" id="LivePulBg">
+    <div class="container-fluid" style="margin-top:125px">
+   
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="d-flex text-center ContCrdRESP2">
+                    <div class="ContestantsDpd">                        
+                        <select class="Cont1" id="selShowID" name="selShowID">
+                            <option value="0">Select Team Name For Live Screen</option>
+                            @foreach (AddPulseShowManagement.Data.DataTableModels.Teams item in @ViewBag.Teams)
+                            {
+                                <option value="@item.TeamID">@item.TeamName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+                <div class="text-center centerImage">
+                <img id ="livescreen" class="d-none" src="/Images/livescreen11.png" />
+                <div class="lowest"></div>
+                <div class="average"></div>
+                <div class="highest"></div>
+
+                <div class="session_lowest"></div>
+                <div class="session_highest"></div>
+
+                <div class="timer"></div>
+
+            </div>
+        </div>
+    </div>
+        
+    </div>
+</section>
+
+@section scripts
+    {
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+        $('#selShowID').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '0', // the value of the option
+                text: 'Select Team Name For Live Screen'
+            },
+            //dropdownAutoWidth: true,
+        });
+
+        $(document).ready(function () {          
+            //clockUpdate();
+            //setInterval(clockUpdate, 1000);
+
+            $("#selShowID").change(function () {
+                UpdateLivePulse();
+            });
+        });
+
+        var auto_refreshLiveCardData = setInterval(function () { UpdateLivePulse() }, 1000);
+        UpdateLivePulse();
+
+        function UpdateLivePulse() {
+            if ($("#selShowID").val() >0)
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: "/livescreen/GetLivePulse?teamID=" + $("#selShowID").val(),
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {                    
+                        $(".highest").text(data.liveHighest);
+                        $(".lowest").text(data.liveLowest);
+                        $(".average").text(data.liveAverage);
+                        $(".session_highest").text(data.sessionHighest);
+                        $(".session_lowest").text(data.sessionLowest);
+
+                        $(".timer").text(data.timer);                    
+                        $('#livescreen').attr("src", data.imageName);
+                        $('#livescreen').removeClass("d-none");
+                        $('#livescreen').show();
+                    }
+                 });  
+            }
+            else{
+                $('#livescreen').hide();
+                $('#livescreen').addClass("d-none");
+            }
+        }
+        
+        </script>
+    }
+
+
+<style>
+
+    .centerImage {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .highest {
+        position: absolute;
+        bottom: 45%;
+        right: 48.5%;
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+    }
+
+    .average {
+        position: absolute;
+        bottom: 45%;
+        right: 38%;
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+    }
+
+    .lowest {
+        position: absolute;
+        bottom: 45%;
+        right: 27.5%;
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+    }
+
+    .session_lowest {
+        position: absolute;
+        bottom: 25%;
+        right: 33%;
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+    }
+
+    .session_highest {
+        position: absolute;
+        bottom: 25%;
+        right: 43.5%;
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+    }
+
+    .timer
+    {
+        position: absolute;
+        bottom: 59%;
+        right: 27%;
+        font-size: 6vw; /** responsive font-size **/
+        color: orangered;
+        font-family: E1234;
+    }
+</style>

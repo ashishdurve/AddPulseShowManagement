@@ -1,0 +1,323 @@
+﻿<script>
+      var origArray = new Array();
+     
+      /* @ViewBag.maxVal for(var i = 0; i < @ViewBag.maxVal; i++) {
+            origArray[i]=new Array(@ViewBag.cntteam);         
+        }
+     */
+</script>
+
+<div class="ConfigCrdBrdr"></div>
+
+@for (int i = 0; i < @ViewBag.maxVal; i++)
+{
+    <div class="row ConfigVsResp">
+        @{
+            int jval = 1;
+            int kval = 0;
+        }
+        @foreach (AddPulseShowManagement.Data.ViewModels.PlayerVSPlayerList item in @ViewBag.contestantlst)
+        {
+            <div class="col-12 col-md-5 col-lg-5">
+
+                <div class="ConfigSubCrdTxt1">
+                    @{
+                        int j = @i + 1;
+                    }
+                    Player @j
+                </div>
+
+                <div class="ContestantsDpd ConfigResp2">
+                    <select class="Config4 sel_@i@item.TeamID@kval" id="sel_@i@kval">
+                        <option value="-1"></option>
+                        <option value="0">None</option>
+                        @foreach (AddPulseShowManagement.Data.DataTableModels.Contestants data in @item.contestants)
+                        {
+                            <option value="@data.ContestantID">@data.Name</option>
+                        }
+                    </select>
+                </div>
+                <script>
+                    $('.sel_'+@i+@item.TeamID+@kval).on('select2:select', function (e) {                       
+                        var classval=$(this).val();      
+                      
+                        if(origArray.length == @i)
+                        {
+                             origArray[@i]=new Array(@ViewBag.cntteam);          
+                        }
+                        origArray[@i][@kval]=parseInt(classval);                        
+                    });
+                </script>
+            </div>
+            @if(@jval != @ViewBag.contestantlst.Count)
+            {
+                <div class="col-12 col-md-2 col-lg-2 d-flex justify-content-center align-items-center" style="padding:0px;">
+
+                    <div class="DashVsBx">
+                        VS
+                    </div>
+
+                </div>
+            }
+            
+            jval = jval + 1;
+            kval = kval + 1;
+
+        }
+    </div>
+}
+
+<div id="val_"></div>
+<script>
+    
+    $('.Config4').select2({
+          minimumResultsForSearch: -1,
+          placeholder: {
+              id: '-1', // the value of the option
+              text: 'Select Player'
+          },
+          dropdownAutoWidth: true,
+    });
+
+    var lstcnt=@ViewBag.cntteam;   
+
+    function GetValuesForPlayerVsPlayerCard()
+    {     
+           var IsVaild=true;
+             
+           var m_validval=[];
+              
+           /*for(var i = 0; i < @ViewBag.maxVal; i++) {*/
+           for(var i = 0; i < origArray.length; i++) {
+             
+               var validval=[];
+             $.each(origArray[i], function(key, value ) {         
+                      
+                 if(value === undefined || value === '' || value === null)
+                 {
+                    IsVaild=false;                  
+                    return IsVaild;
+                 }
+              });  
+
+             
+           }
+           
+           return IsVaild;
+           //return false;
+          //if IsVaild is true then only save the values  
+     }
+      
+        function ArrayValues(){
+
+           var a_values=[];
+           var s_values='';
+           for(var i = 0; i < origArray.length; i++) {
+                a_values.push(origArray[i].join());             
+           }
+
+            $.each(a_values, function( key, value ) {          
+                 s_values=s_values+value+'|'
+            });  
+          
+            return s_values;
+        }
+
+</script>
+
+
+@for(int i =0; i< @ViewBag.playersSequences.Count;i++)
+{
+    string commaVal=@ViewBag.playersSequences[i].PlayerIDs;
+    if(!string.IsNullOrEmpty(commaVal))
+    {
+        <script>
+             origArray[@i]=new Array(@ViewBag.cntteam);                     
+        </script>
+
+        List<string> players = commaVal.Split(",").ToList();
+        for (int j=0;j<players.Count;j++)
+        {
+         <script>    
+             
+          
+            origArray[@i][@j]=@players[@j];
+            $('#sel_'+@i+@j).val(@players[@j]).trigger('change');
+        </script>
+        }    
+    }
+}
+
+
+@*<div class="row ConfigVsResp">
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 2
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config9">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-2 col-lg-2 d-flex justify-content-center align-items-center" style="padding:0px;">
+
+    <div class="DashVsBx">
+    VS
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 2
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config10">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+    </div>
+
+    <div class="row ConfigVsResp">
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 3
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config11">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-2 col-lg-2 d-flex justify-content-center align-items-center" style="padding:0px;">
+
+    <div class="DashVsBx">
+    VS
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 3
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config12">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+    </div>
+
+    <div class="row ConfigVsResp">
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 4
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config13">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-2 col-lg-2 d-flex justify-content-center align-items-center" style="padding:0px;">
+
+    <div class="DashVsBx">
+    VS
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 4
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config14">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+    </div>
+
+    <div class="row ConfigVsResp">
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 5
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config15">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-2 col-lg-2 d-flex justify-content-center align-items-center" style="padding:0px;">
+
+    <div class="DashVsBx">
+    VS
+    </div>
+
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-5">
+
+    <div class="ConfigSubCrdTxt1">
+    Player 5
+    </div>
+
+    <div class="ContestantsDpd ConfigResp2">
+
+    <select class="Config16">
+    <option value="-1"></option>
+    </select>
+
+    </div>
+
+    </div>
+    </div>
+*@

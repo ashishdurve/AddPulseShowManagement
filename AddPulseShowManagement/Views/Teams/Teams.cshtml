@@ -1,0 +1,282 @@
+﻿
+@{
+    ViewData["Title"] = "Teams";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+
+<section class="MainSecOff" id="TeamsId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="ShowSec">
+                    <div class="ShowTxt">
+                        Teams
+                    </div>
+                    <div>
+                        <button type="button" class="ShowBtn" onclick="GetShowsModal(0)">Add Team</button>
+                    </div>
+                </div>
+                <div class="PageBrdr"></div>
+                <div class="d-flex justify-content-end ContCrdRESP2">
+                    <button class="d-none ShowModCanc"  id="btnClear" onclick="ClearFilter()"> x Clear Filter</button>
+
+                    <div class="ContestantsDpd ContTblResp2" style="margin-right:15px;margin-bottom:20px;">
+                        <select class="TeamsOne" id="selShowID">
+                            <option value="-1" data-ShowID="0" selected></option>
+                            @foreach(AddPulseShowManagement.Data.DataTableModels.Shows show in ViewBag.shows)
+                            {
+                                <option value="@show.ShowID">@show.ShowName</option>
+                            }                          
+                        </select>
+                    </div>
+                    <div class="d-flex">
+                        @*<div class="DatePickIcBx">
+                            <img src="/Images/DateCalIc.svg" class="DateCalIc">
+                        </div>
+                        <div class="d-flex">
+                            <div><input style="border-radius: 0px;" type="text" id="TeamsDate1" placeholder="Start Date" class="ShowDatePickStaBx" autocomplete="off"></div>
+                        </div>
+                        <div class="d-flex">
+                            <div><input type="text" placeholder="End Date" id="TeamsDate2" class="ShowDatePickEndBx" autocomplete="off"></div>
+                        </div>*@
+                    </div>
+
+                    <div style="position:relative">
+                        <input type="text" placeholder="Search" id="searchteam-input" class="ContSrchBx">
+                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                        @*--------Do Not Remove Below Code-------*@
+
+                        <div class="d-none ContCrdRESP3">
+                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="table-responsive" id="divteamstableList">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@*Add teams modal*@
+
+<div class="modal fade" id="AddTeamsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document" id="divModalModifyTeams">
+
+     
+    </div>
+</div>
+
+@section scripts
+    {
+
+    <script>
+
+        $(document).ready(function () {
+            $('#Teams').addClass('activeHead');
+            $('#ActiveTitle4').addClass('activeSnd');
+             GetTeamList();
+             setTimeout(LayoutToggle(), 1000);
+        });
+
+        function LayoutToggle(fval)
+        {
+             var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+
+           if(btntoggleVal == 1){
+            var element5 = document.getElementById('TeamsId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');     
+           }
+        }
+
+        function GetTeamList(){
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/GetTeams",
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {
+                    
+                    $('#divteamstableList').html('');
+                    $('#divteamstableList').html(data);
+                 }
+             });
+        }
+
+       // setTimeout(function() {
+             $('.TeamsOne').select2({
+                minimumResultsForSearch: -1,
+                placeholder: {
+                    id: '-1', // the value of the option
+                    text: 'Select Activity'
+                },
+                dropdownAutoWidth: true,                   
+            });
+        //}, 800);
+
+    
+
+     function GetShowsModal(teamID){
+          
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/GetTeamsModal?teamID="+teamID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {  
+                   
+                    $('#divModalModifyTeams').html('');
+                    $('#divModalModifyTeams').html(data);
+                    $('#AddTeamsModal').modal('show');
+                 }
+             });
+        }
+
+
+
+     function UpdateTeams(){
+           
+            var formdata = $("#frmSaveUpdateTeam").serializeArray();
+            var IsActive=1;
+           if ($('#chkIsActive').is(":checked"))
+            {
+              IsActive=1;
+            }
+            else
+            {
+                IsActive=0;
+            }
+
+             $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+            }, function (para, element) {
+            return $.validator.format("*Please Select the Value!");
+         });
+
+         $("#frmSaveUpdateTeam").validate({
+            errorClass: 'Error',
+            ignore: [],  
+            rules:
+            {
+                TeamName:
+                {
+                    required: true,
+                },                
+                ShowID:
+                {          
+                    valueNotEquals: '-1',         
+                    required: true,
+                }
+            },
+            messages:
+            {
+                TeamName:
+                {
+                    required: "Please enter team name.",
+                },
+                ShowID:
+                {                   
+                    required: "Please show.",
+                }
+            },
+            highlight: function (element) {
+                $(element).addClass('highlightError');
+                $(element).parent().addClass('highlightTextError');
+            },
+            unhighlight: function (element) {
+               $(element).removeClass('highlightError');
+                $(element).parent().removeClass('highlightTextError');
+            },        
+            errorPlacement: function (error, element) {               
+                if (element.hasClass('select2-hidden-accessible')) {
+                    error.insertAfter(element.next('span'));
+                    //error.css("margin-top", "30px");
+
+                   // element.addClass('highlightError');
+
+                } else {
+                    error.insertAfter(element);
+                    
+                }
+            }
+        });
+            //var isCheckvalues=CheckAllfields()
+            var isCheckvalues=$("#frmSaveUpdateTeam").valid();
+            if(isCheckvalues == true){
+                
+           $.ajax({
+                  type: 'POST',
+                  url: "/teams/SaveUpdateTeams?IsActive="+IsActive,
+                  data: formdata,
+                  success: function (data, textStatus, jqXHR) {                                       
+                    if(data.teamID >0)
+                       {
+                            GetTeams();
+                            DisplayMessage(SuccessCheck+SpanStart+"<b>Changes are made succesfully.</b>"+SpanEnd);
+                            $('#AddTeamsModal').modal('hide');
+                       }
+                    else{
+                        DisplayMessage(ErrorCross+SpanStart+"<b>Something went wrong.</b>"+SpanEnd);
+                    }                        
+                  }
+           });
+
+           }        
+        }
+
+        function CheckAllfields(){
+            
+            var isVaild=false;
+            var isname =$('#TeamName').val();
+            var isshowID =$('#ShowID').val();
+           
+            if(isname.length == 0)
+            {
+                isname=false;
+                DisplayMessage(ErrorCross+SpanStart+"Team name cannont be empty."+SpanEnd);
+            }
+            else
+            {
+                isname=true;
+            }
+
+             if(isshowID == 0 || isshowID == '' || isshowID == undefined || isshowID == null)
+            {
+                isshowID=false;
+                DisplayMessage(ErrorCross+SpanStart+"Please select show."+SpanEnd);
+            }
+            else
+            {
+                isshowID=true;
+            }
+
+            if((isname == true)
+             && (isshowID == true) )
+            {
+                isVaild=true;
+            }
+            else
+            {
+                isVaild=false;
+            }
+            return isVaild;
+        }
+
+
+        
+    </script>
+    }
+

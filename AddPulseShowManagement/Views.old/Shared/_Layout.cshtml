@@ -1,0 +1,299 @@
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    string userTypeID = User.Claims.First(m => m.Type == "UserTypeID").Value;
+    AddPulseShowManagement.Common.UserType userValueTypeID = (AddPulseShowManagement.Common.UserType)Enum.Parse(typeof(AddPulseShowManagement.Common.UserType), userTypeID.ToString());
+    string userTypeName = AddPulseShowManagement.Common.Extensions.GetEnumDescription(userValueTypeID);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AddPulseShowManagement</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AddPulseShowManagement.styles.css" asp-append-version="true" />
+    <link href="~/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/animate.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/jquery-ui.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/resdatatable.css" rel="stylesheet" asp-append-version="true" />
+    @*<link href="~/css/jquery.dataTables.min.css" />*@
+    <link href="~/css/daterangepicker.css" rel="stylesheet" />
+    <script src="~/js/modernizr-2.8.3.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @*Notificationfx*@
+    <link href="~/notification/ns-default.min.css" rel="stylesheet" />
+    <link href="~/notification/ns-style-bar.min.css" rel="stylesheet" />
+    <link href="~/notification/ns-style-growl.min.css" rel="stylesheet" />
+    <script src="~/notification/classie.js"></script>
+    <script src="~/notification/notificationFx.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="HeadContent">
+            <div class="container-fluid">
+                <div class="row">
+                  <input type="text" id="btntoggleVal" class="d-none" value="@Accessor.HttpContext.Session.GetInt32("ToggleValue")"/>
+                    <div class="col-1 col-md-1 d-flex align-items-center">
+                        <div id="LivePulTogg" onclick="toggBg()">
+                            <i class="fas fa-bars" style="color:#0D47A1;cursor:pointer;margin-left:10px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-5 col-md-4 col-lg-2 px-0">
+                        <div class="d-flex">                            
+                            <div class="LogoBgColor">
+                                <img src="~/Images/Logo.svg" style="margin-left:0px !important" class="NavLogo" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4 col-md-4 col-lg-9 d-block d-md-none d-lg-none LogoutCls">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+
+                    <div class="col-4 col-md-7 col-lg-9 d-none d-md-block d-lg-block">
+                        <div class="d-flex  justify-content-end ClsPadTopExt">
+                            <div class="dropdown HeadrDpdCls">
+                                <div class="MainDpdBckDesgn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="MainDpdFlxCls">
+                                        <div>
+                                            <img class="DpdImgCls" src="@Accessor.HttpContext.Session.GetString("UserProfile")">
+                                        </div>
+                                        <div>
+                                            <div class="UserNameTxt">
+                                                @Accessor.HttpContext.Session.GetString("FullName")
+                                            </div>
+                                            <div class="HeadAdmin">@userTypeName</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="">
+
+                                    <li>
+                                        <a class="dropdown-item" href="../Account/Profile">
+                                            <div class="d-flex justify-content-start">
+                                                <div><img src="/Images/MyProfile.svg" class="DpdMenuImgIcn"></div>
+                                                <div class="ServeInfoTxt MrgLft10">My Profile</div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" href="/account/logout">
+                                            <div class="d-flex justify-content-start">
+                                                <div><img src="/Images/Logout.svg" class="DpdMenuImgIcn"></div>
+                                                <div class="ServeInfoTxt MrgLft10">Log out</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <nav class="SidebarLayout d-none" id="LayoutSdBar1">
+            <ul class="SideMenuByRole">
+
+                <li id="Dashboard">
+                    <a href="../home/dashboard">
+                        <span class="icon">
+                            <img src="~/Images/Dashboard.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle">Dashboard</span>
+                    </a>
+                </li>
+
+                <li id="Contestants">
+                    <a href="../Contestants/Contestants">
+                        <span class="icon">
+                            <img src="~/Images/Contestants.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle2">Contestants</span>
+                    </a>
+                </li>
+
+                <li id="Shows">
+                    <a href="../Shows/Shows">
+                        <span class="icon">
+                            <img src="~/Images/Shows.svg" class="">
+                        </span>
+                        <span class="title" id="ActiveTitle3">Activity</span>
+                    </a>
+                </li>
+
+                <li id="Teams">
+                    <a href="../Teams/Teams">
+                        <span class="icon">
+                            <img src="~/Images/Teams.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle4">Teams</span>
+                    </a>
+                </li>
+
+               @* <li id="EventLog">
+                    <a href="../EventLog/EventLog">
+                        <span class="icon">
+                            <img src="~/Images/Event Log.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Event Log</span>
+                    </a>
+                </li>*@
+                @if (Convert.ToInt16(@userTypeID) == 1)
+                {
+                    <li id="Managers">
+                        <a href="../Manager/Managers">
+                            <span class="icon">
+                                <img src="~/Images/Managers.svg">
+                            </span>
+                            <span class="title" id="ActiveTitle6">Managers</span>
+                        </a>
+                    </li>
+                }
+                <li id="Configuration">
+                    <a href="../Configuration/Configuration">
+                        <span class="icon">
+                            <img src="~/Images/Configuration.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle7">Configuration</span>
+                    </a>
+                </li>
+                
+                   <li id="LivePulse">
+                    <a href="../home/LivePulse">
+                        <span class="icon">
+                            <img src="~/Images/livePulse.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle10">Live Pulse</span>
+                    </a>
+                </li>
+                 <li id="EventLog">
+                    <a href="../livescreen/Index">
+                        <span class="icon">
+                            <img src="~/Images/liveScreen.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Live Screen</span>
+                    </a>
+                </li>
+                <li id="EventLog">
+                    <a href="../diploma/Index">
+                        <span class="icon">
+                            <img src="~/Images/diploma.png" style="width: 43px;">
+                        </span>
+                        <span class="title" id="ActiveTitle5">Diploma</span>
+                    </a>
+                </li>
+                <li id="Setting" class="d-none">
+                    <a href="#">
+                        <span class="icon">
+                            <img src="~/Images/Setting.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle8">Setting</span>
+                    </a>
+                </li>
+                <li id="Profile" class="MobViewOnly">
+                    <a href="../Account/Profile">
+                        <span class="icon">
+                            <img src="~/Images/ProfileMob.svg">
+                        </span>
+                        <span class="title" id="ActiveTitle9">My Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+       @RenderBody()
+   
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/DisplayMessage.js"></script>
+    <script src="~/js/daterangepicker.min.js"></script>
+    @*<script src="~/Assets/avatar.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    <script type="text/javascript">
+
+       //var getSidebar = document.querySelector('nav');
+       // var getToggle = document.getElementsByClassName('toggle');
+       // for (var i = 0; i < getToggle.length; i++) {
+       //     getToggle[i].addEventListener('click', function() {
+       //         getSidebar.classList.toggle('active');
+       //     });
+       // }
+
+
+    //    function HandleBackFunctionality()
+    //    {
+    //        debugger
+    //          if(window.event)  
+    //{  
+    //      if(window.event.clientX < 40 && window.event.clientY < 0)  
+    //     {  
+    //         alert("Browser back button is clicked...");  
+    //     }  
+    //     else  
+    //     {  
+    //         alert("Browser refresh button is clicked...");  
+    //     }  
+    // }  
+    // else  
+    // {  
+    //      if(event.currentTarget.performance.navigation.type == 1)  
+    //     {  
+    //          alert("Browser refresh button is clicked...");  
+    //     }  
+    //     if(event.currentTarget.performance.navigation.type == 2)  
+    //    {  
+    //          alert("Browser back button is clicked...");  
+    //    }  
+    // }  
+    //    }
+    </script>
+    <script>
+
+
+        function toggBg() {
+            //call ajax to save state
+            var btnval=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+            if(btnval == "" || btnval == undefined || btnval == null || btnval == 0)
+            {
+                btnval=0;
+            }
+            else{
+                btnval=1;
+            }
+            
+             $.ajax({
+                 type: 'GET',
+                 url: "/home/SetMenuToggle?btnval="+btnval,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                     
+                        LayoutToggle(data);
+                 }
+             });
+            
+        }
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

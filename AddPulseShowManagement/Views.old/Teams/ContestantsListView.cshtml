@@ -1,0 +1,117 @@
+﻿
+
+<table id="ContListTbl" class="display table table-striped" style="width: 100%;">
+    <thead class="HeadTbl" style="border-bottom: transparent;">
+        <tr>
+            <th>@ViewBag.teamName</th>
+            <th>@ViewBag.teamName</th>
+            <th scope="col">Name</th>
+            <th scope="col">Polar Id</th>
+            <th scope="col">Average Pulse</th>
+            <th></th>
+        </tr>
+    </thead>
+
+
+</table>
+
+
+<script>
+    var contListTbl ='';
+    GetContestantSuggestion();
+    function GetContestantSuggestion(){
+
+
+           contListTbl = $('#ContListTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": true,
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+             "ajax": {
+                    "url": "/teams/ContestantsTableList?teamID="+@ViewBag.teamID,
+                    "type": "POST",
+                },
+                "columns": [
+                {
+                    "data": "contestantID",
+                    "orderable": true,
+                    "visible": false,
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "render": function ( data, type, row, meta ) {
+
+                        var html='';
+
+                        if(data.added ==true){
+                             var index = conLst.indexOf(data.contestantID);
+
+                             if(index == -1){
+                                conLst.push(data.contestantID);
+                             }
+                            html=' <div class="checkbox3">'+
+                                            '<label class="check2">'+
+                                                '<input type="checkbox" checked="checked" id="id_'+data.contestantID+'" onclick="ManageContestant('+data.contestantID+')"/>'+
+                                                '<span class="checkmark2">'+
+                                                '</span>'+
+                                            '</label>'+
+                                        '</div>';
+                        }
+                        else{
+                         html=' <div class="checkbox3">'+
+                                            '<label class="check2">'+
+                                                '<input type="checkbox" id="id_'+data.contestantID+'" onclick="ManageContestant('+data.contestantID+')"/>'+
+                                                '<span class="checkmark2">'+
+                                                '</span>'+
+                                            '</label>'+
+                                        '</div>';
+                        }
+                        return html;
+                    }
+                    },
+                {
+                    "data": "name",
+                    "orderable": true,
+                },
+                {
+                    "data": "polarID",
+                    "orderable": true,
+                },
+                 {
+                    "data": "averagePulse",
+                    "orderable": true,
+                    "visible":false
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "render": function ( data, type, row, meta ) {
+                            return '';
+                    }
+                }],
+        });
+        $('.dataTables_filter').addClass('d-none');
+    }
+
+
+     $('#searchmember-input').keyup(function(){
+         contListTbl.search($(this).val()).draw() ;
+     });
+
+</script>

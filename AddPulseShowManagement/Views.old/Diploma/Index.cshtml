@@ -1,0 +1,238 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Diploma Page";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LivePulseLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Tabs.css" asp-append-version="true" />
+<section class="LivePulseBg" id="LivePulBg">
+    <div class="container-fluid" style="margin-top:125px">
+
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="d-flex ContCrdRESP2">
+                <div class="ContestantsDpd">
+                    <select class="Cont1" id="selShowID" name="selShowID">
+                        <option value="0">Select Team Name For Diploma Page</option>
+                        @foreach (AddPulseShowManagement.Data.DataTableModels.Teams item in @ViewBag.Teams)
+                        {
+                            <option value="@item.TeamID">@item.TeamName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  @*   <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div  class="text-center centerImage">                
+                
+                <div class="lowest"></div>                
+                <div class="average"></div>
+                <div class="highest"></div>
+              
+
+                <div class="timer"></div>
+            </div>
+        </div>
+    </div> *@
+
+        <div class="row">
+            <div class="col-2 col-md-2 col-lg-2">                
+            </div>
+            <div class="col-10 col-md-10 col-lg-10 centerImage">
+               
+
+                <div class="row sectionText text-center" style="margin-top:210px;">
+                    <div class="col-12 col-md-12 col-lg-12 text-center fab">FABELAKTIG!</div>
+                </div>
+
+                <div class="row sectionText text-center">
+                    <div class="col-12 col-md-12 col-lg-12 text-center laget">Laget ditt fullførte rommet med gjenstaende tid:</div>
+                </div>
+                <div class="row">
+                    <div class="timer text-center">60:00</div>
+                </div>
+
+                <div class="row pulsen text-center">
+                    <div class="col-12 col-md-12 col-lg-12 text-center">Pulsen pa laget sa slik ut:</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 col-md-2 col-lg-2 headerText text-center"></div>
+                    <div class="col-3 col-md-3 col-lg-3 headerText text-center">HøYESTE</div>
+                    <div class="col-2 col-md-2 col-lg-2 headerText text-center">GJENNOMSMITT</div>
+                    <div class="col-3 col-md-3 col-lg-3 headerText text-center">LAVESTE</div>
+                    <div class="col-2 col-md-2 col-lg-2 headerText text-center"></div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-2 col-md-2 col-lg-2 headerText text-center"></div>
+                    <div class="col-3 col-md-3 col-lg-3 highest text-center">0</div>
+                    <div class="col-2 col-md-2 col-lg-2 average text-center">0</div>
+                    <div class="col-3 col-md-2 col-lg-3 lowest text-center">0</div>
+                    <div class="col-2 col-md-2 col-lg-2 headerText text-center"></div>
+                </div>               
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</section>
+
+@section scripts
+    {
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+        $('#selShowID').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '0', // the value of the option
+                text: 'Select Team Name For Diploma Page'
+            },
+            //dropdownAutoWidth: true,
+        });
+
+        $(document).ready(function () {
+            //clockUpdate();
+            //setInterval(clockUpdate, 1000);
+            $("#selShowID").change(function () {
+                UpdateLivePulse();
+            });
+        });
+
+        var auto_refreshLiveCardData = setInterval(function () { UpdateLivePulse() }, 1000);
+        UpdateLivePulse();
+
+        function UpdateLivePulse() {
+            if ($("#selShowID").val() > 0)
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: "/diploma/GetLivePulse?teamID=" + $("#selShowID").val(),
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {
+                        $(".highest").text(data.sessionHighest);
+                        $(".lowest").text(data.sessionLowest);
+                        $(".average").text(data.sessionAverage);
+                        $(".fab").text(data.title1);
+                        $(".laget").text(data.title2);
+
+                        if (data.title1.includes("FABELAKTIG!")) {
+                            $(".timer").show();
+                            $(".timer").text(data.timer);
+                        }
+                        else {                            
+                            $(".timer").text("00:00");
+                            //$(".timer").hide();
+                        }
+			$('.centerImage').css('background-image', 'url(' + data.imageName + ')');
+                        $('#livescreen').attr("src", data.imageName);
+                        $('#livescreen').removeClass("d-none");
+                        $('#livescreen').show();
+                    }
+                });
+            }
+            else {
+                $('#livescreen').hide();
+                $('#livescreen').addClass("d-none");
+            }
+        }
+    </script>
+    }
+
+<style>
+    .centerImage
+    {
+        min-height:100%;
+        width: 1000px;
+        height: 626px;
+        background-size: cover;
+        background-image: url("../Images/diploma11.png");
+        background-repeat: no-repeat;        
+        background-position: center center;
+        display: block;
+        margin: 0 auto;
+        
+    }
+  
+
+    .highest {
+       /*  position: absolute;
+        bottom: 26.5%;
+        right: 59.5%; */
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+        background-image: url("/Images/box.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .average {
+      /*   position: absolute;
+        bottom: 26.5%;
+        right: 50%; */
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+        background-image: url("/Images/box.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .lowest {
+       /*  position: absolute;
+        bottom: 26.5%;
+        right: 40.5%; */
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+        background-image: url("/Images/box.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }    
+
+    .timer {
+        /* position: absolute;
+        bottom: 36%;
+        right: 43%; */
+        font-size: 4vw; /** responsive font-size **/
+        color: orangered;
+        font-family: E1234;
+    }
+
+    .sectionText {
+        font-size: 2vw; /** responsive font-size **/
+        color: white;
+        font-weight: bold;
+    }
+
+    .headerText {
+        font-size: 1vw; /** responsive font-size **/
+        color: white;
+        font-weight: bold;
+    }
+
+    .fab {
+        font-size: 3vw; /** responsive font-size **/
+        color: white;
+        font-weight: bold;
+    }
+
+    .laget {
+        font-size: 1vw; /** responsive font-size **/
+        color: white;
+        font-weight: bold;
+    }
+
+    .pulsen {
+        font-size: 1vw; /** responsive font-size **/
+        color: white;
+        font-weight: bold;
+    }
+    
+</style>

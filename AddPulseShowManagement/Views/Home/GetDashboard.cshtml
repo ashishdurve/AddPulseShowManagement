@@ -1,0 +1,211 @@
+﻿  <div class="MainSecOff" id="MainSecId">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+
+                    <div class="ShowSec">
+                        <div class="ShowTxt">
+                            Dashboard
+                        </div>
+                    </div>
+
+                    <div class="PageBrdr"></div>
+
+                    <div class="ShowDetHdrBx">
+
+                        <div class="d-flex justify-content-between DashResp3">
+                            <div class="d-flex DashResp3">
+                                <div>
+                                    <div class="ShowDetHdrTxt">Activity Name</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.show.ShowName </div>
+                                </div>
+                               
+                            </div>
+
+                            <div>
+                                <div class="ShowDetHdrTxt">Time Period</div>
+                                    <div class="ShowDetHdrTxt1">@ViewBag.uniVal</div>
+                            </div>
+
+                        <div>
+                            <div class="ShowDetHdrTxt">Dashboard Card</div>
+                            <div class="ShowDetHdrTxt">
+                                <select class="Config6" id="dashCardID">
+                                    <option value="1" selected>Dashboard 1</option>                                   
+                                    <option value="2">Dashboard 2</option>                                   
+                                    <option value="3">Dashboard 3</option>         
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<div class="DashboardMainSecOff d-none" id="divteamvsteamlast">
+</div>
+
+
+<div class="DashboardMainSecOff d-none" id="divpalyers">
+</div>
+
+<div class="DashboardMainSecOff d-none" id="divlast">
+</div>
+
+<script>
+
+    //GetTeamData(1);
+    //GetTeamvsTeamData();
+    //GetPlayerVsPlayer(1);
+    // 1 team vs team
+    // 2 palyer vs player
+    // 3 team
+    //ViewBag.configurations
+
+    // card1 -  divteamvsteamlast
+    // card2 -  divpalyers
+    // card3 -  divlast
+
+
+    $( document ).ready(function() {       
+        var card1Div = 'divteamvsteamlast';
+        var card2Div = 'divpalyers';
+        var card3Div = 'divlast';
+        var card1method = @ViewBag.configurations.Card1;
+        var card2method = @ViewBag.configurations.Card2;
+        var card3method = @ViewBag.configurations.Card3;
+
+        debugger;
+
+        $('#dashCardID').on('change', function () {
+            //alert(this.value);            
+
+            $('#'+card1Div).addClass('d-none');
+            $('#'+card2Div).addClass('d-none'); 
+            $('#'+card3Div).addClass('d-none');
+            $('#' + card1Div).html('');
+            $('#' + card2Div).html('');
+            $('#' + card3Div).html('');
+            
+
+            if (this.value == 1) {
+                if (card1method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card1Div);
+                }
+                else if (card1method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card1Div);
+                }
+                else if (card1method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card1Div, @ViewBag.configurations.TeamCardID,this.value);
+                }
+            }
+            
+            if (this.value == 2) {
+                if (card2method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card2Div);
+                }
+                else if (card2method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card2Div);
+                }
+                else if (card2method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card2Div, @ViewBag.configurations.TeamCardID2,this.value);
+                }
+            }
+
+            if (this.value == 3) {
+
+                if (card3method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card3Div);
+                }
+
+                else if (card3method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card3Div);
+                }
+                else if (card3method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card3Div, @ViewBag.configurations.TeamCardID3,this.value);
+                }
+            }
+            setTimeout(LayoutToggle(), 15000);
+        });
+
+        $("#dashCardID").val($("#dashCardID option:first").val());
+        $('#dashCardID')
+            .val('1')
+            .trigger('change');
+    });
+
+        //call dynamic graph of team
+        function GetTeamData(hr,divcard,teamCardID,cardValue)
+        {           
+            if(@ViewBag.configurations.TeamCardID > 0){
+               
+                 $.ajax({
+                     type: 'GET',
+                     url: "/teams/DashboardGetTeamData?teamDiv=teamDiv&teamID="+teamCardID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                     data: {},
+                     success: function (data, textStatus, jqXHR) {
+                         if (cardValue == $('#dashCardID').val()) {
+                             $('#' + divcard).removeClass('d-none');
+                             $('#' + divcard).html('');
+                             $('#' + divcard).html(data);
+                         }                        
+                     }
+                 });
+             }
+        }
+
+        function GetTeamvsTeamData(hr,divcard)
+        {
+            if(@ViewBag.configurations.ShowID > 0){
+                 $.ajax({
+                     type: 'GET',
+                     url: "/teams/DashboardGetTeamVsTeam?teamDiv=divteamvsteamlast&showID="+@ViewBag.configurations.ShowID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                     data: {},
+                     success: function (data, textStatus, jqXHR) {                    
+                          $('#'+divcard).html('');
+                          $('#'+divcard).removeClass('d-none');
+                          $('#'+divcard).html(data);
+                     }
+                 });
+             }
+        }
+
+
+
+        function GetPlayerVsPlayer(hr,divcard)
+        {
+            if(@ViewBag.configurations.ShowID > 0){
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/DashboardGetPlayerVsPlayerID?showID="+@ViewBag.configurations.ShowID+"&hour="+hr+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {
+                    $('#'+divcard).html('');
+                    $('#'+divcard).html(data);
+                    $('#'+divcard).removeClass('d-none');
+                 }
+             });
+            }
+        }
+
+    
+
+        $('.Dash2').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Sort By'
+            },
+            dropdownAutoWidth: true,
+        });
+
+        
+
+
+</script>
+

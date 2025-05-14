@@ -1,0 +1,326 @@
+﻿<div class="DashTitle">Player vs Player</div>
+
+<div class="DashBrdr"></div>
+
+@*<div class="row">
+
+    <div class="col-12 col-md-12 col-lg-12 d-flex justify-content-sm-start justify-content-md-start justify-content-lg-end">
+
+        <div class="ContestantsDpd DashResp2">
+            <select class="Dash3">
+               
+                <option value="1">Past 1 hr</option>
+                <option value="6">Past 6 hr</option>
+                <option value="24">Past 24 hr</option>
+                
+            </select>
+        </div>
+
+    </div>
+
+</div>*@
+
+<div class="row" style="margin-top:20px;">
+    @foreach (AddPulseShowManagement.Data.ViewModels.PlayerVsCardDataViewModel item in @ViewBag.data)
+    {
+        <div class="col-12 col-md-12 col-lg-12 col-xl-12 col-xxl-6">
+
+
+            <div class="row" style="margin-bottom:20px;">
+                @for(int i =0; i<item.cardData.Count;i++)
+                {
+                    <div class="col-12 col-md-5 col-lg-5 CardCol" >
+
+                    <div class="DashSubCrdMainBx">
+
+                        <div class="DashSubCrdHdr">
+
+                            <div class="d-flex">
+                                <div>
+                                    <img src="@item.cardData[@i].ProfileImage" class="DashSubCrdDp" />
+                                </div>
+                                <div>
+                                    <div class="DashSubCrdTxt">@item.cardData[@i].Name</div>
+                                    <div class="d-flex">
+                                        <div class="DashSubCrdTxt1">Polar Id:</div>
+                                        <div class="DashSubCrdTxt2">@item.cardData[@i].PolarID</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="DashSubCrdBdy">
+
+                            <div class="row">
+                                <div class="col-3 col-md-3 col-lg-3">
+
+                                    <div class="DashSubCrdTxt3">Live</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                        <div class="DashSubCrdTxt4" id="playervsplayerLivePulse_@item.cardData[@i].ContestantID">@item.cardData[@i].LivePulse</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3 col-md-3 col-lg-3">
+
+                                    <div class="DashSubCrdTxt3">Highest</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                        <div class="DashSubCrdTxt4" id="playervsplayerHighPulse_@item.cardData[@i].ContestantID">@item.cardData[@i].HighestPulse</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3 col-md-3 col-lg-3">
+
+                                    <div class="DashSubCrdTxt3">Lowest</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                        <div class="DashSubCrdTxt4" id="playervsplayerLowPulse_@item.cardData[@i].ContestantID">@item.cardData[@i].LowestPulse</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3 col-md-3 col-lg-3">
+
+                                    <div class="DashSubCrdTxt3">Avg</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                        <div class="DashSubCrdTxt4" id="playervsplayerAvgPulse_@item.cardData[@i].ContestantID">@item.cardData[@i].AvgPulse</div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="DashSubCrdBrdr"></div>
+
+                            <div class="DashSubCrdSubTxt1">Teams Name</div>
+                            <div class="DashSubCrdSubTxt2">@item.cardData[@i].TeamName</div>
+
+                            <div class="DashSubCrdBrdr"></div>
+
+                            <div>
+                                <div id="myDashChart_@item.Seq@item.cardData[@i].ContestantID"  class="dashboardChart"></div>
+
+                                  <style>
+                            #myDashChart_@item.Seq@item.cardData[@i].ContestantID-license-text{
+                                display:none;
+                            }
+                            </style>
+
+                                <script>
+                                    
+                        var xvals='@item.cardData[@i].XGraphVal';
+                        var xgraphvals=xvals.split(',');
+                    
+                        var srtgraphval='@item.cardData[@i].GraphVal';
+                        var graphlst=srtgraphval.split(',');
+                        var dgraphlst=[];
+                        $.each(graphlst, function(index, value) {
+                          dgraphlst.push(parseInt(graphlst[index]));
+                        });
+                    
+                         var myDashConfig = {
+                                type: 'line',
+                                plotarea: {
+                                    marginLeft: '35px',
+                                    marginRight: '-20px',
+                                    marginTop: '-20px',
+                                    marginBottom: '-20px',
+                                },
+                                 "crosshair-x": {
+                                 },
+                                plot: {
+                                    aspect: 'spline',
+                                    lineWidth: '2px',
+                                    lineColor: '#E63946',
+                                    shadow: 'true',
+                                    marker: {
+                                        visible: false,
+                                    },
+                                    tooltip: {
+                                          visible: false
+                                    },
+                                },
+                                scaleY: {
+                                    lineWidth: 1,
+                                    lineColor: '#707070',
+                                    lineStyle: 'solid',
+                                    guide: {
+                                        lineColor: '#CCCCCC',
+                                        lineStyle: 'solid'
+                                    },
+                                    maxValue: '175',
+                                    minValue: '50px',
+                                    step: 25,
+                                    item: {
+                                        fontColor: '#333333',
+                                        fontSize: '10px',
+                                    },
+                                },
+                                  //real-time feed
+                                refresh: {
+                                  type: 'feed',
+                                  transport: 'http',
+                                  url: '../teams/GetContestantLiveGraphData?contestantID=@item.cardData[@i].ContestantID',
+                                  interval: @ViewBag.refreshTimeVal,
+                                  maxTicks: @ViewBag.points,
+                                  adjustScale: true,
+                                  resetTimeout: 9999999999999,
+                                },
+                                scaleX: {
+                                    lineWidth: 1,
+                                    lineColor: '#707070',
+                                    lineStyle: 'solid',
+                                    labels: xgraphvals,
+                                    item: {
+                                        color: '#53585E',
+                                        fontSize: '10px',
+                                    },
+                                },
+                                "series": [{ "values": dgraphlst ,"text":"Pulse" }]
+                            };
+
+                            //var myDashConfig = {
+                            //    type: 'line',
+                            //    plotarea: {
+                            //        marginLeft: '35px',
+                            //        marginRight: '-20px',
+                            //        marginTop: '-20px',
+                            //        marginBottom: '-20px',
+                            //    },
+                            //    plot: {
+                            //        aspect: 'spline',
+                            //        lineWidth: '2px',
+                            //        lineColor: '#E63946',
+                            //        shadow: 'true',
+                            //        marker: {
+                            //            visible: false,
+                            //        },
+                            //    },
+                            //    scaleY: {
+                            //        lineWidth: 1,
+                            //        lineColor: '#707070',
+                            //        lineStyle: 'solid',
+                            //        guide: {
+                            //            lineColor: '#CCCCCC',
+                            //            lineStyle: 'solid'
+                            //        },
+                            //        maxValue: '200',
+                            //        minValue: '50px',
+                            //        step: 50,
+                            //        item: {
+                            //            fontColor: '#333333',
+                            //            fontSize: '10px',
+                            //        },
+                            //    },
+                            //    scaleX: {
+                            //        lineWidth: 1,
+                            //        lineColor: '#707070',
+                            //        lineStyle: 'solid',
+                            //        labels: xgraphvals,
+                            //        item: {
+                            //            color: '#53585E',
+                            //            fontSize: '10px',
+                            //        },
+                            //    },
+                            //    "series": [{ "values": dgraphlst }]
+                            //};
+                    
+                            zingchart.render({
+                                id: 'myDashChart_@item.Seq@item.cardData[@i].ContestantID',
+                                data: myDashConfig,
+                                height: "100%",
+                                width: "100%"
+                            });
+                    </script>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    </div>
+                  
+                    @if (@i != (item.cardData.Count-1))
+                    {
+                        <div class="col-12 col-md-2 col-lg-2 d-flex VsCol justify-content-center align-items-center" style="padding:0px">
+                            <div class="DashVsBx">
+                                VS
+                            </div>
+                        </div>
+                    }
+
+                   
+
+            }
+            
+            </div>
+
+        </div>
+
+
+    }
+
+</div>
+
+<script>
+$('.Dash3').select2({
+            minimumResultsForSearch: -1,
+            //placeholder: {
+            //    id: '1', // the value of the option
+            //    text: 'Past 1 hr'
+            //},
+            dropdownAutoWidth: true,
+        });
+
+
+        $('.Dash3').on('select2:select', function (e) {            
+            GetPlayerVsPlayer(parseInt($(this).val()));
+        });
+
+
+     function PlayerVsPlayerCardData() {                
+                UpdatePlayerVsPlayerCardValues();
+        }
+
+        var auto_refreshPlayerVsPlayerCardData = setInterval(function () { PlayerVsPlayerCardData() }, @ViewBag.refreshTimeVal);
+        PlayerVsPlayerCardData();
+    
+
+     function UpdatePlayerVsPlayerCardValues()
+        {
+         
+             $.ajax({
+                 type: 'GET',
+                 url: "/teams/UpdatePlayerVsPlayerCardValues?showID="+@ViewBag.showID+"&hour="+@ViewBag.hour+"&isConfigUpdated="+@ViewBag.isConfigUpdated,
+                 data: {},
+                 contentType: 'application/json; charset=utf-8',
+                 success: function (data, textStatus, jqXHR) { 
+                    
+                   $.each(data.pclst, function(index, value) {    
+                      
+                       $("#playervsplayerLivePulse_"+value.contestantID).html(value.livePulse);
+                       $("#playervsplayerHighPulse_"+value.contestantID).html(value.highestPulse);
+                       $("#playervsplayerLowPulse_"+value.contestantID).html(value.lowestPulse);
+                       $("#playervsplayerAvgPulse_"+value.contestantID).html(value.avgPulse);
+                        
+
+                    });     
+
+                   //   $.each(data.conlst, function(index1, value1) {   
+                        
+                   //       $("#teamvsteamPloarID_"+value1.contestantID).html(value1.polarID);
+                   //       $("#teamvsteamLivePulse_"+value1.contestantID).html(value1.livePulse);
+                   //       $("#teamvsteamHighPulse_"+value1.contestantID).html(value1.highestPulse);
+                   //       $("#teamvsteamLowPulse_"+value1.contestantID).html(value1.lowestPulse);
+                                                
+                   //    });
+                    
+                 }
+             });
+        }
+</script>

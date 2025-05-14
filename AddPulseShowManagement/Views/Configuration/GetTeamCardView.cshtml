@@ -1,0 +1,40 @@
+﻿<div class="col-12 col-lg-12">
+    <div class="ContestantsDpd ConfigResp2">
+        <select class="Config6" id="cardTeamID">
+            <option value="-1"></option>
+            @foreach (AddPulseShowManagement.Data.DataTableModels.Teams item  in ViewBag.teams)
+            {
+                @if(@ViewBag.TeamCardID == item.TeamID)
+                {
+                 <option selected value="@item.TeamID">@item.TeamName</option>
+                }
+                else
+                {
+                    <option value="@item.TeamID">@item.TeamName</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+
+
+<script>
+            //$('#Dashboard').addClass('activeHead');
+            //$('#ActiveTitle').addClass('activeSnd');
+    $('.Config6').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Team'
+            },
+            dropdownAutoWidth: true,
+        });
+
+
+      $('#cardTeamID').on('select2:select', function (e) {           
+             teamID= parseInt($(this).val());
+      });
+               
+       // $('#cardTeamID').val('@ViewBag.TeamCardID').trigger('change');
+</script>
+

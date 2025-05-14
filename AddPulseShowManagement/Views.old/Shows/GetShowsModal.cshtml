@@ -1,0 +1,112 @@
+﻿@{
+    //bool isstart= !string.IsNullOrEmpty(@ViewBag.show.StartDate.ToString()) ? true: false;
+    var st = @ViewBag.show.StartDate;
+    var et = @ViewBag.show.EndDate;
+}
+<div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+    <form id="frmSaveUpdateShow" name="frmSaveUpdateShow">
+        <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+
+            <div class="ShowModTitle" id="exampleModalLabel">Add Activity</div>
+            <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+
+        </div>
+
+        <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+            <input type="hidden" id="ShowID" name="ShowID" value="@ViewBag.ShowID" />
+            <input type="hidden" id="CreatedDate" name="CreatedDate" value="@ViewBag.show.CreatedDate" />
+            <input type="hidden" id="CreatedBy" name="CreatedBy" value="@ViewBag.show.CreatedBy" />
+
+            <div class="ShowModLbl">Activity</div>
+            <input type="text" class="ShowModTxtBx" id="ShowName" name="ShowName" value="@ViewBag.show.ShowName" />
+
+            <!--<div class="ShowModLbl">Start Date</div>
+            <div style="position:relative">
+                <input type="text" class="ShowModTxtBx" id="ShowsDate3" name="StartDate" value="@ViewBag.show.StartDate" />
+                <div class="d-flex justify-content-end" onclick="OnBookingChangeStartDate('ShowsDate3')">
+                    <img src="~/Images/ShowDateIc.svg" class="ShowModDateIc" />
+                </div>
+            </div>
+
+            <div class="ShowModLbl">End Date</div>
+            <div style="position:relative">
+                <input type="text" class="ShowModTxtBx" id="ShowsDate4" name="EndDate" value="@ViewBag.show.EndDate" />
+                <div class="d-flex justify-content-end" onclick="OnBookingChangeStartDate('ShowsDate4')">
+                    <img src="~/Images/ShowDateIc.svg" class="ShowModDateIc" />
+                </div>
+            </div>-->
+
+
+            <div class="checkbox3 mb-3">
+                <label class="check2">
+                    <span class="ShowModLbl">Is Active</span>
+                    @if (@ViewBag.ShowID == 0)
+                    {
+                        <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="checked">
+                    }
+                    else{
+                        @if (@ViewBag.show.IsActive == true)
+                        {
+                            <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="IsActive" name="IsActive" value="false">
+                        }
+                    }
+                    <span class="checkmark2"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="ShowModFoot">
+            <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+            <div class="ShowModAdd" onclick="UpdateShow()">@ViewBag.BtnTitle</div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+     $("#ShowsDate3").datepicker({
+         dateFormat: 'dd/mm/yy',
+         changeMonth: true,
+         changeYear: true,
+         onSelect: function(dateText) {
+       
+             var dt2 = $('#ShowsDate4');
+             var startDate = $(this).datepicker('getDate');
+             var minDate = $(this).datepicker('getDate');
+            // dt2.datepicker('setDate', minDate);
+
+             startDate.setDate(startDate.getDate() + 1500);
+
+            //sets dt2 maxDate to the last day of 30 days window
+             dt2.datepicker('option', 'maxDate', startDate);
+             dt2.datepicker('option', 'minDate', minDate);
+             $(this).datepicker('option', 'minDate', minDate);
+        },
+     });
+
+     $("#ShowsDate4").datepicker({
+         dateFormat: 'dd/mm/yy',
+         changeMonth: true,
+         changeYear: true,
+     });
+
+</script>
+
+
+      @if(@ViewBag.ShowID > 0){
+           
+    @if (@st != null)
+    {
+        
+       <script> $("#ShowsDate3").val('@ViewBag.show.StartDate.ToString("dd/MM/yyyy")');</script>
+    }
+    @if (@et != null)
+    {
+       <script> $("#ShowsDate4").val('@ViewBag.show.EndDate.ToString("dd/MM/yyyy")');</script>
+    }
+           
+       }

@@ -1,0 +1,122 @@
+﻿<table id="ContestantTbl" class="display table table-striped" style="width: 100%;">
+    <thead class="HeadTbl" style="border-bottom: transparent;">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Live Pulse</th>
+            <th scope="col">Voted Out</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+
+</table>
+
+
+<script>
+    
+   GetContestant();
+    var teamstable ;
+
+
+    function GetContestant(){
+        
+         teamstable = $('#ContestantTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": true,
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+             "ajax": {
+                    "url": "/teams/GetContenstantList?teamID="+@ViewBag.TeamID,
+                    "type": "POST",
+                },
+                "columns": [
+                {
+                    "data": "contestantID",
+                    "orderable": true,
+                    "visible": false,
+
+                },
+                {
+                    "data": "name",
+                    "orderable": true,
+                },
+                {
+                    "data": "polarID",
+                    "orderable": true,
+                },
+                 {
+                    "data": "livePulse",
+                    "orderable": true,
+                },  
+                 {
+                    "data": null,
+                    "orderable": false,
+                    "render": function (data, type, row, meta ) {
+                        if(data.isVotedOut == true){
+                            return 'Yes';
+                        }
+                        else{
+                            return 'No';
+                        }                      
+                    }
+                },  
+                {
+                     "data": null  ,
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                        //console.log("sData");
+                        //console.log(sData);
+
+                        var htmldata='';
+                        if(sData.isVotedOut == true){                    
+                            htmldata='<div class="d-flex justify-content-end">'+
+                                         '<div class="d-none">'
+                                         +'<img src="/Images/TrashIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<div class="CursrPntr"   onclick="GetContenstantVoteIn('+oData.teamContestantID+','+oData.contestantID+')">'
+                                         +'<img src="/Images/EditIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'                                         
+                                         +'<img src="/Images/DetailIcon.svg" class="CursrPntr d-none" />'                                         
+                                         +'</div>';
+                        }
+                        else
+                        {
+                            htmldata= '<div class="d-flex justify-content-end">'
+                                      +'<div class="d-none">'
+                                      +'<img src="/Images/TrashIcon.svg" style="margin-right:15px;" />'
+                                      +'</div>'
+                                      +'<div class="CursrPntr"   onclick="GetContenstantEliminate('+oData.teamContestantID+','+oData.contestantID+')">'
+                                      +'<img src="/Images/EditIcon.svg" style="margin-right:15px;" />'
+                                      +'</div>'                                         
+                                      +'<img src="/Images/DetailIcon.svg" class="CursrPntr d-none" />'                                         
+                                      +'</div>';
+                        }
+
+                         
+                        $(nTd).html(htmldata);
+                        }
+                }
+                ],
+        });
+        $('.dataTables_filter').addClass('d-none');
+    }
+
+</script>

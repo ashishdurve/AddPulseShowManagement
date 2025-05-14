@@ -1,0 +1,76 @@
+﻿<form id="frmAddUpdateManager" name="frmAddUpdateManager" method="post" action="/manager/SaveUpdateManager">
+    <div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+
+        <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+            <div class="ShowModTitle" id="exampleModalLabel">@ViewBag.PopTitle</div>
+            <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+        </div>
+
+        <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+            <input type="hidden" id="UserID" name="UserID" value="@ViewBag.user.UserID" />
+            @*<input type="hidden" name="Password" value="@ViewBag.user.Password"  />*@
+            <input type="hidden" name="UserTypeID" value="2"  />           
+            <input type="hidden" name="LastName" value="@ViewBag.user.LastName"  />           
+            <input type="hidden" name="CreatedDate" value="@ViewBag.user.CreatedDate"  />           
+            <input type="hidden" name="CreatedBy" value="@ViewBag.user.CreatedBy"  />           
+            
+            <div class="ShowModLbl">Name</div>
+            <input type="text" name="FirstName" value="@ViewBag.user.FirstName" class="ShowModTxtBx" />
+
+            <div class="ShowModLbl">Email</div>
+            @if(@ViewBag.user.UserID >  0) 
+            {
+                <input type="text" name="Email" id="Email" value="@ViewBag.user.Email" class="ShowModTxtBx" readonly />
+            }
+            else
+            {
+                <input type="text" name="Email" id="Email" value="@ViewBag.user.Email" class="ShowModTxtBx" />
+            }
+            <div class="ShowModLbl">Phone</div>
+            <input type="text" name="Phone" value="@ViewBag.user.Phone" class="ShowModTxtBx" />
+
+            <div style="position:relative">
+            <div class="ShowModLbl">Password</div>
+            <input type="password" name="Password"  id="Password" value="@ViewBag.user.Password" class="ShowModTxtBx" />
+            <div class="d-flex justify-content-end" onclick="TogglePasswords('Password')">                   
+                    <i class="fa fa-fw fa-eye ShowModDateIc"></i>
+                </div>
+            </div>
+            <div style="position:relative">
+            <div class="ShowModLbl">Confirm Password</div>
+            <input type="password" name="ConfirmPassword" id="ConfirmPassword"  value="@ViewBag.user.Password" class="ShowModTxtBx" />
+            <div class="d-flex justify-content-end" onclick="TogglePasswords('ConfirmPassword')">                     
+                    <i class="fa fa-fw fa-eye ShowModDateIc"></i>
+                </div>
+            </div>
+
+            <div class="checkbox3 mb-3">
+                <label class="check2">
+                    <span class="ShowModLbl">IsActive</span>
+                    
+                    @if(@ViewBag.user.IsActive ==  true) 
+                    {
+                        <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="checked">
+                    }
+                    else
+                    {
+                       <input type="checkbox" id="IsActive" name="IsActive" value="false" checked=""> 
+                    }
+                    <span class="checkmark2"></span>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="ShowModFoot">
+            <button class="d-none" id="btnSubmitManagaer" type="submit">Add</button>
+            <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+            <div class="ShowModAdd" id="btnSubmitVal" onclick="SubmitManagerForm()">@ViewBag.BtnTitle</div>
+        </div>
+
+    </div>
+
+</form>
+
+
+@*<script src="~/js/ValidationJs/ManageManager.js"></script>*@

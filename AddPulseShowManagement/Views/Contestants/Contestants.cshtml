@@ -1,0 +1,325 @@
+﻿@{
+    ViewData["Title"] = "Contestants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+<link rel="stylesheet" href="~/css/Tabs.css" asp-append-version="true" />
+<section class="MainSecOff" id="ContestSecId">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+
+                <div>
+
+                    <div class="tab">
+
+                        <button class="tablinks IcnClck1" onclick="openFlow(event, 'ContestantsTbl')" id="defaultOpen">
+                            <div>
+                                <img src="~/Images/BarBlue.svg" class="Icn1Actve" />
+                                <img src="~/Images/BarIcon.svg" class="Icn2hd" />
+                            </div>
+                        </button>
+                        <button class="tablinks Btn2 IcnClck2" onclick="openFlow(event, 'ContestantsCrd')">
+                            <div>
+                                <img src="~/Images/TabTwo.svg" class="Icn4hd" />
+                                <img src="~/Images/TabTwo Blue.svg" class="Icn3Actve" />
+                            </div>
+                        </button>
+                    </div>
+
+                    <div id="ContestantsTbl" class="tabcontent">
+
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12">
+
+                                <div class="">
+                                    <div class="PageTitle">Contestants</div>
+                                </div>
+
+                                <div class="PageBrdr"></div>
+                                <button class="ShowModCanc d-none"  id="btnClear" onclick="ClearFilter()"> x Clear Filter</button>
+
+                                <div class="d-flex justify-content-end ContCrdRESP2">
+                                    <div class="ContestantsDpd ContTblResp2">
+
+                                        
+                                        <select class="Cont1" id="selShowID" name="selShowID">
+                                            <option value="0"></option>                                          
+                                            @foreach(AddPulseShowManagement.Data.DataTableModels.Shows item in @ViewBag.shows)
+                                            {
+                                                <option value="@item.ShowID">@item.ShowName</option>    
+                                            }
+                                            
+                                        </select>
+                                    </div>
+                                    <div style="position:relative">
+                                        <input type="text" id="searchmember-input" placeholder="Search" class="ContSrchBx">
+                                        <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                                        @*--------Do Not Remove Below Code-------*@
+
+                                        <div class="d-none ContCrdRESP3">
+                                            <img class="SrchIc" src="/Images/SrchIc.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ContTblResp1">
+                            <div class="col-12 col-md-12 col-lg-12">
+                                <div>
+                                    <div class="table-responsive" id="divhtmlTableContestant">
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ContestantsCrd" class="tabcontent">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12">
+                                <div>
+
+                                    <div class="">
+                                        <div class="PageTitle" style="margin-top: -64px !important;">Contestants</div>
+                                    </div>
+
+                                    <div class="PageBrdr"></div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-lg-12">
+                                            <div class="d-flex justify-content-end ContCrdRESP2">
+                                                <div class="ContestantsDpd ContTblResp2">
+                                                    <select class="Cont2" id="seleCardShowID">
+                                                        <option value="-1"></option>
+                                                         @foreach(AddPulseShowManagement.Data.DataTableModels.Shows item in @ViewBag.shows)
+                                                        {
+                                                            <option value="@item.ShowID">@item.ShowName</option>    
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div style="position:relative">
+                                                    <input type="text" id="inpSearch" placeholder="Search" class="ContSrchBx">
+                                                    <img class="SrchIc ContCrdResp4" src="/Images/SrchIc.svg">
+
+                                                    @*--------Do Not Remove Below Code-------*@
+
+                                                    <div class="d-none ContCrdRESP3">
+                                                        <img class="SrchIc" src="/Images/SrchIc.svg">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:20px" id="divhtmlCardView">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts
+    {
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+
+        var m_ShowID=0;
+        var c_ShowID=0;
+        var c_search='';
+
+        setTimeout(LayoutToggle(), 1000);
+
+        function LayoutToggle(fval)
+        {var btntoggleVal=parseInt(@Accessor.HttpContext.Session.GetInt32("ToggleValue"));
+
+            if(fval !='' && fval != undefined){
+                btntoggleVal=fval;
+            }
+           
+         
+         
+            if(btntoggleVal == 1){
+            var element5 = document.getElementById('ContestSecId');           
+            var elemen = document.getElementById('LayoutSdBar1');            
+            element5.classList.toggle('MainSec');          
+            elemen.classList.toggle('d-none');   
+            }
+        }
+
+
+        $(document).ready(function () {
+            $('#Contestants').addClass('activeHead');
+            $('#ActiveTitle2').addClass('activeSnd');
+            $(".Icn2hd").css({ "display": "none" });
+
+
+            $('.IcnClck1').click(function () {
+                $(".Icn1Actve").css({ "display": "block", "margin-top": "0px" });
+                $(".Icn2hd").css({ "display": "none", "margin-top": "0px" });
+                $(".Icn3Actve").css({ "display": "none", "margin-top": "0px" });
+                $(".Icn4hd").css({ "display": "block", "margin-top": "0px" });
+            });
+
+            $('.IcnClck2').click(function () {
+                $(".Icn1Actve").css({ "display": "none", "margin-top": "0px" });
+                $(".Icn2hd").css({ "display": "block", "margin-top": "0px" });
+                $(".Icn3Actve").css({ "display": "block", "margin-top": "0px" });
+                $(".Icn4hd").css({ "display": "none", "margin-top": "0px" });
+            });
+
+            //call the function
+            GetContestantTableView();
+            GetContestantView();
+        });
+ 
+        function GetContestantTableView()
+        {
+           
+             $.ajax({
+                 type: 'GET',
+                 url: "/contestants/GetContestantTableView?showID="+m_ShowID,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                                        
+                    $('#divhtmlTableContestant').html('');
+                    $('#divhtmlTableContestant').html(data);
+                 }
+             });
+        }
+
+        $('#inpSearch').keyup(function(){
+                     
+            c_search=$(this).val();
+            GetContestantView();
+        });
+
+         $('#inpdtSearch').keyup(function(){
+            
+            GetContestantView();
+        });
+
+        function GetContestantView()
+        {   
+             $.ajax({
+                 type: 'GET',
+                 url: "/contestants/GetContestantCardView?showID="+c_ShowID+"&search="+c_search,
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                                        
+                    $('#divhtmlCardView').html('');
+                    $('#divhtmlCardView').html(data);
+                 }
+             });
+        }
+
+
+        function openFlow(evt, flowName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(flowName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultOpen").click();
+          
+        $('#selShowID').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '0', // the value of the option
+                text: 'Select Show'
+            },
+            dropdownAutoWidth: true,
+        });
+
+    $('#selShowID').on('select2:select', function (e) {                      
+            m_ShowID=parseInt($(this).val());
+            $('#btnClear').removeClass('d-none');
+            GetContestantTableView();
+    });
+
+    $('#seleCardShowID').on('select2:select', function (e) {        
+             
+            c_ShowID=parseInt($(this).val());
+            $('#btnClear').removeClass('d-none');
+            GetContestantView();
+    });
+     
+    $('#seleCardShowID').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Show'
+            },
+            dropdownAutoWidth: true,
+    });
+
+  
+
+        function GetContestantsList(){
+             $.ajax({
+                 type: 'GET',
+                 url: "/Contestants/GetContestantsList",
+                 data: {},
+                 success: function (data, textStatus, jqXHR) {                    
+                    $('#divContestantList').html('');
+                    $('#divContestantList').html(data);
+                 }
+             });
+        }
+         
+        
+        function ClearFilter(){
+        m_startdate='';
+        m_enddate='';
+        m_ShowID=0;
+        $('#selShowID').val(0).trigger('change');
+        $('#btnClear').addClass('d-none');
+        GetContestantTableView();
+    }
+
+        function DeleteContestant(contestantID) {
+            var name = $("#" + contestantID).find('td:first-child').text();
+            var r = confirm("Are you sure you want to delete the contestant " + name + "?");
+            if (r == true) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "/Contestants/DeleteContestant?contestantID=" + contestantID,
+                    data: {},
+                    success: function (data, textStatus, jqXHR) {
+                        location.reload();
+                        //GetContestantsList();
+                    },
+                    error: function () {
+                        location.reload();
+                        //GetContestantsList();
+                    }
+                });
+            }
+        }
+
+    </script>
+
+    }
+

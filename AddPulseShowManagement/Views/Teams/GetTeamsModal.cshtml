@@ -1,0 +1,81 @@
+﻿   <div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+       <form id="frmSaveUpdateTeam" name="frmSaveUpdateTeam">
+            <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+
+                <div class="ShowModTitle" id="titleModalLabel">@ViewBag.PopTitle</div>
+                <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+
+            </div>
+
+            <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+                 <input type="hidden"  id="TeamID" name="TeamID" value="@ViewBag.TeamID"/>
+                 <input type="hidden"  id="CreatedDate" name="CreatedDate" value="@ViewBag.team.CreatedDate"/>
+                 <input type="hidden"  id="CreatedBy" name="CreatedBy" value="@ViewBag.team.CreatedBy"/>
+                 
+                <div>
+                    <div class="ShowModLbl">Team Name</div>
+                    <input type="text" class="ShowModTxtBx" id="TeamName" value="@ViewBag.team.TeamName" name="TeamName"/>
+                </div>
+                <div style="margin-bottom:30px;">
+                    <div class="ShowModLbl">Activity</div>
+                    <div class="ContestantsDpd">
+                        <select class="TeamMdl" id="ShowID" name="ShowID">
+                            <option value="-1"></option>
+                            @foreach(AddPulseShowManagement.Data.DataTableModels.Shows item in @ViewBag.shows){
+                                <option value="@item.ShowID">@Html.Raw(@Html.Encode(@item.ShowName))</option>
+                            }
+               
+                        </select>
+                    </div>
+                </div>     
+                
+                  <div class="checkbox3 mb-3">
+                <label class="check2">
+                    <span class="ShowModLbl">Is Active</span>
+                    
+                    
+                    @if (@ViewBag.TeamID == 0)
+                    {
+                         <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="checked">
+                    }
+                    else 
+                    {
+                        @if (@ViewBag.team.IsActive == true)
+                        {
+                            <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="IsActive" name="IsActive" value="false">
+                        }
+                    }
+                    <span class="checkmark2"></span>
+                </label>
+            </div>
+            </div>
+
+            <div class="ShowModFoot">
+                <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+                <div class="ShowModAdd" onclick="UpdateTeams(@ViewBag.TeamID)">@ViewBag.BtnTitle</div>
+            </div>
+
+            </form>
+        </div>
+
+<script>
+    $('.TeamMdl').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Activity'
+            },
+            dropdownAutoWidth: true,
+            dropdownParent: $('#AddTeamsModal')
+        });
+
+        $('#ShowID').val('@ViewBag.team.ShowID').trigger('change');
+
+        $('#ShowID').on("change", function (e) {
+          $('#ShowID').valid();
+        });
+</script>

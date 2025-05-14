@@ -1,0 +1,85 @@
+﻿<div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+    <form id="frmUpdateUser" name="frmUpdateUser">
+    <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+
+        <div class="ShowModTitle" id="exampleModalLabel">Edit Profile</div>
+        <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+
+    </div>
+
+    <input type="hidden" class="ShowModTxtBx" id="LastName" name="LastName" value="@ViewBag.user.LastName"/>
+    <input type="hidden" class="ShowModTxtBx" id="CreatedBy" name="CreatedBy" value="@ViewBag.user.CreatedBy"/>
+    <input type="hidden" class="ShowModTxtBx" id="ModifiedBy" name="ModifiedBy" value="@ViewBag.user.ModifiedBy"/>
+    <input type="hidden" class="ShowModTxtBx" id="IsActive" name="IsActive" value="@ViewBag.user.IsActive"/>
+    <input type="hidden" class="ShowModTxtBx" id="UserTypeID" name="UserTypeID" value="@ViewBag.user.UserTypeID"/>
+    <input type="hidden" class="ShowModTxtBx" id="ProfileImage" name="ProfileImage" value="@ViewBag.user.ProfileImage"/>
+    <input type="hidden" class="ShowModTxtBx" id="IsEmailVerified" name="IsEmailVerified" value="@ViewBag.user.IsEmailVerified"/>
+    <input type="hidden" class="ShowModTxtBx" id="UserID" name="UserID" value="@ViewBag.user.UserID"/>
+
+    <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+        <div class="PhotoUpldReg d-none">
+            <div class="image-upload">
+                <label for="file-input">
+                    <img src="/Images/photo.svg" id="uploadedImage">
+                </label>
+                <input id="ProfileFile" name="ProfileFile" type="file" accept="image/*" required="">
+            </div>
+            <div class="text-center UpldImgTxt">Upload Image</div>
+        </div>
+        <div>
+            <div class="ShowModLbl">Name</div>
+            <input type="text" class="ShowModTxtBx" id="FirstName" name="FirstName" value="@ViewBag.user.FirstName"/>
+           
+        </div>
+
+        <div>
+            <div class="ShowModLbl">Email</div>
+            <input type="text" class="ShowModTxtBx" id="Email" name="Email" value="@ViewBag.user.Email" readonly/>
+        </div>
+
+        <div>
+            <div class="ShowModLbl">Phone Number</div>
+            <input type="number" class="ShowModTxtBx" id="Phone" name="Phone" value="@ViewBag.user.Phone"/>
+        </div>
+
+
+          <div style="position:relative">
+            <div class="ShowModLbl">Password</div>
+            <input type="password" name="Password"  id="Password" value="@ViewBag.user.Password" class="ShowModTxtBx" />
+            <div class="d-flex justify-content-end" onclick="TogglePasswords('Password')">                   
+                    <i class="fa fa-fw fa-eye ShowModDateIc"></i>
+                </div>
+            </div>
+            <div style="position:relative">
+            <div class="ShowModLbl">Confirm Password</div>
+            <input type="password" name="ConfirmPassword" id="ConfirmPassword"  value="@ViewBag.user.Password" class="ShowModTxtBx" />
+            <div class="d-flex justify-content-end" onclick="TogglePasswords('ConfirmPassword')">                     
+                    <i class="fa fa-fw fa-eye ShowModDateIc"></i>
+                </div>
+            </div>
+
+
+    </div>
+
+    <div class="ShowModFoot">
+        <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+        <div class="ShowModAdd" onclick="UpdateUserProfile(@ViewBag.user.UserID)">Save</div>
+    </div>
+    </form>
+</div>
+
+<script>
+ var state = false;
+
+    function TogglePasswords(divID) {
+             if (state) {
+                 document.getElementById(divID).setAttribute("type", "password");
+                 state = false;
+             }
+             else {
+                 document.getElementById(divID).setAttribute("type", "text");
+                 state = true;
+             }
+   }
+
+</script>

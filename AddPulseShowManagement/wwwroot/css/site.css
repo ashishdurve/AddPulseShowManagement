@@ -1,0 +1,1950 @@
+body {
+    background: #ECF5FC;
+}
+
+
+.highlightError {
+    outline: 2px solid red;
+    border-radius: 5px;
+}
+.highlightParentError, .highlightTextError, .Error {
+    color: red;
+}
+/*-----------------Kamil Css Starts---------------*/
+.CursrPntr {
+    cursor: pointer;
+}
+.LoginBdy {
+    height: 100% !important;
+}
+
+.LoginBg {
+    background: #0D47A1 0% 0% no-repeat padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.LgInBx {
+    width: 400px;
+}
+.LgInTitle {
+    font-family: Roboto-Bold;
+    font-size: 40px;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px;
+}
+.LgInBrdr {
+    height: 1px;
+    width: 100%;
+    margin-top: 30px;
+    background: #C5E7FF 0% 0% no-repeat padding-box;
+}
+.LgInLbl {
+    margin-top: 30px;
+    margin-bottom: 11px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+}
+.LgInTxtBx {
+    width: 100%;
+    height: 40px;
+    background: #FFFFFF no-repeat;
+    border: 1px solid #C5E7FF;
+    border-radius: 23px;
+    padding-left: 15px;
+    font-family: Roboto-Regular;
+}
+    .LgInTxtBx:focus-visible
+    {
+        outline:none;
+    }
+    .LgInLbl1 {
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #FFFFFF;
+        letter-spacing: 0px;
+        margin-left: 14px;
+    }
+.LgInForgotPass {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #C5E7FF;
+    cursor:pointer;
+}
+.LgInChkBx {
+    background: #FFFFFF no-repeat;
+    border: 1px solid #C5E7FF;
+    border-radius: 2px;
+}
+.LgInLogInBtn {
+    background: #C5E7FF no-repeat;
+    border-radius: 24px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+    margin-top:30px;
+    border:none;
+}
+.LoginImgBg{
+    display:flex;
+    justify-content:end;
+}
+.LoginImg {
+    width: 467px;
+    height: 100px;
+    margin-right: 60px;
+    margin-top: 123px;
+}
+.PageTitle {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    letter-spacing: 0.75px;
+    color: #0D47A1;
+    position: absolute;
+    margin-top: -42px;
+}
+.PageBrdr {
+    height: 3px;
+    width: 100%;
+    background: #EBF2F7 0% 0% no-repeat padding-box;
+    margin-top:22px;
+    margin-bottom:30px;
+}
+.ContSlctDrp {
+    width: 184px;
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    padding-left: 10px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    cursor:pointer;
+}
+    .ContSlctDrp:focus-visible{
+        outline:none;
+    }
+    .SrchIcBx {
+        width: 40px;
+        height: 40px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #EBF2F7;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+.SrchIc {
+    width: 40px;
+    height: 40px;
+    margin-left:-40px;
+}
+.ContSrchBx {
+    width: 300px;
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    padding-left: 20px;
+    margin-left: 30px;
+}
+    .ContSrchBx:focus-visible{
+        outline:none;
+    }
+.ContCrdMainBx {
+        width: 100%;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 25px #52575D1A;
+        border-radius: 20px;
+        padding-bottom: 20px;
+    }
+.ContCrdHdr {
+    background: #C5E7FF 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.ContHdrDp {
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+.ContHdrTxt {
+    font-size: 20px;
+    font-family: Roboto-Bold;
+    letter-spacing: 0.63px;
+    color: #0D47A1;
+}
+.ContCrdBdy{
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:20px;
+}
+.ContBdyTxt1 {
+    text-align: center;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #8F9198;
+    margin-bottom:11px;
+}
+.ContBdyTxt2 {
+    text-align: center;
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #333333;
+}
+.ContBdyBrdr {
+    height: 0px;
+    width: 100%;
+    border: 1px dashed #0D47A1;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.ContHrtIc {
+    width: 20px;
+    height: 20px;
+    margin-right:7px;
+}
+.ContBdyTxt3 {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    letter-spacing: 0px;
+    color: #E63946;
+}
+.ContFtrBrdr {
+    width: 100%;
+    height: 0px;
+    border: 1px solid #0D47A1;
+    margin-top: 20px;
+}
+.ContFtrTxt {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration-line: underline;
+    font-family: Roboto-Medium;
+    font-size: 10px;
+    letter-spacing: 0px;
+    color: #E63946;
+}
+.ContTblResp2 {
+    width: 15% !important;
+}
+.DateCalIc {
+    width: 14px;
+    height: 14px;
+}
+.DatePickIcBx {
+    width: 36px;
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 22px 0px 0px 22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.ShowDatePickStaBx {
+    width: 138px;
+    height: 40px;
+    padding-left: 14px;
+    padding-top: 5px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #2B2B2B;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+}
+    .ShowDatePickStaBx:focus-visible{
+        outline:none;
+    }
+.ShowDatePickEndBx {
+        width: 174px;
+        height: 40px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #EBF2F7;
+        border-radius: 0px 22px 22px 0px;
+        padding-left: 14px;
+        padding-top: 5px;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #2B2B2B;
+    }
+.ShowDatePickEndBx:focus-visible {
+    outline: none;
+}
+.ShowModTitle {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    letter-spacing: 0.75px;
+    color: #333333;
+}
+.ShowModClose {
+    width: 20px;
+    height: 20px;
+    cursor:pointer;
+}
+.ShowModLbl {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-family: Roboto-Regular;
+    letter-spacing: 0px;
+    color: #53585E;
+}
+.ShowModTxtBx {
+    height: 40px;
+    width:100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 23px;
+    font-family: Roboto-Regular;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+    .ShowModTxtBx:focus-visible{
+        outline:none;
+    }
+.ShowModBx{
+    width:460px !important;
+}
+.ShowModFoot {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 30px;
+}
+.ShowModCanc {
+    width: 185px;
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #E63946;
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #E63946;
+    cursor:pointer;
+}
+.ShowModAdd {
+    width: 185px;
+    height: 40px;
+    background: #E63946 0% 0% no-repeat padding-box;
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    cursor:pointer;
+}
+.ShowModDateIc {
+    width: 17px;
+    height: 17px;
+    margin-top: -58px;
+    margin-right: 16px;
+}
+.ShowDetHdrBx {
+    width: 100%;
+    background: #C5E7FF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    display:flex;
+    justify-content:space-between;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+}
+.ShowDetHdrTxt {
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.ShowDetHdrTxt1 {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0.44px;
+    color: #333333;
+    margin-right:100px;
+}
+.ShowDetEditIc {
+    width: 20px;
+    height: 20px;
+    cursor:pointer;
+}
+.ShowDetEditBx {
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+}
+.ShowDetCrdMainBx {
+    width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #0D47A128;
+    border-radius: 10px;
+}
+.ShowDetCrdHdr {
+    background: #D9E2EC 0% 0% no-repeat padding-box;
+    border-radius: 10px 10px 0px 0px;
+    width:100%;
+    height:60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.ShowDetCrdHdrTxt {
+    margin-left: 30px;
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #333333;
+}
+.ShowDetCrdModBtn {
+    background: #E63946 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    width: 184px;
+    height: 40px;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.ShowDetCrdBdy{
+    padding:0 31px 31px 31px;
+}
+.ShowDetTabDp {
+    width: 40px;
+    height: 40px;
+    border-radius:50px;
+}
+.EventTbDt {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0.44px;
+    color: #333333;
+}
+.EventTblResp1 {
+    width: 12% !important;
+    margin-right: 30px;
+}
+.ConfigSlctLbl {
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+    margin-bottom:10px;
+}
+.ConfigResp1 {
+    width: 25% !important;
+}
+.DashResp1{
+    width: 80%;
+}
+.ConfigCrdMainBx {
+    width: 100%;
+    min-height: 763px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0D47A128;
+    border-radius: 20px;
+}
+.ConfigCrdTitle {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    letter-spacing: 0.75px;
+    color: #0D47A1;
+    padding-top:30px;
+    margin-left:30px;
+}
+.ConfigCrdBrdr {
+    width: 100%;
+    height: 0px;
+    border: 1px solid #C5E7FF;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.ConfigCrdBdy{
+    padding:30px;
+    padding-top:0;
+}
+.ConfigResp2{
+    width:100%;
+}
+.DashboardMainSecOff {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0d47a128;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+    padding: 30px;
+}
+.DashboardMainSec {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0d47a128;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 200px !important;
+    margin-right: 30px !important;
+    padding: 30px;
+}
+.DashTitle {
+    font-family:Roboto-Bold;
+    font-size:20px;
+    letter-spacing: 0.63px;
+    color: #333333;
+}
+.DashBrdr {
+    width: 100%;
+    height: 3px;
+    background: #C5E7FF 0% 0% no-repeat padding-box;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+.DashCrdMainBx {
+    width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #0D47A128;
+    border-radius: 10px;
+}
+.DashCrdHdr {
+    background: #EBF2F7 0% 0% no-repeat padding-box;
+    border-radius: 10px 10px 0px 0px;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Bold;
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+}
+.DashCrdBody{
+    padding:30px;
+}
+.DashCrdBdyTxt {
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #53585E;
+    margin-bottom:10px;
+}
+.DashCrdBdyTxt1 {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: #E63946;
+    margin-left:5px;
+}
+.DashCrdHrtIc {
+    width: 14px;
+    height: 14px;
+}
+.DashSubCrdMainBx {
+    width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #52575D1A;
+    border-radius: 20px;
+}
+.DashSubCrdHdr {
+    height: 100px;
+    width: 100%;
+    background: #C5E7FF 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.DashSubCrdTxt {
+    font-family: Roboto-Bold;
+    font-size: 20px;
+    letter-spacing: 0.63px;
+    color: #0D47A1;
+    margin-bottom:10px;
+}
+.DashSubCrdTxt1 {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #333333;
+    margin-right:2px;
+}
+.DashSubCrdTxt2 {
+    font-family: Roboto-Bold;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+}
+.DashSubCrdDp {
+    width: 60px;
+    height: 60px;
+    margin-right:20px;
+    border-radius:50px;
+}
+.DashSubCrdBdy{
+    padding-left:30px;
+    padding-top:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+}
+.DashSubCrdTxt3 {
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #8F9198;
+    margin-bottom:10px;
+    text-align:center;
+}
+.DashSubCrdTxt4 {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    margin-left: 5px;
+    letter-spacing: 0px;
+    color: #E63946;
+}
+.DashSubCrdHrt {
+    width: 14px;
+    height: 14px;
+}
+.DashSubCrdBrdr {
+    height: 0px;
+    width: 100%;
+    border: 1px dashed #0D47A1;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.DashResp2 {
+    width: 184px !important;
+}
+.DashVsBx {
+    width: 30px;
+    height: 30px;
+    background: #0D47A1 0% 0% no-repeat padding-box;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto-Medium;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+.DashPlayerVsCardResp{
+    padding-right:35px;
+}
+.DashPlayerVsCardResp1 {
+    padding-left: 35px;
+}
+.DashCrdBdyTxt2 {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    margin-right: 4px;
+    letter-spacing: 0px;
+    color: #8F9198;
+}
+.DashCrdBdyTxt3 {
+    font-family: Roboto-Bold;
+    font-size: 20px;
+    letter-spacing: 0.63px;
+    color: #0D47A1;
+}
+.DashSubCrdSubTxt1 {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #8F9198;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.DashSubCrdSubTxt2 {
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: #333333;
+    text-align: center;
+}
+.ConfigSubCrdTxt1 {
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    margin-bottom: 10px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+}
+.ConfigVsResp{
+    margin-bottom:30px;
+}
+.LivePulseBg {
+    background: black 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    margin-top: -80px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 30px;
+    padding-top: 0px;
+}
+.LivePulTitle {
+    font-family: Roboto-Medium;
+    font-size: 55px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+/***************For Margin-top in Rows except 1st row in Live Pulse Page************/
+.LiveRespRow{
+    margin-top:14%;
+}
+/***************For Margin-top in Rows except 1st row in Live Pulse Page************/
+.LivePulTxt {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    margin-bottom:10px;
+}
+.LivePulTxtRed {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: red;
+    margin-bottom: 10px;
+}
+.LivePulTxtRed1 {
+    font-family: Roboto-Regular;
+    font-size: 28px;
+    letter-spacing: 0px;
+    color: red;
+}
+.LivePulTxt1 {
+    font-family: Roboto-Regular;
+    font-size: 28px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+.LivePulCol {
+    width: 20% !important;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.TeamTxtLivePulse {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+.BrdLivePulse {
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.LivePulFtr {
+    font-family: Roboto-Bold;
+    font-size: 37px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+.LivePulBdy {
+    background: black !important;
+}
+.LivePulRespBg {
+    margin-left: 150px !important;
+    margin-right: 30px !important;
+    padding: 30px;
+}
+
+
+.ConfigTimTxtBx {
+    width: 150px;
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    padding-left: 20px;
+    margin-right: 30px;
+}
+    .ConfigTimTxtBx:focus-visible{
+        outline:none;
+    }
+.ConfigSaveBtn {
+    width: 130px;
+    margin-right: 30px;
+    margin-top: 30px;
+}
+.DashTeamvsResp{
+    width:20% !important;
+}
+.DashSubCrd1Txt {
+    font-family: Roboto-Bold;
+    font-size: 12px;
+    letter-spacing: 0.63px;
+    color: #0D47A1;
+    margin-bottom: 10px;
+}
+.DashSubCrd1Txt1 {
+    font-family: Roboto-Regular;
+    font-size: 10px;
+    letter-spacing: 0px;
+    color: #333333;
+    margin-right: 2px;
+}
+.DashSubCrd1Txt2 {
+    font-family: Roboto-Bold;
+    font-size: 10px;
+    letter-spacing: 0px;
+    color: #0D47A1;
+}
+.DashSubCrd1Bdy {
+    padding-left: 0px;
+    padding-top: 20px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+.DashSubCrd1Txt3 {
+    font-family: Roboto-Regular;
+    font-size: 11px;
+    letter-spacing: 0px;
+    color: #8F9198;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.DashSubCrd1Hrt {
+    width: 10px;
+    height: 11px;
+    margin-bottom: 3px;
+}
+.DashSubCrd1Txt4 {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    margin-left: 5px;
+    letter-spacing: 0px;
+    color: #E63946;
+}
+.DashTeamVsResp2{
+    padding-left:25px;
+}
+
+/*-----------------Kamil Css Ends---------------*/
+.MainSec {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0d47a128;
+    border-radius: 20px;
+    margin-top: 110px;
+    margin-left: 200px !important;
+    margin-right: 30px;
+    padding: 30px;
+}
+.MainSecOff {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0d47a128;
+    border-radius: 20px;
+    margin-top: 110px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 30px;
+}
+.ImgCont {
+    width: 40px;
+    height: 40px;
+    border-radius:50%;
+    margin-right:20px;
+}
+.ContSec
+{
+    display:flex;
+    align-items:center;
+}
+/*Custom css for the select 2 start*/
+
+.CustmTitlDpd .select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    min-width: 130px;
+    width: 100% !important;
+}
+
+
+
+    .CustmTitlDpd .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 44px;
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 130px;
+        width: 100% !important;
+    }
+
+
+
+.CustmTitlDpd .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #D2D2D2;
+    border-radius: 9px;
+    margin-top: 10px;
+}
+
+
+
+    .CustmTitlDpd .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 24px;
+        padding-top: 10px;
+        font-family: Montserrat-Medium;
+        color: #5B5B5B;
+        font-size: 16px;
+    }
+
+
+
+    .CustmTitlDpd .select2-container--default .select2-selection--single .select2-selection__arrow {
+        background: url('../Images/Datepicker icon.svg')90% 42%;
+        background-repeat: no-repeat !important;
+        height: 26px;
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        width: 20px;
+        /*margin-right: -75px;*/
+    }
+
+
+
+    .CustmTitlDpd .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #525252;
+    }
+
+
+
+.select2-dropdown {
+    background-color: #fff !important;
+    border: 1px solid #EBF2F7 !important;
+    border-radius: 0px 0px 10px 10px;
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    left: -100000px;
+    width: 170px !important;
+    z-index: 1051;
+    border-top: none;
+}
+
+
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    -webkit-appearance: none !important;
+    border-color: #888 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+    display: none;
+}
+
+
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #0D47A1 !important;
+        color: #FFFFFF !important;
+    font-family: Roboto-Regular !important;
+    /*color: #5B5B5B !important;*/
+    font-size: 14px !important;
+}
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+        background-color: #fff !important;
+        color: #5B5B5B !important;
+    }
+
+
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #0D47A1 !important;
+    color: #FFFFFF !important;
+    font-family: Roboto-Regular !important;
+    font-size: 14px !important;
+   /* color: #5B5B5B !important;*/
+}
+
+
+
+.select2-results__option[aria-selected] {
+    cursor: pointer;
+    font-family: Roboto-Regular;
+    color: #5B5B5B;
+    font-size: 14px;
+}
+
+/*Custom css for the select 2 end*/
+
+/*Custom css for the select 2 start*/
+
+.ContestantsDpd .select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    min-width: 130px;
+    width: 100% !important;
+}
+
+
+
+    .ContestantsDpd .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 44px;
+        user-select: none;
+        -webkit-user-select: none;
+        min-width: 158px;
+        width: 100% !important;
+    }
+
+
+
+
+.ContestantsDpd .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+}
+
+
+
+    .ContestantsDpd .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 24px;
+        padding-top: 10px;
+        font-family: Roboto-Regular;
+        color: #53585E;
+        font-size: 14px;
+    }
+
+
+
+    .ContestantsDpd .select2-container--default .select2-selection--single .select2-selection__arrow {
+        background: url('../Images/Datepicker icon.png')90% 42%;
+        background-repeat: no-repeat !important;
+        height: 26px;
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        width: 20px;
+        background-size: 25px;
+    }
+
+
+
+    .ContestantsDpd .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #53585E;
+    }
+
+.MrgnRghtWarehouse {
+    margin-right: 30px;
+}
+
+.CustmTitlDpd {
+    margin-bottom: 30px;
+}
+/*Custom check box css start*/
+
+.checkbox3 .check2 {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 0px;
+    padding-right: 15px;
+    cursor: pointer;
+    color: #FF6F00;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    margin-left: 14px;
+}
+
+
+
+    .checkbox3 .check2 input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+
+
+        .checkbox3 .check2 input:checked ~ .checkmark2 {
+            background-color: #fff;
+            border: 1px solid #E63946;
+            height: 16px;
+            width: 16px;
+        }
+
+            .checkbox3 .check2 input:checked ~ .checkmark2:after {
+                display: block;
+            }
+
+
+
+    .checkbox3 .check2 .checkmark2:after {
+        left: 4px;
+        top: 0px;
+        width: 6px;
+        height: 11px;
+        border: solid;
+        border-color: red;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+
+.checkbox3 .checkmark2 {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #C5E7FF;
+    border-radius: 2px;
+}
+
+
+
+    .checkbox3 .checkmark2:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+.ShowBtn {
+    background: #E63946;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    width: 184px;
+    height: 40px;
+    color: #FFFFFF;
+    font-size:16px;
+    font-family:Roboto-Bold;
+}
+
+.ShowBtn2 {
+    background: #0d6efd;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-family: Roboto-Bold;
+    margin-left: 10px;
+}
+
+.ShowBtn3 {
+    background: #8F9198;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-family: Roboto-Bold;
+}
+
+.countdown {
+    /* text-align: center; */
+    border: 5px solid #004853;
+    display: inline;
+    padding: 5px;
+    color: #004853;
+    font-family: Verdana, sans-serif, Arial;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+    .ShowSec
+{
+    display:flex;
+    justify-content:space-between;
+}
+.ShowTxt {
+    color: #0D47A1;
+    font-family:Roboto-Bold;
+    font-size:24px;
+}
+.EditMdlSec {
+    margin-top: -1px;
+}
+.MdlContent {
+    box-shadow: 0px 10px 20px #C4C8D066;
+    border-radius: 0px 0px 20px 20px;
+}
+
+#myDashChart, #myDashChart1, #myDashChart2, #myDashChart3, #myDashChart4, #myDashChart5, #myDashChart6, #myDashChart7, #myDashChart12, #myDashChart13, #myDashChart14, #myDashChart15,
+#myDashChart10, #myDashChart11, #myDashChart8, #myDashChart9,
+#myChart, #myChart1, #myChart2, #myChart3, #myChart4, #myChart5, #myChart6, #myChart7, #myChart8, .dashboardChart {
+    width: 100%;
+    height: 230px;
+}
+#myDashChart-license-text, #myDashChart1-license-text, #myDashChart2-license-text, #myDashChart3-license-text, #myDashChart4-license-text, #myDashChart5-license-text, #myDashChart6-license-text, #myDashChart7-license-text, #myDashChart12-license-text, #myDashChart13-license-text, #myDashChart14-license-text, #myDashChart15-license-text,
+#myDashChart10-license-text, #myDashChart11-license-text, #myDashChart8-license-text, #myDashChart9-license-text,
+#myChart-license-text, #myChart1-license-text, #myChart2-license-text, #myChart3-license-text, #myChart4-license-text, #myChart5-license-text, #myChart6-license-text, #myChart7-license-text, #myChart8-license-text, .dashboardChart-license-text {
+    display: none;
+}
+
+.BrdCrmTxt {
+    color: #333333;
+    font-size: 24px;
+    font-family: Roboto-Regular;
+    text-decoration: none;
+}
+    .BrdCrmTxt:hover {
+        color: #333333;
+    }
+    .BrdCrmSubTxt {
+        color: #0D47A1 !important;
+        font-size: 24px;
+        font-family: Roboto-Bold;
+    }
+.breadcrumb-item + .breadcrumb-item::before {
+    float: left;
+    padding-right: 0.5rem;
+    color: #B4E1FD !important;
+    content: var(--bs-breadcrumb-divider, "/");
+    background: url(../Images/breadcrumbs.png);
+    background-repeat: no-repeat;
+    height: 10px;
+    width: 10px;
+    content: "" !important;
+    padding: 10px;
+    margin-top: 15px;
+    margin-left: 7px;
+}
+.AddContestantsBtn {
+    background: #E63946 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    width: 184px;
+    height: 40px;
+    color: #FFFFFF;
+    font-size:16px;
+    font-family:Roboto-Bold;
+}
+.ApplyBtn {
+    background: #E63946 0% 0% no-repeat padding-box;
+    border: 1px solid #EBF2F7;
+    border-radius: 20px;
+    width: 184px;
+    height: 40px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-family: Roboto-Bold;
+}
+.CnclBtn {
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #E63946;
+    border-radius: 20px;
+    width: 184px;
+    height: 40px;
+    color: #E63946;
+    font-size: 16px;
+    font-family: Roboto-Bold;
+    margin-right:30px;
+}
+.ContListSec {
+    justify-content: end;
+    display: flex;
+    margin-top: 30px;
+}
+.PrflSec {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 25px #0d47a128;
+    border-radius: 20px;
+    margin-top: 110px;
+    margin-left: 200px;
+    margin-right: 30px;
+    padding: 30px;
+    width: 465px;
+    height: 240px;
+}
+.PrflCrdSec {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.PrflImg {
+    width: 100px;
+    height: 100px;
+    border-radius:50%;
+}
+.PrflName {
+    color: #333333;
+    font-size:24px;
+    font-family:Roboto-Bold;
+    margin-top:10px;
+}
+.PrflBadge {
+    background: #0D47A1 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    width: 60px;
+    height: 29px;
+    color: #FFFFFF;
+    font-size:14px;
+    font-family:Roboto-Regular;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:15px;
+}
+.MailTxt {
+    color: #262626;
+    font-size:16px;
+    font-family:Roboto-Regular;
+    margin-top:3px;
+}
+.MobViewSnd
+{
+    display:none;
+}
+.form-check-input:checked[type=radio] {
+    background-color: #E63946;
+}
+.form-check-input:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: none;
+}
+.Chckbox .form-check-input {
+    width: 16px;
+    height: 16px;
+    margin-top: 0.25em;
+    vertical-align: top;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 2px solid #E63946;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    cursor: pointer;
+}
+.ChckbxTxt {
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Roboto-Regular';
+    color: #53585E;
+}
+.ChckBoxSec {
+    display: flex;
+    align-items: center;
+}
+/*Imported fonts*/
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('../Fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('../Fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('../Fonts/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'E1234';
+    src: url('../Fonts/E1234-p7pER.ttf');
+}
+
+/*Medias*/
+
+@media (min-width: 1400px) and (max-width: 3000px) {
+    .CardCol {
+        width: 44.667% !important;
+    }
+
+    .VsCol {
+        width: 5.667% !important;
+    }
+
+    .PadCard2Col {
+        padding-left: 0px !important;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1699px) {
+    .ConfigColResp{
+        width: 50% !important;
+    }
+}
+
+@media (min-width: 1820px) and (max-width: 1842px) {
+    .DashHrtResp {
+        margin-bottom : 28px !important;
+    }
+    .DashHrtResp1 {
+        margin-bottom: 21px !important;
+    }
+}
+
+@media (min-width: 1650px) and (max-width: 1819px) {
+    .DashHrtResp {
+        margin-bottom: 28px !important;
+    }
+
+    .DashHrtResp1 {
+        margin-bottom: 21px !important;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1649px) {
+    
+    .DashHrtResp1 {
+        margin-bottom: 28px !important;
+    }
+}
+
+@media (min-width: 580px) and (max-width: 640px) {
+    .DashHrtResp {
+        margin-bottom: 29px !important;
+    }
+
+    .DashHrtResp1 {
+        margin-bottom: 30px !important;
+    }
+}
+
+@media (max-width:990px) {
+    .ConfigResp2 {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width:1700px){
+    .ConfigCrdMainBx{
+        margin-bottom:30px;
+    }
+
+}
+@media (max-width:1600px){
+
+}
+@media (max-width:1500px) {
+    .EventTblResp1 {
+        width: 12% !important;
+        margin-right: 40px;
+    }
+    
+    .DashSubCrdBdy {
+        padding-left: 20px;
+        padding-top: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+    }
+
+    
+    .LoginImg {
+    	        margin-top: 90px;
+    }
+}
+@media (max-width:1440px) {
+ .EventTblResp1 {
+        width: 17% !important;
+        margin-right: 40px;
+    }
+
+    .LoginImg {
+        margin-top: 90px;
+    }
+}
+
+@media (max-width:1400px) {
+    .ContCrdMainBx {
+        margin-bottom: 20px;
+    }
+    .LivePulCol {
+        width: 20% !important;
+        margin-bottom: 30px;
+    }
+}
+
+
+    @media (max-width:1366px) {
+        .DashTeamVsResp2 {
+            padding-left: 15px;
+        }
+        .DashSubCrdBdy {
+            padding-left: 30px;
+            padding-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+        }
+
+        .ContTblResp2 {
+            width: 16% !important;
+        }
+    }
+
+    @media (max-width:1280px) {
+
+        .LoginImg {
+            /*margin-bottom: 60px;*/
+            margin-right: 60px;
+            margin-top: 90px;
+        }
+
+        .ContTblResp2 {
+            width: 18% !important;
+        }
+    }
+
+    @media (max-width:1200px) {
+
+        .ContTblResp2 {
+            width: 21% !important;
+        }
+
+        .ShowDetCrdMainBx {
+            margin-bottom: 30px;
+        }
+        .LivePulCol {
+            width: 33% !important;
+            margin-bottom: 30px;
+        }
+    }
+
+    
+
+    @media(max-width:1024px) {
+        .LivePulseBg {
+            
+            margin-left: 30px;
+            margin-right: 30px;
+            padding: 30px;
+        }
+    }
+
+
+
+/*ipad pro*/
+@media (min-width:769px) and (max-width:1024px) {
+    .PrflSec {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 25px #0d47a128;
+        border-radius: 20px;
+        margin-top: 110px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding: 30px;
+        width: 465px;
+        height: 240px;
+    }
+    .LoginImg {
+        margin-top: 327px;
+    }
+    .MainSec {
+        margin-top: 110px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding: 30px;
+    }
+    .DashboardMainSec {
+            margin-left: 30px;
+            margin-right: 30px;
+            padding: 30px;
+        }
+
+        .DashResp1 {
+            width: 100%;
+        }
+
+        .DashResp2 {
+            width: 100% !important;
+        }
+    }
+
+    /*ipad */
+    @media (max-width:768px) {
+        .LivePulCol {
+            width: 50% !important;
+            margin-bottom: 30px;
+        }
+        .DashResp1 {
+            width: 100%;
+        }
+
+        .DashResp2 {
+            width: 100% !important;
+        }
+
+        .DashboardMainSec {
+            margin-left: 30px;
+            margin-right: 30px;
+            padding: 30px;
+        }
+
+        .ShowDetHdrTxt1 {
+            margin-right: 50px;
+        }
+    .PrflSec {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 25px #0d47a128;
+        border-radius: 20px;
+        margin-top: 110px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding: 30px;
+        width: 465px;
+        height: 240px;
+    }
+
+        .MainSec {
+            margin-top: 110px;
+            margin-left: 30px;
+            margin-right: 30px;
+            padding: 30px;
+        }
+
+        .LoginImg {
+            /*margin-bottom: 60px;*/
+            margin-right: 35px;
+            margin-top: 152px;
+        }
+
+        .ContSrchBx {
+            width: 100%;
+            height: 40px;
+            margin-left: 0px;
+            margin-top: 15px;
+        }
+
+        .ConfigResp1 {
+            width: 100% !important;
+        }
+
+        .EventTblResp1 {
+            width: 100% !important;
+            margin-right: 30px;
+            margin-bottom: 15px;
+        }
+    .ContTblResp2 {
+        width: 100% !important;
+    }
+    .ContCrdMainBx {
+        margin-bottom:20px;
+    }
+    .ContCrdRESP1{
+        margin-top:0px !important;
+    }
+    .ContCrdRESP2 {
+        display: block !important;
+    }
+    .ContCrdRESP3 {
+        display: flex !important;
+        justify-content:end !important;
+    }
+    .ContCrdResp4{
+        display:none !important;
+    }
+    .ContTblResp1{
+        margin-top: 10px !important;
+    }
+    .SrchIc {
+        margin-top: -40px;
+        margin-left: 0px;
+    }
+
+}
+
+/*Phone*/
+
+@media (max-width:767px) {
+    .DashResp4{
+        padding:0 !important;
+    }
+    .DashboardMainSec {
+        padding: 20px;
+    }
+    .DashCrdBody {
+        padding: 15px;
+    }
+    .ShowDetHdrTxt {
+        margin-bottom: 5px;
+    }
+    .DashResp3{
+        display:block !important;
+    }
+    .ConfigResp3 {
+        margin-bottom: 15px;
+    }
+    .ConfigVsResp {
+        margin-bottom: 40px;
+        margin-top: 40px;
+    }
+    
+    .ShowDetCrdHdrTxt {
+        margin-left: 30px;
+        font-family: Roboto-Medium;
+        font-size: 16px;
+        letter-spacing: 0px;
+        color: #333333;
+        padding-top: 4px;
+    }
+    .ShowDetCrdModBtn {
+        background: #E63946 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        width: 184px;
+        height: 40px;
+        font-family: Roboto-Bold;
+        font-size: 16px;
+        letter-spacing: 0px;
+        color: #FFFFFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 30px;
+        cursor: pointer;
+        margin-top: 13px;
+        margin-left: 20px;
+    }
+    .ShowDetCrdHdr {
+        background: #D9E2EC 0% 0% no-repeat padding-box;
+        border-radius: 10px 10px 0px 0px;
+        width: 100%;
+        height: 90px;
+        display: block;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .EventTblResp1 {
+        width: 100% !important;
+        margin-right: 40px;
+        margin-bottom: 15px;
+    }
+    .EventTblResp1 {
+        width: 100% !important;
+        margin-right: 30px;
+        margin-bottom: 15px;
+    }
+    .ShowTxt {
+        color: #0D47A1;
+        font-family: Roboto-Bold;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .ShowBtn {
+        background: #E63946;
+        border: 1px solid #EBF2F7;
+        border-radius: 20px;
+        width: 100%;
+        height: 40px;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-family: Roboto-Bold;
+    }
+    .ShowSec {
+        display: block;
+        justify-content: space-between;
+    }
+    .ApplyBtn {
+        background: #E63946 0% 0% no-repeat padding-box;
+        border: 1px solid #EBF2F7;
+        border-radius: 20px;
+        width: 120px;
+        height: 40px;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-family: Roboto-Bold;
+    }
+    .CnclBtn {
+        background: #fff 0% 0% no-repeat padding-box;
+        border: 1px solid #E63946;
+        border-radius: 20px;
+        width: 120px;
+        height: 40px;
+        color: #E63946;
+        font-size: 16px;
+        font-family: Roboto-Bold;
+        margin-right: 10px;
+    }
+    .ShowDatePickEndBx {
+        width: 100%;
+        height: 40px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #EBF2F7;
+        border-radius: 0px 22px 22px 0px;
+        padding-left: 14px;
+        padding-top: 5px;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #2B2B2B;
+    }
+    .ShowDatePickStaBx {
+        width: 100%;
+        height: 40px;
+        padding-left: 14px;
+        padding-top: 5px;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #2B2B2B;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #EBF2F7;
+    }
+    .ShowModCanc {
+        width: 185px;
+        height: 40px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #E63946;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Roboto-Bold;
+        font-size: 16px;
+        letter-spacing: 0px;
+        color: #E63946;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    .ShowModBx {
+        width: 360px !important;
+    }
+    .PrflSec {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 25px #0d47a128;
+        border-radius: 20px;
+        margin-top: 110px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding: 30px;
+        width: 317px;
+        height: auto;
+    }
+    .PrflCrdSec {
+        display: block;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+    .MobView
+    {
+        display:none;
+    }
+    .FlexMob
+    {
+        display:flex;
+        justify-content:space-between;
+    }
+    .MobViewSnd
+    {
+        display:block;
+    }
+
+    .LoginImg {
+        margin-bottom: 60px;
+        margin-top: 135px;
+        width: 350px;
+        height: 100px;
+        margin-right: 0px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    }
+    .MainSec {
+        margin-top: 110px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding: 15px;
+    }
+}
+
+@media (max-width:500px){
+
+    .LivePulCol {
+        width: 100% !important;
+        margin-bottom: 30px;
+    }
+}
+
+/*From Here notification css starts here*/
+.notificationSpan {
+    padding-left: 4px;
+    padding-top: 4px;
+    font-family: 'Poppins-SemiBold';
+    display: flex;
+    align-items: center;
+}
+
+
+
+.btnnotificationClose {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    float: right;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.2rem;
+}
+
+
+
+.ns-effect-slide {
+    background: #fff !important;
+    top: auto;
+    bottom: 30px;
+    border: 1px solid #ccc;
+    box-shadow: rgba(0,0,0,.117647) 0 1px 1px 1px !important;
+}
+/*From Here notification css ends here*/

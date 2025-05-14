@@ -1,0 +1,84 @@
+﻿<div class="row">
+    @for(int i=0;i< @ViewBag.teams.Count;i++)
+    {
+    <div class="col-12 col-md-12 col-lg-6">
+        <div class="ContestantsDpd ConfigResp2">
+            <select class="Config7 teamSelection" id="teamID_@ViewBag.teams[i].TeamID">
+                <option value="-1"></option>
+                @foreach(AddPulseShowManagement.Data.DataTableModels.Teams item in @ViewBag.teams)
+                {
+                    <option value="@item.TeamID">@item.TeamName</option>
+                }
+            </select>
+        </div>
+    </div>
+    }
+    <div>
+        <button type="button" class="ShowBtn ConfigSaveBtn" onclick="GetPlayerListView()" style="width:125px;">Search</button>
+    </div>
+</div>
+
+<section id="htmlplayercard">
+
+</section>
+
+
+<script>
+
+    var teamlst=[];
+
+      $('.Config7').select2({
+            minimumResultsForSearch: -1,
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select Team'
+            },
+            dropdownAutoWidth: true,
+       });
+
+      
+       $('.Config7').on('select2:select', function (e) {  
+        
+         var teamid=parseInt($(this).val());         
+         var index = teamlst.indexOf(teamid);
+           
+            if(index == -1)
+            {
+                teamlst.push(teamid);
+            }
+            else{
+                 DisplayMessage(ErrorCross+SpanStart+"<b>Please select different team.</b>"+SpanEnd);
+            }
+
+       });
+
+        function GetPlayerListView()
+        {            
+            if(teamlst.length == @ViewBag.teams.Count)
+            {
+                $.ajax({
+                 type: 'GET',
+                 url: "/configuration/GetPlayercardView?teamIDs="+teamlst.join(),
+                 data: {},
+                 success: function (data, textStatus, jqXHR) { 
+                                      
+                   $('#htmlplayercard').html('');
+                   $('#htmlplayercard').html(data);
+                 }
+             });
+            }             
+        }
+
+</script>
+
+
+@for(int i = 0; i < @ViewBag.teams.Count; i++)
+{
+  <script> 
+      teamlst.push(@ViewBag.teams[i].TeamID);                  
+      $('#teamID_'+@ViewBag.teams[i].TeamID).val(@ViewBag.teams[i].TeamID).trigger('change');  
+  </script>
+}
+<script>
+GetPlayerListView();
+</script>

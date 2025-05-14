@@ -1,0 +1,120 @@
+﻿<div class="table-responsive">
+    <table id="ManagersTbl" class="display table table-striped" style="width: 100%;">
+        <thead class="HeadTbl" style="border-bottom: transparent;">
+            <tr>
+                <th scope="col">UserID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    GetManagers();
+    var managertable ;
+    function GetManagers(){
+
+         managertable = $('#ManagersTbl').DataTable({
+            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+            "bLengthChange": true,
+            "pageLength": 10,
+            "lengthChange": false,
+            "processing": true,
+            "searching": true,
+            "destroy": true,
+            "paging": true,
+            "info": true,
+            "bSort": false,
+            "scrollX": false,
+            "language": {
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
+                },
+            },
+             "ajax": {
+                    "url": "/manager/GetManagersList",
+                    "type": "POST",
+                },
+                "columns": [
+                {
+                    "data": "userID",
+                    "orderable": true,
+                    "visible": false,
+
+                },
+                {
+                    "data": "userName",
+                    "orderable": true,
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+
+                             var htmldata='<div class="ContSec">'+
+                                           '<div>'
+                                            +'<img src="'+oData.profileImage+'" class="ImgCont" />'
+                                            +'</div>'
+                                            +'<div>'
+                                            +oData.userName
+                                            +'</div>'
+                                            +'</div>';
+                           $(nTd).html(htmldata);
+                        }
+
+                },
+                {
+                    "data": "email",
+                    "orderable": true,
+
+
+                },
+                {
+                    "data": "phone",
+                    "orderable": true,
+
+
+                },
+                {
+                    "data": null  ,
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                          var htmldata='<div class="d-flex justify-content-end">'+
+                                         '<div class="d-none">'
+                                         +'<img src="/Images/TrashIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'<div class="CursrPntr" onclick="GetManageManagerModal('+oData.userID+')">'
+                                         +'<img src="/Images/EditIcon.svg" style="margin-right:15px;" />'
+                                         +'</div>'
+                                         +'</div>';
+                        $(nTd).html(htmldata);
+                        }
+                }
+
+                ],
+        });
+    }
+
+    $('.dataTables_filter').addClass('d-none');
+    $('#searchmanager-input').keyup(function(){
+         managertable.search($(this).val()).draw() ;
+    });
+
+    $('#IsActive').on('click',function(){       
+        if($(this).is(":checked"))
+        {
+            $(this).val(true);
+        }
+        else
+        {
+            $(this).val(false);
+        }
+    });
+
+
+
+</script>

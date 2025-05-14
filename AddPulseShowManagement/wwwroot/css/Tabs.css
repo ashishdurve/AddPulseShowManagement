@@ -1,0 +1,37 @@
+﻿
+.tab {
+    overflow: hidden;
+    display: flex;
+    justify-content: end;
+    height: 38px;
+}
+
+    .tab button {
+        background-color: #fff;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        border-radius: 3px 0px 0px 3px;
+        width: 49px;
+    }
+        .tab button.active {
+            background-color: #0D47A1;
+            color: #fff;
+            border-radius: 3px 0px 0px 3px;
+        }
+
+    .tab .Btn2.active {
+        background-color: #0D47A1;
+        color: #fff;
+        border-radius: 0px 3px 3px 0px;
+    }
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
