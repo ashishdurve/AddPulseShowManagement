@@ -35,6 +35,18 @@
                                 <div class="LivePulTxtRed1 d-flex justify-content-center" id="teamlivePulse_@item.PlayerID">
                                     @item.LivePulse
                                 </div>
+                                @{
+                                    var normalPulse = item.NormalPulse ?? 80;
+                                    var livePulse = item.LivePulse ?? 0;
+                                    var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                    var sign = percentChange >= 0 ? "+" : "";
+                                    var color = percentChange >= 0 ? "green" : "red";
+                                }
+                                <div class="d-flex justify-content-center">
+                                    <div class="LivePulTxtRed1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 0.9em;">
+                                        @sign@percentChange%
+                                    </div>
+                                </div>
                             </div>
                         }
                         else
@@ -45,6 +57,18 @@
                                 </div>
                                 <div class="LivePulTxt1 d-flex justify-content-center" id="teamlivePulse_@item.PlayerID">
                                     @item.LivePulse
+                                </div>
+                                @{
+                                    var normalPulse = item.NormalPulse ?? 80;
+                                    var livePulse = item.LivePulse ?? 0;
+                                    var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                    var sign = percentChange >= 0 ? "+" : "";
+                                    var color = percentChange >= 0 ? "green" : "red";
+                                }
+                                <div class="d-flex justify-content-center">
+                                    <div class="LivePulTxt1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 0.9em;">
+                                        @sign@percentChange%
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -67,85 +91,95 @@
 
 </section>
 
-@section scripts{
-<script>
-        $(document).ready(function () {
-            $('#LivePulse').addClass('activeHead');
-            $('#ActiveTitle10').addClass('activeSnd');
-          clockUpdate();
-           setInterval(clockUpdate, 1000);
-        });
+@section scripts {
+    <script>
+            $(document).ready(function () {
+                $('#LivePulse').addClass('activeHead');
+                $('#ActiveTitle10').addClass('activeSnd');
+              clockUpdate();
+               setInterval(clockUpdate, 1000);
+            });
 
-    function clockUpdate() {
-      var date = new Date();
-    
-     //date =  new Date(moment.utc().utcOffset('+01:00'));
-      //console.log("date "+date);
-     // $('.digital-clock').css({'color': '#fff', 'text-shadow': '0 0 6px #ff0'});
-      function addZero(x) {
-        if (x < 10) {
-          return x = '0' + x;
-        } else {
-          return x;
+        function clockUpdate() {
+          var date = new Date();
+
+         //date =  new Date(moment.utc().utcOffset('+01:00'));
+          //console.log("date "+date);
+         // $('.digital-clock').css({'color': '#fff', 'text-shadow': '0 0 6px #ff0'});
+          function addZero(x) {
+            if (x < 10) {
+              return x = '0' + x;
+            } else {
+              return x;
+            }
+          }
+
+          function twelveHour(x) {
+            if (x > 12) {
+              return x = x - 12;
+            } else if (x == 0) {
+              return x = 12;
+            } else {
+              return x;
+            }
+          }
+
+         // var h = addZero(twelveHour(date.getHours())); // for 12 hr format
+          var h = addZero(date.getHours()); // for 24 hr format
+          var m = addZero(date.getMinutes());
+          var s = addZero(date.getSeconds());
+
+          $('.digital-clock').text(h + ':' + m + ':' + s)
         }
-      }
 
-      function twelveHour(x) {
-        if (x > 12) {
-          return x = x - 12;
-        } else if (x == 0) {
-          return x = 12;
-        } else {
-          return x;
+          function LiveCardData() {
+              UpdateLivePulse();
+          }
+
+         var auto_refreshLiveCardData = setInterval(function () { LiveCardData() }, @ViewBag.refreshTimeVal);
+         LiveCardData();
+
+        function UpdateLivePulse()
+        {
+              $.ajax({
+                     type: 'GET',
+                     url: "/home/UpdateLivePulse",
+                     data: {},
+                     success: function (data, textStatus, jqXHR) {
+
+                       $.each(data.members, function(index, value) {
+
+                           $.ajax({
+                                 type: 'GET',
+                                 url: '../teams/GetContestantLiveGraphData?contestantID='+value.playerID,
+                                 data: {},
+                                 success: function (data1, textStatus, jqXHR) {
+
+                                        $("#teamlivePulse_"+value.playerID).html(data1.plot0);
+
+                                        // Calculate and update percentage change
+                                        var normalPulse = value.normalPulse || 80;
+                                        var livePulse = data1.plot0 || 0;
+                                        var percentChange = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                                        var sign = percentChange >= 0 ? "+" : "";
+                                        var color = percentChange >= 0 ? "green" : "red";
+
+                                        $("#teamlivePulsePercent_" + value.playerID)
+                                            .html(sign + percentChange + "%")
+                                            .css("color", color);
+                                 }
+                             });
+
+
+
+                        });
+
+                     }
+                 });
+
+                 //
         }
-      }
-
-     // var h = addZero(twelveHour(date.getHours())); // for 12 hr format
-      var h = addZero(date.getHours()); // for 24 hr format
-      var m = addZero(date.getMinutes());
-      var s = addZero(date.getSeconds());
-
-      $('.digital-clock').text(h + ':' + m + ':' + s)
-    }
-
-      function LiveCardData() {                
-          UpdateLivePulse();
-      }
-
-     var auto_refreshLiveCardData = setInterval(function () { LiveCardData() }, @ViewBag.refreshTimeVal);
-     LiveCardData();
-
-    function UpdateLivePulse()
-    {
-          $.ajax({
-                 type: 'GET',
-                 url: "/home/UpdateLivePulse",
-                 data: {},
-                 success: function (data, textStatus, jqXHR) { 
-                   
-                   $.each(data.members, function(index, value) {                     
-                      
-                       $.ajax({
-                             type: 'GET',
-                             url: '../teams/GetContestantLiveGraphData?contestantID='+value.playerID,
-                             data: {},
-                             success: function (data1, textStatus, jqXHR) { 
-                    
-                                    $("#teamlivePulse_"+value.playerID).html(data1.plot0);
-                             }
-                         });
-
-                       
-                      
-                    });
-                 
-                 }
-             });
-
-             //
-    }
-</script>
+    </script>
 
 
 }
-

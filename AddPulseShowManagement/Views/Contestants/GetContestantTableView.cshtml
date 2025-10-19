@@ -1,6 +1,4 @@
-﻿
-
-<table id="TblCont" class="display table table-striped" style="width: 100%;">
+﻿<table id="TblCont" class="display table table-striped" style="width: 100%;">
     <thead class="HeadTbl" style="border-bottom: transparent;">
         <tr>
             <th>ID</th>
@@ -8,6 +6,7 @@
             <th scope="col">Activity</th>
             <th scope="col">Teams Name</th>
             <th scope="col">Polar ID</th>
+            <th scope="col">Normal Pulse</th>
             <th scope="col">Live Pulse</th>
             <th></th>
         </tr>
@@ -17,132 +16,221 @@
     </tbody>
 </table>
 
+<!-- Edit Normal Pulse Modal -->
+<div class="modal fade" id="EditNormalPulseModal" tabindex="-1" role="dialog" aria-labelledby="editNormalPulseLabel" aria-hidden="true">
+    <div class="modal-dialog EditMdlSec ShowModBx" role="document">
+        <div class="modal-content MdlContent" style="padding-left: 30px; padding-right: 30px;">
+            <form id="frmEditNormalPulse" name="frmEditNormalPulse">
+                <div class="modal-header" style="padding-left: 0px; padding-right: 0px;">
+                    <div class="ShowModTitle" id="editNormalPulseLabel">Edit Normal Pulse</div>
+                    <img src="~/Images/ShowModClose.svg" data-bs-dismiss="modal" aria-label="Close" class="ShowModClose" />
+                </div>
+
+                <div class="modal-body" style="padding-left: 0px; padding-right: 0px; padding-top: 30px; padding-bottom:0px;">
+                    <input type="hidden" id="editContestantID" name="editContestantID" value="" />
+
+                    <div class="ShowModLbl">Contestant Name</div>
+                    <input type="text" class="ShowModTxtBx" id="editContestantName" name="editContestantName" readonly style="background-color: #f5f5f5;" />
+
+                    <div class="ShowModLbl" style="margin-top: 20px;">Normal Pulse</div>
+                    <input type="number" class="ShowModTxtBx" id="editNormalPulse" name="editNormalPulse" placeholder="Enter normal pulse value" required />
+                </div>
+
+                <div class="ShowModFoot">
+                    <div class="ShowModCanc" data-bs-dismiss="modal">Cancel</div>
+                    <div class="ShowModAdd" onclick="UpdateNormalPulse()">Update</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
-     var table = '';
-    
-     function GetTableData(){
-            table =  $('#TblCont').DataTable({
-            "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
-            "bLengthChange": true,
-            "pageLength": 10,
-            "lengthChange": false,
-            "lengthChange": false,            
-            "searching": true,
-            "destroy": true,
-            "paging": true,
-            "info": true,
-            "bSort": false,
-            "rowId": 'contestantID',
-            "scrollX": false,
-            "language": {
-                "loadingRecords": "Loading...",
-                "processing": "Processing...",
-                "paginate": {
-                    "previous": "<",
-                    "next": ">"
-                },
-            },
-            "ajax": {
-                    "url": "/contestants/GetContestantTable?showID="+@ViewBag.showID,
-                    "type": "POST",
-                },
-                "columns": [                
-                {
-                    "data": "contestantID",
-                    "orderable": false,
-                    "visible": false,
-                },
-                {
-                    "data": "name",
-                    "orderable": true,
-                },
-                {
-                    "data": "showName",
-                    "orderable": true,
-                },
-                {
-                    "data": "teamName",
-                    "orderable": true,
-                },
-                {
-                    "data": "polarID",
-                    "orderable": true,
-                },
-                {
-                    "data": null,
-                    "orderable": true,
-                    "render": function ( data, type, row, meta ) {                        
-                        var html='';
-                        
-                        html='<div id="tblContestantLivePulse_'+data.contestantID+'">'
-                                +data.livePulse                                  
-                                +'</div>';                      
-                        return html;
-                    }
-                }
-                ,
-                {
-                    "data": null,
-                    "orderable": false,
-                    "visible": true,
-                    "render": function (data, type, row, meta) {
-                        var html = '';
-                        html = '<div class="d-flex justify-content-end">' +
-                            '<a href="#"  onclick="DeleteContestant(' + data.contestantID  +' ); return false;">' +
-                            '<img src="/Images/delete.png" class="" />' +
-                            '</a>' +
-                            '</div>';
-                        return html;
-                    }
-                },
-                {
-                    "data":null,
-                    "orderable": false,
-                    "visible":false,
-                    "render": function ( data, type, row, meta ) {                        
-                        var html='';
-                        html='<div class="d-flex justify-content-end">'+
-                            '<a href="#"  >' +
-                                       '<img src="/Images/DetailIcon.svg" class="" />'+
-                                  '</a>'+
-                              '</div>';                      
-                        return html;
-                    }
-                }
-                ]
+    var table = '';
 
-        });
+    function GetTableData(){
+           table =  $('#TblCont').DataTable({
+           "dom": '<"top"fl><"position-relative"tr><"bottom"ip><"clear">',
+           "bLengthChange": true,
+           "pageLength": 10,
+           "lengthChange": false,
+           "lengthChange": false,
+           "searching": true,
+           "destroy": true,
+           "paging": true,
+           "info": true,
+           "bSort": false,
+           "rowId": 'contestantID',
+           "scrollX": false,
+           "language": {
+               "loadingRecords": "Loading...",
+               "processing": "Processing...",
+               "paginate": {
+                   "previous": "<",
+                   "next": ">"
+               },
+           },
+           "ajax": {
+                   "url": "/contestants/GetContestantTable?showID="+@ViewBag.showID,
+                   "type": "POST",
+               },
+               "columns": [
+               {
+                   "data": "contestantID",
+                   "orderable": false,
+                   "visible": false,
+               },
+               {
+                   "data": "name",
+                   "orderable": true,
+               },
+               {
+                   "data": "showName",
+                   "orderable": true,
+               },
+               {
+                   "data": "teamName",
+                   "orderable": true,
+               },
+               {
+                   "data": "polarID",
+                   "orderable": true,
+               },
+                {
+                   "data": null,
+                   "orderable": true,
+                   "render": function ( data, type, row, meta ) {                        
+                       var html='';
+                       html='<div class="d-flex align-items-center">' +
+                               '<span id="tblContestantNormalPulse_'+data.contestantID+'">' + (data.normalPulse || '-') + '</span>' +
+                               '<a href="#" onclick="OpenEditNormalPulseModal(' + data.contestantID + ', \'' + data.name.replace(/'/g, "\\'") + '\', ' + (data.normalPulse || 0) + '); return false;" class="ms-2">' +
+                               '<img src="/Images/DetailIcon.svg" style="width: 16px; height: 16px;" title="Edit Normal Pulse" />' +
+                               '</a>' +
+                             '</div>';
+                       return html;
+                   }
+               },
+               {
+                   "data": null,
+                   "orderable": true,
+                   "render": function ( data, type, row, meta ) {
+                       var html='';
 
-        
-     $('.dataTables_filter').addClass('d-none');
+                       html='<div id="tblContestantLivePulse_'+data.contestantID+'">'
+                               +data.livePulse
+                               +'</div>';
+                       return html;
+                   }
+               }
+               ,
+               {
+                   "data": null,
+                   "orderable": false,
+                   "visible": true,
+                   "render": function (data, type, row, meta) {
+                       var html = '';
+                       html = '<div class="d-flex justify-content-end">' +
+                           '<a href="#"  onclick="DeleteContestant(' + data.contestantID  +' ); return false;">' +
+                           '<img src="/Images/delete.png" class="" />' +
+                           '</a>' +
+                           '</div>';
+                       return html;
+                   }
+               },
+               {
+                   "data":null,
+                   "orderable": false,
+                   "visible":false,
+                   "render": function ( data, type, row, meta ) {
+                       var html='';
+                       html='<div class="d-flex justify-content-end">'+
+                           '<a href="#"  >' +
+                                      '<img src="/Images/DetailIcon.svg" class="" />'+
+                                 '</a>'+
+                             '</div>';
+                       return html;
+                   }
+               }
+               ]
+
+       });
+
+
+    $('.dataTables_filter').addClass('d-none');
+    }
+
+
+     var auto_refreshContestantCardData = setInterval(function () { GetUpdateTableData() }, 5000);
+
+     GetUpdateTableData();
+
+     GetTableData();
+
+     function GetUpdateTableData()
+     {
+
+           $.ajax({
+                type: 'GET',
+                url: "/contestants/GetUpdateContestantTable?showID="+@ViewBag.showID,
+                data: {},
+                success: function (data, textStatus, jqXHR) {
+
+                  $.each(data, function(index, value) {
+                      $("#tblContestantLivePulse_"+value.contestantID).html(value.livePulse);
+                      $("#tblContestantNormalPulse_"+value.contestantID).html(value.normalPulse || '-');
+                   });
+                }
+            });
      }
 
 
-      var auto_refreshContestantCardData = setInterval(function () { GetUpdateTableData() }, 5000);
-      
-      GetUpdateTableData();
+    $('#searchmember-input').keyup(function(){
+        table.search($(this).val()).draw() ;
+    });
 
-      GetTableData();
+    // Open Edit Normal Pulse Modal
+    function OpenEditNormalPulseModal(contestantID, contestantName, normalPulse) {
+        $('#editContestantID').val(contestantID);
+        $('#editContestantName').val(contestantName);
+        $('#editNormalPulse').val(normalPulse);
+        $('#EditNormalPulseModal').modal('show');
+    }
 
-      function GetUpdateTableData()
-      {          
-          
-            $.ajax({
-                 type: 'GET',
-                 url: "/contestants/GetUpdateContestantTable?showID="+@ViewBag.showID,
-                 data: {},
-                 success: function (data, textStatus, jqXHR) {                      
-                     
-                   $.each(data, function(index, value) {                         
-                       $("#tblContestantLivePulse_"+value.contestantID).html(value.livePulse);                 
-                    });                 
-                 }
-             });
-      }
+    // Update Normal Pulse
+    function UpdateNormalPulse() {
+        var contestantID = $('#editContestantID').val();
+        var normalPulse = $('#editNormalPulse').val();
 
+        if (!normalPulse || normalPulse <= 0) {
+            alert('Please enter a valid normal pulse value.');
+            return;
+        }
 
-     $('#searchmember-input').keyup(function(){         
-         table.search($(this).val()).draw() ;
-     });
+        $.ajax({
+            type: 'POST',
+            url: '/contestants/UpdateNormalPulse',
+            data: {
+                contestantID: contestantID,
+                normalPulse: normalPulse
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Update the table cell
+                    $("#tblContestantNormalPulse_" + contestantID).html(normalPulse);
+
+                    // Close the modal
+                    $('#EditNormalPulseModal').modal('hide');
+
+                    // Optionally show success message
+                    // alert('Normal pulse updated successfully!');
+                } else {
+                    alert('Failed to update normal pulse. Please try again.');
+                }
+            },
+            error: function () {
+                alert('An error occurred while updating normal pulse.');
+            }
+        });
+    }
 
 </script>

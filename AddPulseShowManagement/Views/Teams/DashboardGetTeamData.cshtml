@@ -9,7 +9,7 @@
 
                 <div class="d-flex align-items-baseline">
 
-                    <div class="DashCrdBdyTxt2">Teams Name:</div>
+                    <div class="DashCrdBdyTxt2">Team Name:</div>
                     <div class="DashCrdBdyTxt3">@ViewBag.team.TeamName</div>
 
                 </div>
@@ -99,10 +99,16 @@
                                 <img src="@item.ProfileImage" class="DashSubCrdDp" />
                             </div>
                             <div>
-                                <div class="DashSubCrdTxt">@item.Name</div>
+                                <div class="DashSubCrdTxt">@item.Name                              
+                                </div>
+                           
                                 <div class="d-flex">
                                     <div class="DashSubCrdTxt1">Polar Id:</div>
                                     <div class="DashSubCrdTxt2">@item.PolarID</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="DashSubCrdTxt1">Normal Pulse:</div>
+                                    <div class="DashSubCrdTxt2">@item.NormalPulse</div>
                                 </div>
                             </div>
                         </div>
@@ -111,48 +117,93 @@
 
                     <div class="DashSubCrdBdy">
 
-                        <div class="row">
-                            <div class="col-3 col-md-3 col-lg-3">
+                    <div class="row">
+                        <div class="col-3 col-md-3 col-lg-3">
 
-                                <div class="DashSubCrdTxt3">Live</div>
-                                <div class="d-flex justify-content-center">
-                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
-                                    <div class="DashSubCrdTxt4" id="teamlivePulse_@item.ContestantID">@item.LivePulse</div>
-                                </div>
-
+                            <div class="DashSubCrdTxt3">Live</div>
+                            <div class="d-flex justify-content-center">
+                                <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                <div class="DashSubCrdTxt4" id="teamlivePulse_@item.ContestantID">@item.LivePulse</div>
                             </div>
-
-                            <div class="col-3 col-md-3 col-lg-3">
-
-                                <div class="DashSubCrdTxt3">Highest</div>
-                                <div class="d-flex justify-content-center">
-                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
-                                    <div class="DashSubCrdTxt4" id="teamhighPulse_@item.ContestantID">@item.HighestPulse</div>
+                            @{
+                                var normalPulse = item.NormalPulse ?? 80;
+                                var livePulse = item.LivePulse;
+                                var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                var sign = percentChange >= 0 ? "+" : "";
+                                var color = percentChange >= 0 ? "green" : "red";
+                            }
+                            <div class="d-flex justify-content-center">
+                                <div class="DashSubCrdTxt4" id="teamlivePulsePercent_@item.ContestantID" style="color: @color; font-weight: bold;">
+                                    @sign@percentChange%
                                 </div>
-
-                            </div>
-
-                            <div class="col-3 col-md-3 col-lg-3">
-
-                                <div class="DashSubCrdTxt3">Lowest</div>
-                                <div class="d-flex justify-content-center">
-                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
-                                    <div class="DashSubCrdTxt4" id="teamlowPulse_@item.ContestantID">@item.LowestPulse</div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-3 col-md-3 col-lg-3">
-
-                                <div class="DashSubCrdTxt3">Avg</div>
-                                <div class="d-flex justify-content-center">
-                                    <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
-                                    <div class="DashSubCrdTxt4" id="teamavgPulse_@item.ContestantID">@item.AvgPulse</div>
-                                </div>
-
                             </div>
 
                         </div>
+
+                        <div class="col-3 col-md-3 col-lg-3">
+
+                            <div class="DashSubCrdTxt3">Highest</div>
+                            <div class="d-flex justify-content-center">
+                                <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                <div class="DashSubCrdTxt4" id="teamhighPulse_@item.ContestantID">@item.HighestPulse</div>
+                            </div>
+                            @{
+                                var highestPulse = item.HighestPulse;
+                                var percentChangeHigh = normalPulse > 0 ? Math.Round(((decimal)(highestPulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                var signHigh = percentChangeHigh >= 0 ? "+" : "";
+                                var colorHigh = percentChangeHigh >= 0 ? "green" : "red";
+                            }
+                            <div class="d-flex justify-content-center">
+                                <div class="DashSubCrdTxt4" id="teamhighPulsePercent_@item.ContestantID" style="color: @colorHigh; font-weight: bold;">
+                                    @signHigh@percentChangeHigh%
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-3 col-md-3 col-lg-3">
+
+                            <div class="DashSubCrdTxt3">Lowest</div>
+                            <div class="d-flex justify-content-center">
+                                <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                <div class="DashSubCrdTxt4" id="teamlowPulse_@item.ContestantID">@item.LowestPulse</div>
+                            </div>
+                            @{
+                                var lowestPulse = item.LowestPulse;
+                                var percentChangeLow = normalPulse > 0 ? Math.Round(((decimal)(lowestPulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                var signLow = percentChangeLow >= 0 ? "+" : "";
+                                var colorLow = percentChangeLow >= 0 ? "green" : "red";
+                            }
+                            <div class="d-flex justify-content-center">
+                                <div class="DashSubCrdTxt4" id="teamlowPulsePercent_@item.ContestantID" style="color: @colorLow; font-weight: bold;">
+                                    @signLow@percentChangeLow%
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-3 col-md-3 col-lg-3">
+
+                            <div class="DashSubCrdTxt3">Avg</div>
+                            <div class="d-flex justify-content-center">
+                                <div><img src="~/Images/ContHrtIc.svg" class="DashSubCrdHrt" /></div>
+                                <div class="DashSubCrdTxt4" id="teamavgPulse_@item.ContestantID">@item.AvgPulse</div>
+                            </div>
+                            @{
+                                var avgPulse = item.AvgPulse;
+                                var percentChangeAvg = normalPulse > 0 ? Math.Round(((decimal)(avgPulse - normalPulse) / normalPulse) * 100, 1) : 0;
+                                var signAvg = percentChangeAvg >= 0 ? "+" : "";
+                                var colorAvg = percentChangeAvg >= 0 ? "green" : "red";
+                            }
+                            <div class="d-flex justify-content-center">
+                                <div class="DashSubCrdTxt4" id="teamavgPulsePercent_@item.ContestantID" style="color: @colorAvg; font-weight: bold;">
+                                    @signAvg@percentChangeAvg%
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
 
                         <div class="DashSubCrdBrdr"></div>
 
@@ -165,76 +216,24 @@
                             }
                             </style>
 
-                            <script>
+                        <script>
 
                             var xvals='@item.XGraphVal';
                             var xgraphvals=xvals.split(',');
                             var srtgraphval='@item.GraphVal';
                             var graphlst=srtgraphval.split(',');
                             var dgraphlst=[];
-                            $.each(graphlst, function(index, value) { 
+                            $.each(graphlst, function(index, value) {
                               dgraphlst.push(parseInt(graphlst[index]));
                             });
-                          
-                                //var myDashConfig = {
-                                //    type: 'line',
-                                //    plotarea: {
-                                //        marginLeft: '35px',
-                                //        marginRight: '-20px',
-                                //        marginTop: '-20px',
-                                //        marginBottom: '-20px',                                       
-                                //    },
-                                //    plot: {
-                                //        aspect: 'spline',
-                                //        lineWidth: '2px',
-                                //        lineColor: '#E63946',
-                                //        shadow: 'true',
-                                //        marker: {
-                                //            visible: false,
-                                //        },
-                                //    },
-                                //    scaleY: {
-                                //        lineWidth: 1,
-                                //        lineColor: '#707070',
-                                //        lineStyle: 'solid',
-                                //        guide: {
-                                //            lineColor: '#CCCCCC',
-                                //            lineStyle: 'solid'
-                                //        },
-                                //        maxValue: '200',
-                                //        minValue: '50px',
-                                //        step: 50,
-                                //        item: {
-                                //            fontColor: '#333333',
-                                //            fontSize: '10px',
-                                //        },
-                                //    },
-                                //    scaleX: {
-                                //        lineWidth: 1,
-                                //        lineColor: '#707070',
-                                //        lineStyle: 'solid',
-                                //        labels: xgraphvals,
-                                //        item: {
-                                //            color: '#53585E',
-                                //            fontSize: '10px',                                            
-                                //        },
-                                //    },
-                                //    "series": [{ "values": dgraphlst }]
-                                //};
 
-                                //zingchart.render({
-                                //    id: 'myTeam_@ViewBag.teamDiv_@item.ContestantID',
-                                //    data: myDashConfig,
-                                //    height: "100%",
-                                //    width: "100%"
-                                //});
                                  var myConfig_@item.ContestantID = {
                                                             type: 'line',
                                                             plotarea: {
                                                                 marginLeft: '35px',
                                                                 marginRight: '-20px',
                                                                 marginTop: '-20px',
-                                                                marginBottom: '-20px',                                       
+                                                                marginBottom: '-20px',
                                                             },
                                                             "crosshair-x": {
 
@@ -269,6 +268,24 @@
                                                                     lineColor: '#CCCCCC',
                                                                     lineStyle: 'solid'
                                                                 },
+                                                                  markers: [
+                                                                    {
+                                                                        type: 'line',
+                                                                        range: [@(item.NormalPulse ?? 80)],
+                                                                        lineColor: '#00FF00',
+                                                                        lineWidth: 2,
+                                                                        lineStyle: 'solid',
+                                                                        label: {
+                                                                            text: '@(item.NormalPulse ?? 80)',
+                                                                            fontColor: '#00FF00',
+                                                                            fontSize: '10px',
+                                                                            backgroundColor: 'transparent',
+                                                                            borderWidth: 0,
+                                                                            offsetX: -15,
+                                                                            bold: true
+                                                                        }
+                                                                    }
+                                                                ],
                                                                 maxValue: '175',
                                                                 minValue: '50px',
                                                                 step: 25,
@@ -284,13 +301,13 @@
                                                                 labels: xgraphvals,
                                                                 item: {
                                                                     color: '#53585E',
-                                                                    fontSize: '10px',                                            
+                                                                    fontSize: '10px',
                                                                 },
                                                             },
                                                             "series": [{ "values": dgraphlst,"text":"Pulse" }]
                                                         };
 
-                                   
+
 
 
                                                  zingchart.render({
@@ -301,7 +318,7 @@
                                                 });
 
 
-                            </script>
+                        </script>
 
                         </div>
                     </div>
@@ -350,35 +367,72 @@
         TeamCardData($('#dashCardID').val());
 
 
-        function UpdateTeamCardValues(cardValue)
-        {
-            if (cardValue == $('#dashCardID').val()) {
+           function UpdateTeamCardValues(cardValue)
+    {
+        if (cardValue == $('#dashCardID').val()) {
 
-                $.ajax({
-                    type: 'GET',
-                    url: "/teams/UpdateTeamCardValues?teamDiv=teamDiv&teamID=" + @ViewBag.teamID+"&hour=" + @ViewBag.hour+"&isConfigUpdated=" + @ViewBag.isConfigUpdated,
-                    data: {},
-                    success: function (data, textStatus, jqXHR) {
+            $.ajax({
+                type: 'GET',
+                url: "/teams/UpdateTeamCardValues?teamDiv=teamDiv&teamID=" + @ViewBag.teamID+"&hour=" + @ViewBag.hour+"&isConfigUpdated=" + @ViewBag.isConfigUpdated,
+                data: {},
+                success: function (data, textStatus, jqXHR) {
 
-                        $.each(data.cv, function (index, value) {
-                            $("#teamlivePulse_" + value.contestantID).html(value.livePulse);
-                            $("#teamhighPulse_" + value.contestantID).html(value.highestPulse);
-                            $("#teamlowPulse_" + value.contestantID).html(value.lowestPulse);
-                            $("#teamavgPulse_" + value.contestantID).html(value.avgPulse);
-                        });
+                    $.each(data.cv, function (index, value) {
+                        var normalPulse = value.normalPulse || 80;
+
+                        // Update Live Pulse
+                        $("#teamlivePulse_" + value.contestantID).html(value.livePulse);
+                        var livePulse = value.livePulse || 0;
+                        var percentChangeLive = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                        var signLive = percentChangeLive >= 0 ? "+" : "";
+                        var colorLive = percentChangeLive >= 0 ? "green" : "red";
+                        $("#teamlivePulsePercent_" + value.contestantID)
+                            .html(signLive + percentChangeLive + "%")
+                            .css("color", colorLive);
+
+                        // Update Highest Pulse
+                        $("#teamhighPulse_" + value.contestantID).html(value.highestPulse);
+                        var highestPulse = value.highestPulse || 0;
+                        var percentChangeHigh = normalPulse > 0 ? Math.round(((highestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                        var signHigh = percentChangeHigh >= 0 ? "+" : "";
+                        var colorHigh = percentChangeHigh >= 0 ? "green" : "red";
+                        $("#teamhighPulsePercent_" + value.contestantID)
+                            .html(signHigh + percentChangeHigh + "%")
+                            .css("color", colorHigh);
+
+                        // Update Lowest Pulse
+                        $("#teamlowPulse_" + value.contestantID).html(value.lowestPulse);
+                        var lowestPulse = value.lowestPulse || 0;
+                        var percentChangeLow = normalPulse > 0 ? Math.round(((lowestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                        var signLow = percentChangeLow >= 0 ? "+" : "";
+                        var colorLow = percentChangeLow >= 0 ? "green" : "red";
+                        $("#teamlowPulsePercent_" + value.contestantID)
+                            .html(signLow + percentChangeLow + "%")
+                            .css("color", colorLow);
+
+                        // Update Average Pulse
+                        $("#teamavgPulse_" + value.contestantID).html(value.avgPulse);
+                        var avgPulse = value.avgPulse || 0;
+                        var percentChangeAvg = normalPulse > 0 ? Math.round(((avgPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                        var signAvg = percentChangeAvg >= 0 ? "+" : "";
+                        var colorAvg = percentChangeAvg >= 0 ? "green" : "red";
+                        $("#teamavgPulsePercent_" + value.contestantID)
+                            .html(signAvg + percentChangeAvg + "%")
+                            .css("color", colorAvg);
+                    });
 
 
-                        $("#teamHighTeamPulseVal").html(data.teamdata.highTeamPulse);
-                        $("#teamHighTeamPulseName").html(data.teamdata.highPulseName);
-                        $("#teamLowTeamPulseVal").html(data.teamdata.lowTeamPulse);
-                        $("#teamLowTeamPulseName").html(data.teamdata.lowPulseName);
+                    $("#teamHighTeamPulseVal").html(data.teamdata.highTeamPulse);
+                    $("#teamHighTeamPulseName").html(data.teamdata.highPulseName);
+                    $("#teamLowTeamPulseVal").html(data.teamdata.lowTeamPulse);
+                    $("#teamLowTeamPulseName").html(data.teamdata.lowPulseName);
 
-                        $("#teamAvgTeamPulse").html(data.teamdata.avgTeamPulse);
+                    $("#teamAvgTeamPulse").html(data.teamdata.avgTeamPulse);
 
-                    }
-                });
-            }
+                }
+            });
         }
+    }
 
 
         

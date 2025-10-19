@@ -256,5 +256,33 @@ namespace AddPulseShowManagement.Controllers
 
             return Json("");
         }
+
+        [HttpPost]
+        public IActionResult UpdateNormalPulse(long contestantID, int normalPulse)
+        {
+            try
+            {
+                var contestant = _context.Contestants.FirstOrDefault(c => c.ContestantID == contestantID);
+                
+                if (contestant == null)
+                {
+                    return Json(new { success = false, message = "Contestant not found." });
+                }
+
+                contestant.NormalPulse = normalPulse;
+                contestant.ModifiedDate = DateTime.UtcNow;
+                // Optionally set ModifiedBy if you have user context
+                // contestant.ModifiedBy = GetCurrentUserId();
+                
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Normal pulse updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error from ContestantsController -> UpdateNormalPulse action method.", "");
+                return Json(new { success = false, message = "An error occurred while updating normal pulse." });
+            }
+        }
     }
 }

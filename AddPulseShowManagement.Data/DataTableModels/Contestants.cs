@@ -13,6 +13,7 @@ namespace AddPulseShowManagement.Data.DataTableModels
         public string PolarID { get; set; }
         public string? ProfileImage { get; set; }
         public int? AveragePulse { get; set; }
+        public int? NormalPulse { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? CreatedDate { get; set; }
         public long? CreatedBy { get; set; }
