@@ -281,6 +281,78 @@ namespace AddPulseShowManagement.Controllers
         }
         #endregion
 
+        [HttpPost]
+        public IActionResult StartShow(long showID)
+        {
+            try
+            {
+                var show = _context.Shows.FirstOrDefault(s => s.ShowID == showID);
 
+                if (show == null)
+                {
+                    return Json(new { success = false, message = "Show not found." });
+                }
+
+                long UserID = !string.IsNullOrEmpty(User.Claims.First(m => m.Type == "UserTypeID").Value)
+                    ? Convert.ToInt32(User.Claims.First(m => m.Type == "UserTypeID").Value)
+                    : 0;
+
+                // Set new start date and clear end date to allow restarting
+                show.StartDate = DateTime.UtcNow;
+                show.EndDate = null;
+                show.ModifiedDate = DateTime.UtcNow;
+                show.ModifiedBy = UserID;
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Show started successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error from ShowsController -> StartShow action method.");
+                return Json(new { success = false, message = "An error occurred while starting the show." });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult StopShow(long showID)
+        {
+            try
+            {
+                var show = _context.Shows.FirstOrDefault(s => s.ShowID == showID);
+
+                if (show == null)
+                {
+                    return Json(new { success = false, message = "Show not found." });
+                }
+
+                if (!show.StartDate.HasValue)
+                {
+                    return Json(new { success = false, message = "Show has not been started yet." });
+                }
+
+                if (show.EndDate.HasValue)
+                {
+                    return Json(new { success = false, message = "Show has already been stopped." });
+                }
+
+                long UserID = !string.IsNullOrEmpty(User.Claims.First(m => m.Type == "UserTypeID").Value)
+                    ? Convert.ToInt32(User.Claims.First(m => m.Type == "UserTypeID").Value)
+                    : 0;
+
+                show.EndDate = DateTime.UtcNow;
+                show.ModifiedDate = DateTime.UtcNow;
+                show.ModifiedBy = UserID;
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Show stopped successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error from ShowsController -> StopShow action method.");
+                return Json(new { success = false, message = "An error occurred while stopping the show." });
+            }
+        }
     }
 }

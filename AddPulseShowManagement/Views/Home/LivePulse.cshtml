@@ -36,17 +36,45 @@
                                     @item.LivePulse
                                 </div>
                                 @{
-                                    var normalPulse = item.NormalPulse ?? 80;
+                                    var normalPulse = item.NormalPulse ?? 0;
                                     var livePulse = item.LivePulse ?? 0;
                                     var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                     var sign = percentChange >= 0 ? "+" : "";
-                                    var color = percentChange >= 0 ? "green" : "red";
+                                    var color = "black"; // Below normal pulse
+
+                                    if (percentChange < 0)
+                                    {
+                                        color = "black"; // Below normal pulse
+                                    }
+                                    else if (percentChange >= 0 && percentChange < 20)
+                                    {
+                                        color = "green"; // 0 to 19.9%
+                                    }
+                                    else if (percentChange >= 20 && percentChange < 40)
+                                    {
+                                        color = "orange"; // 20 to 39.9%
+                                    }
+                                    else
+                                    {
+                                        color = "red"; // 40%+
+                                    }
+                                    var showPercentage = item.NormalPulse.HasValue && item.NormalPulse.Value > 0;
                                 }
-                                <div class="d-flex justify-content-center">
-                                    <div class="LivePulTxtRed1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 0.9em;">
-                                        @sign@percentChange%
+                                @if (showPercentage)
+                                {
+                                    <div class="d-flex justify-content-center">
+                                        <div class="LivePulTxtRed1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 28px;">
+                                            @sign@percentChange%
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex justify-content-center">
+                                        <div class="LivePulTxtRed1" id="teamlivePulsePercent_@item.PlayerID" style="display: none;">
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         }
                         else
@@ -63,13 +91,41 @@
                                     var livePulse = item.LivePulse ?? 0;
                                     var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                     var sign = percentChange >= 0 ? "+" : "";
-                                    var color = percentChange >= 0 ? "green" : "red";
+                                    var color = "white"; // Below normal pulse
+
+                                    if (percentChange < 0)
+                                    {
+                                        color = "white"; // Below normal pulse
+                                    }
+                                    else if (percentChange >= 0 && percentChange < 20)
+                                    {
+                                        color = "green"; // 0 to 19.9%
+                                    }
+                                    else if (percentChange >= 20 && percentChange < 40)
+                                    {
+                                        color = "orange"; // 20 to 39.9%
+                                    }
+                                    else
+                                    {
+                                        color = "red"; // 40%+
+                                    }
+                                    var showPercentage = item.NormalPulse.HasValue && item.NormalPulse.Value > 0;
                                 }
-                                <div class="d-flex justify-content-center">
-                                    <div class="LivePulTxt1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 0.9em;">
-                                        @sign@percentChange%
+                                @if (showPercentage)
+                                {
+                                    <div class="d-flex justify-content-center">
+                                        <div class="LivePulTxt1" id="teamlivePulsePercent_@item.PlayerID" style="color: @color; font-weight: bold; font-size: 28px;">
+                                            @sign@percentChange%
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex justify-content-center">
+                                        <div class="LivePulTxt1" id="teamlivePulsePercent_@item.PlayerID" style="display: none;">
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         }
                     }
@@ -157,16 +213,36 @@
 
                                         $("#teamlivePulse_"+value.playerID).html(data1.plot0);
 
-                                        // Calculate and update percentage change
-                                        var normalPulse = value.normalPulse || 80;
-                                        var livePulse = data1.plot0 || 0;
-                                        var percentChange = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
-                                        var sign = percentChange >= 0 ? "+" : "";
-                                        var color = percentChange >= 0 ? "green" : "red";
+                                        // Check if we should show percentage (only if normalPulse > 0)
+                                        var shouldShowPercentage = value.normalPulse != null && value.normalPulse > 0;
 
-                                        $("#teamlivePulsePercent_" + value.playerID)
-                                            .html(sign + percentChange + "%")
-                                            .css("color", color);
+                                        if (shouldShowPercentage) {
+                                            // Calculate and update percentage change
+                                            var normalPulse = value.normalPulse || 80;
+                                            var livePulse = data1.plot0 || 0;
+                                            var percentChange = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                                            var sign = percentChange >= 0 ? "+" : "";
+                                            var color = "white"; // Default color
+
+                                            // Determine color based on percentage change
+                                            if (percentChange < 0) {
+                                                color = "white"; // Below normal pulse
+                                            } else if (percentChange >= 0 && percentChange < 20) {
+                                                color = "green"; // 0 to 19.9%
+                                            } else if (percentChange >= 20 && percentChange < 40) {
+                                                color = "orange"; // 20 to 39.9%
+                                            } else {
+                                                color = "red"; // 40%+
+                                            }
+
+                                            $("#teamlivePulsePercent_" + value.playerID)
+                                                .html(sign + percentChange + "%")
+                                                .css("color", color)
+                                                .show();
+                                        } else {
+                                            // Hide percentage element when normalPulse is 0 or null
+                                            $("#teamlivePulsePercent_" + value.playerID).hide();
+                                        }
                                  }
                              });
 

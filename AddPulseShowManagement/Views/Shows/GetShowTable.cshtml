@@ -5,118 +5,10 @@
             <th scope="col">Activity</th>
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
+            <th scope="col">Actions</th>
             <th></th>
         </tr>
     </thead>
-
-    @* <tbody>
-        <tr>
-        <td>
-        <div class="ContSec">
-        <div>
-        THE TWILIGHT ZONE
-        </div>
-        </div>
-        </td>
-        <td>16th Nov, 2022</td>
-        <td>16th Dec, 2022</td>
-        <td>
-        <div class="d-flex justify-content-end">
-        <div>
-        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <div>
-        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <a href="../Shows/ShowDetail">
-        <img src="~/Images/DetailIcon.svg" class="" />
-        </a>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td>
-        <div class="ContSec">
-        <div>
-        ALL IN THE FAMILY
-        </div>
-        </div>
-        </td>
-        <td>15th Nov, 2022</td>
-        <td>30th Dec, 2022</td>
-        <td>
-        <div class="d-flex justify-content-end">
-        <div>
-        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <div>
-        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <a href="../Shows/ShowDetail">
-        <img src="~/Images/DetailIcon.svg" class="" />
-        </a>
-        </div>
-        </td>
-        </tr>
-
-        <tr>
-        <td>
-        <div class="ContSec">
-        <div>
-        THE DICK VAN DYKE SHOW
-        </div>
-        </div>
-        </td>
-        <td>15th Nov, 2022</td>
-        <td>22nd Dec, 2022</td>
-        <td>
-        <div class="d-flex justify-content-end">
-        <div>
-        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <div>
-        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <a href="../Shows/ShowDetail">
-        <img src="~/Images/DetailIcon.svg" class="" />
-        </a>
-        </div>
-        </td>
-        </tr>
-
-        <tr>
-        <td>
-        <div class="ContSec">
-        <div>
-        THE WEST WING
-        </div>
-        </div>
-        </td>
-        <td>14th Jul, 2022</td>
-        <td>23rd Jul, 2022</td>
-        <td>
-        <div class="d-flex justify-content-end">
-        <div>
-        <img src="~/Images/TrashIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <div>
-        <img src="~/Images/EditIcon.svg" style="margin-right:15px;" />
-        </div>
-
-        <a href="../Shows/ShowDetail">
-        <img src="~/Images/DetailIcon.svg" class="" />
-        </a>
-        </div>
-        </td>
-        </tr>
-        </tbody>*@
 </table>
 
 
@@ -162,11 +54,11 @@
                 },
                 {
                     "data": "startDate",
-		    "visible": false,
+            "visible": true,
                     "orderable": true,
                     "render": function ( data, type, row, meta ) {
                        if(data != null && data != '' && data != undefined){
-                            return moment(data).format('DD MMM, YYYY');
+                            return moment(data).format('DD MMM, YYYY hh:mm A');
                         }
                         else{
                             return '';
@@ -175,19 +67,43 @@
                 },
                 {
                     "data": "endDate",
-			"visible": false,
+            "visible": true,
                     "orderable": true,
                     "render": function (data, type, row, meta ) {
                         if(data != null && data != '' && data != undefined){
-                            return moment(data).format('DD MMM, YYYY');
+                            return moment(data).format('DD MMM, YYYY hh:mm A');
                         }
                         else{
                             return '';
-                        }                      
+                        }
                     }
                 },
                 {
-                    "data": null,                   
+                    "data": null,
+                    "orderable": false,
+                    "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                        var startBtn = '';
+                        var stopBtn = '';
+
+                        var hasStartDate = oData.startDate != null && oData.startDate != '' && oData.startDate != undefined;
+                        var hasEndDate = oData.endDate != null && oData.endDate != '' && oData.endDate != undefined;
+
+                        // Show Start button if StartDate is null OR both StartDate and EndDate are populated
+                        if(!hasStartDate || (hasStartDate && hasEndDate)){
+                            startBtn = '<button class="btn btn-success btn-sm" style="margin-right:10px;" onclick="StartShow('+oData.showID+')">Start</button>';
+                        }
+
+                        // Show Stop button only if StartDate is set and EndDate is null
+                        if(hasStartDate && !hasEndDate){
+                            stopBtn = '<button class="btn btn-danger btn-sm" onclick="StopShow('+oData.showID+')">Stop</button>';
+                        }
+
+                        var htmldata = '<div class="d-flex justify-content-start">' + startBtn + stopBtn + '</div>';
+                        $(nTd).html(htmldata);
+                    }
+                },
+                {
+                    "data": null,
                     "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
                           var htmldata='<div class="d-flex justify-content-end CursrPntr">'+
                                          '<div class="d-none">'
@@ -203,11 +119,53 @@
                         $(nTd).html(htmldata);
                         }
                 }
-                
-            
+
+
             ],
         });
         $('.dataTables_filter').addClass('d-none');
+    }
+
+    function StartShow(showID) {
+        if(confirm('Are you sure you want to start this show?')) {
+            $.ajax({
+                url: '/shows/StartShow',
+                type: 'POST',
+                data: { showID: showID },
+                success: function(response) {
+                    if(response.success) {
+                        showtable.ajax.reload(null, false);
+                        alert('Show started successfully!');
+                    } else {
+                        alert('Error starting show: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error starting show. Please try again.');
+                }
+            });
+        }
+    }
+
+    function StopShow(showID) {
+        if(confirm('Are you sure you want to stop this show?')) {
+            $.ajax({
+                url: '/shows/StopShow',
+                type: 'POST',
+                data: { showID: showID },
+                success: function(response) {
+                    if(response.success) {
+                        showtable.ajax.reload(null, false);
+                        alert('Show stopped successfully!');
+                    } else {
+                        alert('Error stopping show: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error stopping show. Please try again.');
+                }
+            });
+        }
     }
 
 </script>

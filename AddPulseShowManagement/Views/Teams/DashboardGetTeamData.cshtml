@@ -1,121 +1,153 @@
-﻿
-       @*  <div class="DashTitle">Team</div>
+﻿@*  <div class="DashTitle">Team</div>
 
         <div class="DashBrdr"></div> *@
 
-        <div class="row" style="margin-bottom:10px !important">
+<div class="row" style="margin-bottom:10px !important">
 
-            <div class="col-md-12 col-lg-2">
+    <div class="col-md-12 col-lg-2">
 
-                <div class="d-flex align-items-baseline">
+        <div class="d-flex align-items-baseline">
 
-                    <div class="DashCrdBdyTxt2">Team Name:</div>
-                    <div class="DashCrdBdyTxt3">@ViewBag.team.TeamName</div>
-
-                </div>
-
-            </div>
-
-            
-            <div class="col-md-12 col-lg-6">
-
-                <div class="d-flex align-items-baseline">
-
-                   <div id="" class="">
-                       <button type="button" class="ShowBtn2" id="countdown">Countdown</button>
-                   </div>
-
-                   
-                    <div id="ten-countdown" style="display:none" class="countdown">
-                       @ViewBag.timer
-                   </div>
-
-                     <div id="" class="">
-                        <button type="button" style="display:none" class="ShowBtn2" onclick="plusone()" id="countdownPlus">+1</button>
-                   </div>
-                   <div id="" class="">
-                       <button type="button" style="display:none" class="ShowBtn2"  onclick="minusone()" id="countdownMinus"" >-1</button>
-                   </div>
-                   <div id="" class="">
-                       <button type="button" style="display:none" class="ShowBtn2" id="countdownStart">Start</button>
-                   </div>
-                   <div id="" class="">
-                       <button type="button" style="display:none" class="ShowBtn2" id="countdownPause" >Pause</button>
-                   </div>
-                   <div id="" class="">
-                       <button type="button" style="display:none" class="ShowBtn2" id="countdownRestart">Continue</button>
-                   </div>
-                   <div id="" class="">
-                       <button type="button" style="display:none" class="ShowBtn2" id="countdownStop">Stop</button>
-                   </div>
-                 
-
-                </div>
-
-            </div>
+            <div class="DashCrdBdyTxt2">Team Name:</div>
+            <div class="DashCrdBdyTxt3">@ViewBag.team.TeamName</div>
 
         </div>
 
-        <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-5">
-                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
-                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Highest pulse in team:</div>
-                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
-                                                    <div class="DashCrdBdyTxt1"><span id="teamHighTeamPulseVal">@ViewBag.teamdata.highTeamPulse</span>  (<span id="teamHighTeamPulseName">@ViewBag.teamdata.highPulseName</span>)</div>
-                                                </div>
-                                                </div>
+    </div>
 
-                                                <div class="col-12 col-md-12 col-lg-5">
-                                                <div class="d-flex align-items-center" style="margin-bottom:5px">
-                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Lowest pulse in team:</div>
-                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
-                                                    <div class="DashCrdBdyTxt1"><span id="teamLowTeamPulseVal">@ViewBag.teamdata.lowTeamPulse</span>(<span id="teamLowTeamPulseName">@ViewBag.teamdata.LowPulseName</span>)</div>
-                                                </div>
-                                                </div>
+    <div class="col-md-12 col-lg-3">
+        <div class="d-flex align-items-baseline">
+            <div class="DashCrdBdyTxt2">Start:</div>
+            <div class="DashCrdBdyTxt3">
+                @if (ViewBag.show?.StartDate != null)
+                {
+                    @ViewBag.show.StartDate.ToString("dd MMM hh:mm tt")
+                }
+                else
+                {
+                    <span>Not Started</span>
+                }
+            </div>
+        </div>
+    </div>
 
-                                                <div class="col-12 col-md-12 col-lg-2">
-                                                <div class="d-flex align-items-center">
-                                                    <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Average pulse:</div>
-                                                    <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
-                                                    <div class="DashCrdBdyTxt1"><span id="teamAvgTeamPulse">@ViewBag.teamdata.avgTeamPulse</span></div>
-                                                </div>
-                                                </div>
+    <div class="col-md-12 col-lg-3">
+        <div class="d-flex align-items-baseline">
+            <div class="DashCrdBdyTxt2">End:</div>
+            <div class="DashCrdBdyTxt3">
+                @if (ViewBag.show?.EndDate != null)
+                {
+                    @ViewBag.show.EndDate.ToString("dd MMM hh:mm tt")
+                }
+                else
+                {
+                    <span>Not Ended</span>
+                }
+            </div>
+        </div>
+    </div>
 
-                                            </div>
-        <div class="row" style="margin-top:20px">
 
-            
+    <div class="col-md-12 col-lg-6">
 
-            @foreach(AddPulseShowManagement.Data.ViewModels.ContestantsView item in ViewBag.cv)
-            {
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3" style="margin-bottom:20px;">
+        <div class="d-flex align-items-baseline">
 
-                <div class="DashSubCrdMainBx">
+            <div id="" class="d-none">
+                <button type="button" class="ShowBtn2" id="countdown">Countdown</button>
+            </div>
 
-                    <div class="DashSubCrdHdr">
 
-                        <div class="d-flex">
-                            <div>
-                                <img src="@item.ProfileImage" class="DashSubCrdDp" />
+            <div id="ten-countdown" style="display:none" class="countdown">
+                @ViewBag.timer
+            </div>
+
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" onclick="plusone()" id="countdownPlus">+1</button>
+            </div>
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" onclick="minusone()" id="countdownMinus" " >-1</button>
+            </div>
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" id="countdownStart">Start</button>
+            </div>
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" id="countdownPause">Pause</button>
+            </div>
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" id="countdownRestart">Continue</button>
+            </div>
+            <div id="" class="">
+                <button type="button" style="display:none" class="ShowBtn2" id="countdownStop">Stop</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-12 col-lg-5">
+        <div class="d-flex align-items-center" style="margin-bottom:5px">
+            <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Highest pulse in team:</div>
+            <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+            <div class="DashCrdBdyTxt1"><span id="teamHighTeamPulseVal">@ViewBag.teamdata.highTeamPulse</span>  (<span id="teamHighTeamPulseName">@ViewBag.teamdata.highPulseName</span>)</div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-12 col-lg-5">
+        <div class="d-flex align-items-center" style="margin-bottom:5px">
+            <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Lowest pulse in team:</div>
+            <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+            <div class="DashCrdBdyTxt1"><span id="teamLowTeamPulseVal">@ViewBag.teamdata.lowTeamPulse</span>(<span id="teamLowTeamPulseName">@ViewBag.teamdata.LowPulseName</span>)</div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-12 col-lg-2">
+        <div class="d-flex align-items-center">
+            <div style="margin-right:4%;margin-bottom:0px !important;" class="DashCrdBdyTxt">Average pulse:</div>
+            <img src="/Images/ContHrtIc.svg" class="DashCrdHrtIc">
+            <div class="DashCrdBdyTxt1"><span id="teamAvgTeamPulse">@ViewBag.teamdata.avgTeamPulse</span></div>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="margin-top:20px">
+
+
+
+    @foreach (AddPulseShowManagement.Data.ViewModels.ContestantsView item in ViewBag.cv)
+    {
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3" style="margin-bottom:20px;">
+
+            <div class="DashSubCrdMainBx">
+
+                <div class="DashSubCrdHdr">
+
+                    <div class="d-flex">
+                        <div>
+                            <img src="@item.ProfileImage" class="DashSubCrdDp" />
+                        </div>
+                        <div>
+                            <div class="DashSubCrdTxt">
+                                @item.Name
                             </div>
-                            <div>
-                                <div class="DashSubCrdTxt">@item.Name                              
-                                </div>
-                           
-                                <div class="d-flex">
-                                    <div class="DashSubCrdTxt1">Polar Id:</div>
-                                    <div class="DashSubCrdTxt2">@item.PolarID</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="DashSubCrdTxt1">Normal Pulse:</div>
-                                    <div class="DashSubCrdTxt2">@item.NormalPulse</div>
-                                </div>
+
+                            <div class="d-flex">
+                                <div class="DashSubCrdTxt1">Polar Id:</div>
+                                <div class="DashSubCrdTxt2">@item.PolarID</div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="DashSubCrdTxt1">Normal Pulse:</div>
+                                <div class="DashSubCrdTxt2">@item.NormalPulse</div>
                             </div>
                         </div>
-
                     </div>
 
-                    <div class="DashSubCrdBdy">
+                </div>
+
+                <div class="DashSubCrdBdy">
 
                     <div class="row">
                         <div class="col-3 col-md-3 col-lg-3">
@@ -126,17 +158,45 @@
                                 <div class="DashSubCrdTxt4" id="teamlivePulse_@item.ContestantID">@item.LivePulse</div>
                             </div>
                             @{
-                                var normalPulse = item.NormalPulse ?? 80;
+                                var normalPulse = item.NormalPulse ?? 0;
                                 var livePulse = item.LivePulse;
                                 var percentChange = normalPulse > 0 ? Math.Round(((decimal)(livePulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                 var sign = percentChange >= 0 ? "+" : "";
-                                var color = percentChange >= 0 ? "green" : "red";
+                                var color = "black"; // Default
+
+                                if (percentChange < 0)
+                                {
+                                    color = "black"; // Below normal pulse
+                                }
+                                else if (percentChange >= 0 && percentChange < 20)
+                                {
+                                    color = "green"; // 0 to 19.9%
+                                }
+                                else if (percentChange >= 20 && percentChange < 40)
+                                {
+                                    color = "yellow"; // 20 to 39.9%
+                                }
+                                else
+                                {
+                                    color = "red"; // 40%+
+                                }
+                                var showPercentage = item.NormalPulse.HasValue && item.NormalPulse.Value > 0;
                             }
-                            <div class="d-flex justify-content-center">
-                                <div class="DashSubCrdTxt4" id="teamlivePulsePercent_@item.ContestantID" style="color: @color; font-weight: bold;">
-                                    @sign@percentChange%
+                            @if (showPercentage)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamlivePulsePercent_@item.ContestantID" style="color: @color; font-weight: bold;">
+                                        @sign@percentChange%
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamlivePulsePercent_@item.ContestantID" style="display: none;">
+                                    </div>
+                                </div>
+                            }
 
                         </div>
 
@@ -151,13 +211,23 @@
                                 var highestPulse = item.HighestPulse;
                                 var percentChangeHigh = normalPulse > 0 ? Math.Round(((decimal)(highestPulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                 var signHigh = percentChangeHigh >= 0 ? "+" : "";
-                                var colorHigh = percentChangeHigh >= 0 ? "green" : "red";
+                                var colorHigh = percentChangeHigh >= 0 ? "black" : "black";
                             }
-                            <div class="d-flex justify-content-center">
-                                <div class="DashSubCrdTxt4" id="teamhighPulsePercent_@item.ContestantID" style="color: @colorHigh; font-weight: bold;">
-                                    @signHigh@percentChangeHigh%
+                            @if (showPercentage)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamhighPulsePercent_@item.ContestantID" style="color: @colorHigh; font-weight: bold;">
+                                        @signHigh@percentChangeHigh%
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamhighPulsePercent_@item.ContestantID" style="display: none;">
+                                    </div>
+                                </div>
+                            }
 
                         </div>
 
@@ -172,13 +242,23 @@
                                 var lowestPulse = item.LowestPulse;
                                 var percentChangeLow = normalPulse > 0 ? Math.Round(((decimal)(lowestPulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                 var signLow = percentChangeLow >= 0 ? "+" : "";
-                                var colorLow = percentChangeLow >= 0 ? "green" : "red";
+                                var colorLow = percentChangeLow >= 0 ? "black" : "black";
                             }
-                            <div class="d-flex justify-content-center">
-                                <div class="DashSubCrdTxt4" id="teamlowPulsePercent_@item.ContestantID" style="color: @colorLow; font-weight: bold;">
-                                    @signLow@percentChangeLow%
+                            @if (showPercentage)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamlowPulsePercent_@item.ContestantID" style="color: @colorLow; font-weight: bold;">
+                                        @signLow@percentChangeLow%
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamlowPulsePercent_@item.ContestantID" style="display: none;">
+                                    </div>
+                                </div>
+                            }
 
                         </div>
 
@@ -193,28 +273,38 @@
                                 var avgPulse = item.AvgPulse;
                                 var percentChangeAvg = normalPulse > 0 ? Math.Round(((decimal)(avgPulse - normalPulse) / normalPulse) * 100, 1) : 0;
                                 var signAvg = percentChangeAvg >= 0 ? "+" : "";
-                                var colorAvg = percentChangeAvg >= 0 ? "green" : "red";
+                                var colorAvg = percentChangeAvg >= 0 ? "black" : "black";
                             }
-                            <div class="d-flex justify-content-center">
-                                <div class="DashSubCrdTxt4" id="teamavgPulsePercent_@item.ContestantID" style="color: @colorAvg; font-weight: bold;">
-                                    @signAvg@percentChangeAvg%
+                            @if (showPercentage)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamavgPulsePercent_@item.ContestantID" style="color: @colorAvg; font-weight: bold;">
+                                        @signAvg@percentChangeAvg%
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div class="DashSubCrdTxt4" id="teamavgPulsePercent_@item.ContestantID" style="display: none;">
+                                    </div>
+                                </div>
+                            }
 
                         </div>
 
                     </div>
 
-                        <div class="DashSubCrdBrdr"></div>
+                    <div class="DashSubCrdBrdr"></div>
 
-                        <div>
-                            <div id='myTeam_@ViewBag.teamDiv_@item.ContestantID' class="dashboardChart"></div>
+                    <div>
+                        <div id='myTeam_@ViewBag.teamDiv_@item.ContestantID' class="dashboardChart"></div>
 
-                            <style>
-                            #myTeam_@ViewBag.teamDiv_@item.ContestantID-license-text{
-                                display:none;
+                        <style>
+                            #myTeam_ @ViewBag.teamDiv_ @item.ContestantID -license-text {
+                                display: none;
                             }
-                            </style>
+                        </style>
 
                         <script>
 
@@ -320,36 +410,37 @@
 
                         </script>
 
-                        </div>
                     </div>
                 </div>
-
             </div>
-            }
-        </div>           
 
-        <script>        
+        </div>
+    }
+</div>
+
+<script>
+
          $('.Dash4').select2({
-            minimumResultsForSearch: -1,          
+            minimumResultsForSearch: -1,
             dropdownAutoWidth: true,
         });
 
 
-        $('.Dash4').on('select2:select', function (e) {            
+        $('.Dash4').on('select2:select', function (e) {
             GetTeamData(parseInt($(this).val()));
         });
 
-      
-        function TeamCardData(cardValue) {                
+
+        function TeamCardData(cardValue) {
                 UpdateTeamCardValues(cardValue);
         }
 
-        
+
         // A $( document ).ready() block.
         $( document ).ready(function() {
-            var contCD = '@ViewBag.continueCD';            
-            var paused = '@ViewBag.paused';            
-            var stopped = '@ViewBag.stopped';            
+            var contCD = '@ViewBag.continueCD';
+            var paused = '@ViewBag.paused';
+            var stopped = '@ViewBag.stopped';
             if(contCD == 'True')
             {
                 if(paused == 'True')
@@ -362,7 +453,7 @@
             }
         });
 
-        
+
         var auto_refreshTeamCardData = setInterval(function () { TeamCardData($('#dashCardID').val()) }, @ViewBag.refreshTimeVal);
         TeamCardData($('#dashCardID').val());
 
@@ -380,45 +471,81 @@
                     $.each(data.cv, function (index, value) {
                         var normalPulse = value.normalPulse || 80;
 
+                         // Function to determine color based on percentage change
+                        function getColorForPercentage(percentChange) {
+                            if (percentChange < 0) {
+                                return "black"; // Below normal pulse
+                            } else if (percentChange >= 0 && percentChange < 20) {
+                                return "green"; // 0 to 19.9%
+                            } else if (percentChange >= 20 && percentChange < 40) {
+                                return "orange"; // 20 to 39.9%
+                            } else {
+                                return "red"; // 40%+
+                            }
+                        }
+
+                        // Check if we should show percentage (only if normalPulse > 0)
+                        var shouldShowPercentage = value.normalPulse != null && value.normalPulse > 0;
+
                         // Update Live Pulse
                         $("#teamlivePulse_" + value.contestantID).html(value.livePulse);
-                        var livePulse = value.livePulse || 0;
-                        var percentChangeLive = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
-                        var signLive = percentChangeLive >= 0 ? "+" : "";
-                        var colorLive = percentChangeLive >= 0 ? "green" : "red";
-                        $("#teamlivePulsePercent_" + value.contestantID)
-                            .html(signLive + percentChangeLive + "%")
-                            .css("color", colorLive);
+                        if (shouldShowPercentage) {
+                            var livePulse = value.livePulse || 0;
+                            var percentChangeLive = normalPulse > 0 ? Math.round(((livePulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                            var signLive = percentChangeLive >= 0 ? "+" : "";
+                            var colorLive = getColorForPercentage(percentChangeLive);
+                            $("#teamlivePulsePercent_" + value.contestantID)
+                                .html(signLive + percentChangeLive + "%")
+                                .css("color", colorLive)
+                                .show();
+                        } else {
+                            $("#teamlivePulsePercent_" + value.contestantID).hide();
+                        }
 
                         // Update Highest Pulse
                         $("#teamhighPulse_" + value.contestantID).html(value.highestPulse);
-                        var highestPulse = value.highestPulse || 0;
-                        var percentChangeHigh = normalPulse > 0 ? Math.round(((highestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
-                        var signHigh = percentChangeHigh >= 0 ? "+" : "";
-                        var colorHigh = percentChangeHigh >= 0 ? "green" : "red";
-                        $("#teamhighPulsePercent_" + value.contestantID)
-                            .html(signHigh + percentChangeHigh + "%")
-                            .css("color", colorHigh);
+                        if (shouldShowPercentage) {
+                            var highestPulse = value.highestPulse || 0;
+                            var percentChangeHigh = normalPulse > 0 ? Math.round(((highestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                            var signHigh = percentChangeHigh >= 0 ? "+" : "";
+                            var colorHigh = percentChangeHigh >= 0 ? "black" : "black";
+                            $("#teamhighPulsePercent_" + value.contestantID)
+                                .html(signHigh + percentChangeHigh + "%")
+                                .css("color", colorHigh)
+                                .show();
+                        } else {
+                            $("#teamhighPulsePercent_" + value.contestantID).hide();
+                        }
 
                         // Update Lowest Pulse
                         $("#teamlowPulse_" + value.contestantID).html(value.lowestPulse);
-                        var lowestPulse = value.lowestPulse || 0;
-                        var percentChangeLow = normalPulse > 0 ? Math.round(((lowestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
-                        var signLow = percentChangeLow >= 0 ? "+" : "";
-                        var colorLow = percentChangeLow >= 0 ? "green" : "red";
-                        $("#teamlowPulsePercent_" + value.contestantID)
-                            .html(signLow + percentChangeLow + "%")
-                            .css("color", colorLow);
+                        if (shouldShowPercentage) {
+                            var lowestPulse = value.lowestPulse || 0;
+                            var percentChangeLow = normalPulse > 0 ? Math.round(((lowestPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                            var signLow = percentChangeLow >= 0 ? "+" : "";
+                            var colorLow = percentChangeLow >= 0 ? "black" : "black";
+                            $("#teamlowPulsePercent_" + value.contestantID)
+                                .html(signLow + percentChangeLow + "%")
+                                .css("color", colorLow)
+                                .show();
+                        } else {
+                            $("#teamlowPulsePercent_" + value.contestantID).hide();
+                        }
 
                         // Update Average Pulse
                         $("#teamavgPulse_" + value.contestantID).html(value.avgPulse);
-                        var avgPulse = value.avgPulse || 0;
-                        var percentChangeAvg = normalPulse > 0 ? Math.round(((avgPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
-                        var signAvg = percentChangeAvg >= 0 ? "+" : "";
-                        var colorAvg = percentChangeAvg >= 0 ? "green" : "red";
-                        $("#teamavgPulsePercent_" + value.contestantID)
-                            .html(signAvg + percentChangeAvg + "%")
-                            .css("color", colorAvg);
+                        if (shouldShowPercentage) {
+                            var avgPulse = value.avgPulse || 0;
+                            var percentChangeAvg = normalPulse > 0 ? Math.round(((avgPulse - normalPulse) / normalPulse) * 1000) / 10 : 0;
+                            var signAvg = percentChangeAvg >= 0 ? "+" : "";
+                            var colorAvg = percentChangeAvg >= 0 ? "black" : "black";
+                            $("#teamavgPulsePercent_" + value.contestantID)
+                                .html(signAvg + percentChangeAvg + "%")
+                                .css("color", colorAvg)
+                                .show();
+                        } else {
+                            $("#teamavgPulsePercent_" + value.contestantID).hide();
+                        }
                     });
 
 
@@ -435,20 +562,20 @@
     }
 
 
-        
+
           window.addEventListener("load", () => {
-             
+
             function handleNetworkChange(event) {
                 if (navigator.onLine) {
-                    
+
                     //  document.body.classList.remove("offline");
-                    
+
 
                     $('body').css('pointer-events', 'auto');
                     $('body').css('filter', 'grayscale(0%)');
 
                 } else {
-                  
+
                     $('body').css('pointer-events', 'none');
                     $('body').css('filter', 'grayscale(100%)');
                 }
@@ -460,7 +587,7 @@
         //function countdown( elementName, minutes, seconds )
         //{
             var element, endTime, hours, mins, msLeft, time;
-            var timeOut; 
+            var timeOut;
             var paused = true;
 
             function twoDigits( n )
@@ -469,7 +596,7 @@
             }
 
             function updateTimer()
-            {              
+            {
 
                 msLeft = endTime - (+new Date);
                 if ( msLeft < 1000 ) {
@@ -511,19 +638,19 @@
                 clearTimeout(timeOut);
             }
 
-           
+
         //}
 
         $('#countdownStart').click(function(){
             paused = false;
-              const myArray = $('#ten-countdown').text().split(":");              
+              const myArray = $('#ten-countdown').text().split(":");
               minutes = parseInt(myArray[0]);
-              seconds = 0;              
+              seconds = 0;
             element = document.getElementById("ten-countdown");
-            endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;            
-            
+            endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+
             //countdown("ten-countdown", myArray[0], 0);
-            $('#ten-countdown').show();            
+            $('#ten-countdown').show();
             $('#countdownPause').show();
             $('#countdownStop').show();
             $('#countdownStart').hide();
@@ -535,16 +662,16 @@
                 async: false,
                 url: "/livescreen/CreateCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
                 data: {},
-                success: function (data, textStatus, jqXHR) {                    
+                success: function (data, textStatus, jqXHR) {
                   updateTimer();
                 }
-                    });             
+                    });
 
         });
 
-         $('#countdownStop').click(function(){            
-            
-            $('#ten-countdown').show();            
+         $('#countdownStop').click(function(){
+
+            $('#ten-countdown').show();
             $('#countdownPause').hide();
             $('#countdownStop').hide();
             $('#countdownRestart').hide();
@@ -554,7 +681,7 @@
 
             const myArray = $('#ten-countdown').text().split(":");
               minutes = parseInt(myArray[0]);
-              seconds = parseInt(myArray[1]);              
+              seconds = parseInt(myArray[1]);
               stopTimer();
               $('#ten-countdown').text("60:00");
             $.ajax({
@@ -562,16 +689,16 @@
                 async: false,
                 url: "/livescreen/StopCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
                 data: {},
-                success: function (data, textStatus, jqXHR) {         
+                success: function (data, textStatus, jqXHR) {
                     location.reload();
                 }
-                    });      
+                    });
 
         });
 
-        $('#countdownPause').click(function(){            
+        $('#countdownPause').click(function(){
             paused = true;
-            $('#ten-countdown').show();            
+            $('#ten-countdown').show();
             $('#countdownPause').hide();
             $('#countdownRestart').show();
             $('#countdownStop').show();
@@ -591,12 +718,12 @@
                 async: false,
                 url: "/livescreen/PauseCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
                 data: {},
-                success: function (data, textStatus, jqXHR) {                                      
+                success: function (data, textStatus, jqXHR) {
                 }
-                    });      
+                    });
         });
 
-        $('#countdownRestart').click(function(){ 
+        $('#countdownRestart').click(function(){
             $('#ten-countdown').show();
             paused = false;
             const myArray = $('#ten-countdown').text().split(":");
@@ -604,7 +731,7 @@
               seconds = parseInt(myArray[1]);
 
             element = document.getElementById("ten-countdown");
-            endTime = (+new Date) + 1000 * ((60*minutes) + seconds) + 500;            
+            endTime = (+new Date) + 1000 * ((60*minutes) + seconds) + 500;
             updateTimer();
 
             $('#countdownPause').show();
@@ -620,12 +747,12 @@
                 async: false,
                 url: "/livescreen/RestartCountDown?teamID=" + @ViewBag.teamID  +"&minutes=" + minutes +"&seconds=" + seconds,
                 data: {},
-                success: function (data, textStatus, jqXHR) {                                      
+                success: function (data, textStatus, jqXHR) {
                 }
-                    });   
+                    });
         });
 
-        $('#countdown').click(function(){            
+        $('#countdown').click(function(){
             $('#ten-countdown').show();
             $('#countdownStart').show();
             //$('#countdownPause').show();
@@ -635,16 +762,16 @@
 
         });
 
-        //$('#countdownPlus').click(function(){       
+        //$('#countdownPlus').click(function(){
 
         //    const myArray = $('#ten-countdown').text().split(":");
-    
+
         //    var clock = parseInt(myArray[0]) + 1;
         //    console.log(clock);
         //    $('#ten-countdown').text(clock+ ":"+myArray[1]);
         //});
 
-        // $('#countdownMinus').click(function(){       
+        // $('#countdownMinus').click(function(){
         //     const myArray = $('#ten-countdown').text().split(":");
         //    var clock = parseInt(myArray[0]) - 1;
         //    console.log(clock);
@@ -721,6 +848,5 @@
             }
 
 
-        </script>
+</script>
 
-                   

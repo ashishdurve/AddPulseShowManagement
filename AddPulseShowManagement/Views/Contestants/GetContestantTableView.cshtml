@@ -201,7 +201,7 @@
         var contestantID = $('#editContestantID').val();
         var normalPulse = $('#editNormalPulse').val();
 
-        if (!normalPulse || normalPulse <= 0) {
+        if (!normalPulse || normalPulse < 0) {
             alert('Please enter a valid normal pulse value.');
             return;
         }

@@ -250,11 +250,14 @@ namespace AddPulseShowManagement.Controllers
             }
         }
 
-        public IActionResult DashboardGetTeamData(string teamDiv= "teamDiv", int isConfigUpdated = 1, long teamID=0,int hour = 1)
+        public IActionResult DashboardGetTeamData(string teamDiv = "teamDiv", int isConfigUpdated = 1, long teamID = 0, int hour = 1)
         {
             try
             {
                 Teams team = _context.Teams.Where(y => y.TeamID == teamID).FirstOrDefault() ?? new Teams();
+
+                // Get Show data
+                Shows show = _context.Shows.Where(y => y.ShowID == team.ShowID).FirstOrDefault() ?? new Shows();
 
                 List<ContestantsView> cv = this._conestantService.GetTeamData(teamID, isConfigUpdated, hour) ?? new List<ContestantsView>();
 
@@ -283,21 +286,21 @@ namespace AddPulseShowManagement.Controllers
                     List<int> pulses = new List<int>();
                     if (!string.IsNullOrEmpty(item.GraphVal))
                     {
-                         pulses = item.GraphVal.Split(',').Select(int.Parse).ToList();
-                         totalSum = totalSum+pulses.Sum();
-                         totalcnt = totalcnt + pulses.Count();
+                        pulses = item.GraphVal.Split(',').Select(int.Parse).ToList();
+                        totalSum = totalSum + pulses.Sum();
+                        totalcnt = totalcnt + pulses.Count();
                     }
                 }
 
                 int hp = 0;
-                if(cv.Count >0)
+                if (cv.Count > 0)
                     hp = cv.Max(t => t.HighestPulse);
                 teamdata.highTeamPulse = hp;
 
                 teamdata.highPulseName = cv.Where(y => hp == y.HighestPulse).Select(x => x.Name).FirstOrDefault();
 
                 int minp = 0;
-                if(cv.Count >0)
+                if (cv.Count > 0)
                     minp = cv.Min(t => t.LowestPulse);
                 teamdata.lowTeamPulse = minp;
                 teamdata.LowPulseName = cv.Where(y => minp == y.LowestPulse).Select(x => x.Name).FirstOrDefault();
@@ -353,7 +356,7 @@ namespace AddPulseShowManagement.Controllers
 
 
                 //Check for Countdown
-                LivePulse livePulses = new LivePulse();                                
+                LivePulse livePulses = new LivePulse();
                 //List<ContestantsView> cv = this._conestantService.GetTeamData(teamID) ?? new List<ContestantsView>();
                 DataSet ds = this._conestantService.GetLivePulseTeamData(teamID) ?? new DataSet();
                 bool paused = false, stopped = false;
@@ -361,7 +364,7 @@ namespace AddPulseShowManagement.Controllers
                 {
                     if (ds.Tables[2].Rows.Count > 0)
                     {
-                        
+
                         int minutes = 0, seconds = 0, minutesLeft = 0, secondsLeft = 0;
                         DateTime modifiedDate = DateTime.Now;
 
@@ -421,8 +424,8 @@ namespace AddPulseShowManagement.Controllers
                         livePulses.timer = "";
                     }
                 }
-                
-                if(!string.IsNullOrEmpty(livePulses.timer))
+
+                if (!string.IsNullOrEmpty(livePulses.timer))
                 {
                     ViewBag.continueCD = true;
                     ViewBag.timer = livePulses.timer;
@@ -442,12 +445,13 @@ namespace AddPulseShowManagement.Controllers
                 ViewBag.refreshTimeVal = refreshTime * 1000;
 
                 ViewBag.team = team;
+                ViewBag.show = show;
                 ViewBag.cv = cv;
                 ViewBag.teamDiv = teamDiv;
                 ViewBag.gdates = string.Join(",", gdates);
                 ViewBag.teamID = teamID;
                 ViewBag.isConfigUpdated = isConfigUpdated;
-                ViewBag.hour  = hour;
+                ViewBag.hour = hour;
                 ViewBag.teamdata = teamdata;
 
                 return PartialView();
