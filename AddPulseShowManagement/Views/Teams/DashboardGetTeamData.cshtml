@@ -21,7 +21,7 @@
             <div class="DashCrdBdyTxt3">
                 @if (ViewBag.show?.StartDate != null)
                 {
-                    @ViewBag.show.StartDate.ToString("dd MMM hh:mm tt")
+                    @ViewBag.show.StartDate.AddHours(2).ToString("dd MMM hh:mm tt")
                 }
                 else
                 {
@@ -37,7 +37,7 @@
             <div class="DashCrdBdyTxt3">
                 @if (ViewBag.show?.EndDate != null)
                 {
-                    @ViewBag.show.EndDate.ToString("dd MMM hh:mm tt")
+                    @ViewBag.show.EndDate.AddHours(2).ToString("dd MMM hh:mm tt")
                 }
                 else
                 {
@@ -385,10 +385,11 @@
                                                                 },
                                                             },
                                                             scaleX: {
+                                                                visible: false,
                                                                 lineWidth: 1,
                                                                 lineColor: '#707070',
                                                                 lineStyle: 'solid',
-                                                                labels: xgraphvals,
+                                                                //labels: xgraphvals,
                                                                 item: {
                                                                     color: '#53585E',
                                                                     fontSize: '10px',

@@ -38,6 +38,20 @@
                                 </select>
                             </div>
                         </div>
+                        <div>
+                            @{
+                                var hasStartDate = ViewBag.show?.StartDate != null;
+                                var hasEndDate = ViewBag.show?.EndDate != null;
+                            }
+                            @if (!hasStartDate || (hasStartDate && hasEndDate))
+                            {
+                                <button class="btn btn-success btn-sm" style="margin:35px; font-size:25px;" onclick="StartShow(@ViewBag.show.ShowID)" id="btnToggleShow">Start</button>
+                            }
+                            else if (hasStartDate && !hasEndDate)
+                            {
+                                <button class="btn btn-danger btn-sm" style="margin:35px; font-size:25px;" onclick="StopShow(@ViewBag.show.ShowID)" id="btnToggleShow">Stop</button>
+                            }
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +209,59 @@
 
     
 
+       // Function to refresh the currently active dashboard card
+        function RefreshCurrentDashboard() {
+            var currentCard = $('#dashCardID').val();
+            var card1Div = 'divteamvsteamlast';
+            var card2Div = 'divpalyers';
+            var card3Div = 'divlast';
+            var card1method = @ViewBag.configurations.Card1;
+            var card2method = @ViewBag.configurations.Card2;
+            var card3method = @ViewBag.configurations.Card3;
+
+            // Clear all cards
+            $('#'+card1Div).addClass('d-none').html('');
+            $('#'+card2Div).addClass('d-none').html('');
+            $('#'+card3Div).addClass('d-none').html('');
+
+            // Reload the current card
+            if (currentCard == 1) {
+                if (card1method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card1Div);
+                }
+                else if (card1method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card1Div);
+                }
+                else if (card1method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card1Div, @ViewBag.configurations.TeamCardID, currentCard);
+                }
+            }
+            else if (currentCard == 2) {
+                if (card2method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card2Div);
+                }
+                else if (card2method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card2Div);
+                }
+                else if (card2method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card2Div, @ViewBag.configurations.TeamCardID2, currentCard);
+                }
+            }
+            else if (currentCard == 3) {
+                if (card3method == 1) {
+                    GetTeamvsTeamData(@ViewBag.configurations.TimePeriod, card3Div);
+                }
+                else if (card3method == 2) {
+                    GetPlayerVsPlayer(@ViewBag.configurations.TimePeriod, card3Div);
+                }
+                else if (card3method == 3) {
+                    GetTeamData(@ViewBag.configurations.TimePeriod, card3Div, @ViewBag.configurations.TeamCardID3, currentCard);
+                }
+            }
+        }
+
+
+
         $('.Dash2').select2({
             minimumResultsForSearch: -1,
             placeholder: {
@@ -204,8 +271,66 @@
             dropdownAutoWidth: true,
         });
 
-        
 
+         // Start Show functionality
+        function StartShow(showID) {
+            if(confirm('Are you sure you want to start this show?')) {
+                $.ajax({
+                    url: '/shows/StartShow',
+                    type: 'POST',
+                    data: { showID: showID },
+                    success: function(response) {
+                        if(response.success) {
+                            alert('Show started successfully!');
+                            // Update button to Stop
+                            $('#btnToggleShow')
+                                .removeClass('btn-success')
+                                .addClass('btn-danger')
+                                .text('Stop')
+                                .attr('onclick', 'StopShow(' + showID + ')');
+
+                            // Refresh the dashboard
+                            RefreshCurrentDashboard();
+                        } else {
+                            alert('Error starting show: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error starting show. Please try again.');
+                    }
+                });
+            }
+        }
+
+        // Stop Show functionality
+        function StopShow(showID) {
+            if(confirm('Are you sure you want to stop this show?')) {
+                $.ajax({
+                    url: '/shows/StopShow',
+                    type: 'POST',
+                    data: { showID: showID },
+                    success: function(response) {
+                        if(response.success) {
+                            alert('Show stopped successfully!');
+                            // Update button to Start
+                            $('#btnToggleShow')
+                                .removeClass('btn-danger')
+                                .addClass('btn-success')
+                                .text('Start')
+                                .attr('onclick', 'StartShow(' + showID + ')');
+
+                            // Refresh the dashboard
+                            RefreshCurrentDashboard();
+                        } else {
+                            alert('Error stopping show: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error stopping show. Please try again.');
+                    }
+                });
+            }
+        }
 
 </script>
 
