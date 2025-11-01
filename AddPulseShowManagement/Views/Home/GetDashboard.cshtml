@@ -42,6 +42,18 @@
                             @{
                                 var hasStartDate = ViewBag.show?.StartDate != null;
                                 var hasEndDate = ViewBag.show?.EndDate != null;
+
+                                if(hasEndDate)
+                                {
+                                    if (ViewBag.show?.EndDate == DateTime.MaxValue)
+                                        hasEndDate = false;
+                                }
+
+                                if (hasStartDate)
+                                {
+                                    if (ViewBag.show?.StartDate == DateTime.MaxValue)
+                                        hasStartDate = false;
+                                }
                             }
                             @if (!hasStartDate || (hasStartDate && hasEndDate))
                             {

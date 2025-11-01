@@ -21,7 +21,7 @@
             <div class="DashCrdBdyTxt3">
                 @if (ViewBag.show?.StartDate != null)
                 {
-                    @ViewBag.show.StartDate.AddHours(2).ToString("dd MMM hh:mm tt")
+                    @ViewBag.show.StartDate.AddHours(1).ToString("dd MMM HH:mm")
                 }
                 else
                 {
@@ -37,7 +37,7 @@
             <div class="DashCrdBdyTxt3">
                 @if (ViewBag.show?.EndDate != null)
                 {
-                    @ViewBag.show.EndDate.AddHours(2).ToString("dd MMM hh:mm tt")
+                    @ViewBag.show.EndDate.AddHours(1).ToString("dd MMM HH:mm")
                 }
                 else
                 {

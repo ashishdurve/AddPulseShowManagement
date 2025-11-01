@@ -58,7 +58,7 @@
                     "orderable": true,
                     "render": function ( data, type, row, meta ) {
                        if(data != null && data != '' && data != undefined){
-                            return moment(data).format('DD MMM, YYYY hh:mm A');
+                             return moment(data).add(1, 'hours').format('DD MMM, YYYY HH:mm');
                         }
                         else{
                             return '';
@@ -71,7 +71,7 @@
                     "orderable": true,
                     "render": function (data, type, row, meta ) {
                         if(data != null && data != '' && data != undefined){
-                            return moment(data).format('DD MMM, YYYY hh:mm A');
+                            return moment(data).add(1, 'hours').format('DD MMM, YYYY HH:mm');
                         }
                         else{
                             return '';
